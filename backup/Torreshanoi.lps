@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <ProjectSession>
+    <PathDelim Value="\"/>
+    <Version Value="12"/>
+    <BuildModes Active="Default"/>
+    <Units>
+      <Unit>
+        <Filename Value="Torreshanoi.lpr"/>
+        <IsPartOfProject Value="True"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="43" Y="13"/>
+        <UsageCount Value="75"/>
+      </Unit>
+      <Unit>
+        <Filename Value="main.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form1"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="126"/>
+        <CursorPos X="21" Y="152"/>
+        <UsageCount Value="75"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="funciones.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Funciones"/>
+        <EditorIndex Value="2"/>
+        <CursorPos X="25" Y="33"/>
+        <UsageCount Value="70"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="disco.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="Disco"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="43" Y="19"/>
+        <UsageCount Value="63"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="pilatorre.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="PilaTorre"/>
+        <TopLine Value="20"/>
+        <CursorPos X="29" Y="74"/>
+        <UsageCount Value="58"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\..\usr\lib\lazarus\2.2.0\lcl\include\dragmanager.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="676"/>
+        <CursorPos Y="695"/>
+        <UsageCount Value="8"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\..\usr\lib\lazarus\2.2.0\lcl\include\control.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="4239"/>
+        <CursorPos X="91" Y="4259"/>
+        <UsageCount Value="9"/>
+      </Unit>
+      <Unit>
+        <Filename Value="transicionthread.pas"/>
+        <UnitName Value="TransicionThread"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="42"/>
+        <CursorPos Y="42"/>
+        <UsageCount Value="15"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\Torres de hanoi (2)\Torres de hanoi\main.pas"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="77"/>
+        <CursorPos X="15" Y="91"/>
+        <UsageCount Value="11"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\..\..\usr\share\fpcsrc\3.2.2\rtl\objpas\classes\classes.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="424"/>
+        <CursorPos X="19" Y="445"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\..\..\..\usr\share\fpcsrc\3.2.2\rtl\objpas\classes\classesh.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1374"/>
+        <CursorPos X="3" Y="1705"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="..\hilos\mainform.pas"/>
+        <UnitName Value="MainForm"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="9" Y="15"/>
+        <UsageCount Value="11"/>
+      </Unit>
+    </Units>
+    <JumpHistory HistoryIndex="29">
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="146" Column="19" TopLine="78"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="177" Column="7" TopLine="177"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="133" Column="3" TopLine="119"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="123" Column="23" TopLine="102"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="107" Column="2" TopLine="102"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="133" Column="40" TopLine="96"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="467" Column="28" TopLine="426"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="86" Column="45" TopLine="63"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="113" TopLine="94"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="463" Column="6" TopLine="431"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="469" Column="5" TopLine="431"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="119" Column="6" TopLine="81"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="113" TopLine="98"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="471" Column="27" TopLine="433"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="97" Column="7" TopLine="73"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="467" Column="6" TopLine="430"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="473" Column="5" TopLine="430"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="467" TopLine="367"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="129" Column="3" TopLine="117"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="474" Column="10" TopLine="433"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="475" Column="6" TopLine="437"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="133" Column="19" TopLine="115"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="466" Column="32" TopLine="441"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="479" Column="30" TopLine="442"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="475" TopLine="438"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="183" Column="14" TopLine="172"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="480" TopLine="439"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="10"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="472" TopLine="434"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="151" Column="3" TopLine="129"/>
+      </Position>
+    </JumpHistory>
+    <RunParams>
+      <FormatVersion Value="2"/>
+      <Modes ActiveMode=""/>
+    </RunParams>
+  </ProjectSession>
+</CONFIG>
