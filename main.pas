@@ -22,7 +22,7 @@
     public
       FDestination: TPilaTorre;
       FSource: TPilaTorre;
-    constructor Create(ASource, ADestination: TPilaTorre);
+    constructor Create(var ASource, ADestination: TPilaTorre);
     private
 
     protected
@@ -93,7 +93,7 @@
 
   { TForm1 }
 
-  constructor TMoveThread.Create(ASource, ADestination: TPilaTorre);
+  constructor TMoveThread.Create(var ASource, ADestination: TPilaTorre);
   begin
     inherited Create(False);
     FreeOnTerminate := True;
@@ -147,10 +147,7 @@
     //Synchronize(@ResolverTorresHanoi(N - 1, Origen, Auxiliar, Destino));
     ResolverTorresHanoi(N - 1, Origen, Auxiliar, Destino);
 
-      hiloMoveDisco := TMoveThread.Create(Origen,Destino);
-     //hiloMoveDisco.OnTerminate := @ThreadFinished;
-
-
+    hiloMoveDisco := TMoveThread.Create(Origen,Destino);
     hiloMoveDisco.Start;
     hiloMoveDisco.WaitFor;
 
@@ -169,7 +166,7 @@
   procedure TTransicionThread.Execute;
   begin
 
-    Form1.ResolverTorresHanoi(6,pilaTorre1,pilaTorre3,pilaTorre2);
+    Form1.ResolverTorresHanoi(7,pilaTorre1,pilaTorre3,pilaTorre2);
 
     end;
 
@@ -181,6 +178,7 @@
     var
     Disco: TImgDisco;
     i, j: Integer;
+    incremento: Integer = 10;
   begin
 
     i:= 0;
@@ -200,7 +198,7 @@
       disco.posicionDisco(disco.Left, disco.top-i);
         Disco.Refresh;
 
-        i:= i+5;
+        i:= i+incremento;
       end;
 
 
@@ -213,7 +211,7 @@
         disco.posicionDisco(disco.Left+j, disco.top);
 
 
-         j:= j+5;
+         j:= j+incremento;
 
          end;
       end
@@ -227,7 +225,7 @@
             //Disco.Repaint;
             disco.Refresh;
 
-           j:=j+4;
+           j:=j+incremento;
              //Sleep(1);
              end;
 
