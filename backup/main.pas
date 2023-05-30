@@ -23,24 +23,29 @@
    end;
 
     type
-    TMoveThread = class(TThread)
-    public
-      FDestination: TPilaTorre;
-      FSource: TPilaTorre;
-    constructor Create(var ASource, ADestination: TPilaTorre);
-    private
+    TReadThread = class(TThread)
+      public
+        FDestination: TPilaTorre;
+      FSource, FAux: TPilaTorre;
+      FFileName: String;
+    constructor Create(var ASource, ADestination, Aaux: TPilaTorre; const AFileName: string);
 
+     private
+     procedure LeerMovimientos();
+     function obtenerPila(numPila: integer): TPilaTorre;
     protected
       procedure Execute; override;
    end;
 
     type
-    TReadThread = class(TThread)
+    TMoveThread = class(TThread)
     public
       FDestination: TPilaTorre;
-      FSource, Faux: TPilaTorre;
-    constructor Create(var ASource, ADestination, Aaux: TPilaTorre);
-    function obtenerPila(numPila: integer): TPilaTorre;
+      FSource: TPilaTorre;
+
+    constructor Create(var ASource, ADestination: TPilaTorre);
+    private
+
     protected
       procedure Execute; override;
    end;
@@ -61,6 +66,7 @@
       procedure Button1Click(Sender: TObject);
       procedure Button2Click(Sender: TObject);
       procedure FormCreate(Sender: TObject);
+      procedure Image1Click(Sender: TObject);
       procedure torre1Click(Sender: TObject);
     private
       procedure AssignDragPropertiesToImage(image: TImage);
@@ -85,7 +91,7 @@
       procedure ResolverTorresHanoi(N: Integer; var Origen, Destino, Auxiliar: TPilaTorre);
       procedure MoverDisco(var Origen, Destino, Auxiliar: TPilaTorre);
       procedure GuardarMovimiento(const Movimiento: TMovimientos; const FileName: string);
-//      procedure LeerMovimientos(const FileName: string);
+      procedure LeerMovimientos(const FileName: string);
     end;
 
   var
@@ -119,30 +125,30 @@
     FSource := ASource;
     FDestination := ADestination;
 
+
   end;
 
-
-   constructor TReadThread.Create(var ASource, ADestination, Aaux: TPilaTorre);
+constructor TReadThread.Create(var ASource, ADestination, Aaux: TPilaTorre ; const AFileName: string);
   begin
     inherited Create(False);
     FreeOnTerminate := True;
     FSource := ASource;
     FDestination := ADestination;
-    Faux:= Aaux;
+    FAux:= Aaux;
+    FFileName:= AFileName;
 
   end;
 
+
+
   procedure TForm1.Button1Click(Sender: TObject);
   var
-    hiloLeer: TReadThread;
+     hiloLeerMovs: TReadThread;
   begin
-
-    hiloLeer.Create(pilaTorre1,pilaTorre3,pilaTorre2);
-    hiloLeer.Start;
-    hiloLeer.WaitFor;
-    hiloLeer.Free;
-
-
+    //LeerMovimientos(archivoMovimientos);
+    (*hiloLeerMovs.Create(true);
+    hiloLeerMovs.Start;
+    hiloLeerMovs.WaitFor; *)
   end;
 
 
@@ -174,14 +180,14 @@
     end;
   end;
 
-  procedure TReadThread.Execute();
+  procedure TReadThread.LeerMovimientos();
 var
   F: file of TMovimientos;
   movimiento: TMovimientos;
   hiloMoveDisco: TMoveThread;
   TorreOrigen, TorreDestino: TPilaTorre;
 begin
-  AssignFile(F, archivoMovimientos);
+  AssignFile(F, FFileName);
   Reset(F);
   try
     while not Eof(F) do
@@ -213,7 +219,7 @@ end;
     hiloResolverHannoi.WaitFor;
     hiloResolverHannoi.Free;
   //end.
-     //LeerMovimientos(archivoMovimientos);
+
 
       //ResolverTorresHanoi(7,pilaTorre1,pilaTorre3,pilaTorre2);
     Button2.Enabled := True;
@@ -235,6 +241,11 @@ end;
     end
 
   end;
+
+procedure TForm1.Image1Click(Sender: TObject);
+begin
+
+end;
 
 
   procedure TForm1.ResolverTorresHanoi(N: Integer; var Origen, Destino, Auxiliar: TPilaTorre);
@@ -276,15 +287,19 @@ end;
 
     end;
 
+  procedure TReadThread.Execute;
+  begin
+    LeerMovimientos();
+  end;
 
   //hilo que ejecta el moviemiento de los discos
   procedure TMoveThread.Execute;
-
 
     var
     Disco: TImgDisco;
     i, j: Integer;
     incremento: Integer = 10;
+
   begin
 
     i:= 0;
@@ -302,7 +317,7 @@ end;
     begin
          //movimiento en x
       disco.posicionDisco(disco.Left, disco.top-i);
-        //Disco.Refresh;
+        Disco.Refresh;
 
         i:= i+incremento;
       end;
@@ -316,8 +331,8 @@ end;
 
         disco.posicionDisco(disco.Left+j, disco.top);
 
-
-         j:= j+incremento;
+        disco.Refresh;
+        j:= j+incremento;
 
          end;
       end
@@ -329,7 +344,7 @@ end;
              begin
              disco.posicionDisco(disco.Left-j, disco.top);
             //Disco.Repaint;
-            //disco.Refresh;
+            disco.Refresh;
 
            j:=j+incremento;
              //Sleep(1);
@@ -564,6 +579,7 @@ end;
 
   end;
 
+
   function TForm1.obtenerPila(numPila: integer): TPilaTorre;
   begin
     case numPila of
@@ -579,7 +595,7 @@ end;
   begin
     case numPila of
       1: Result := FSource;
-      2: Result := Faux;
+      2: Result := FAux;
       3: Result := FDestination;
     else
       Result := nil; // Retornar nil en caso de que el número de pila no sea válido
