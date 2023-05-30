@@ -7,6 +7,11 @@
   uses
     Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, stdctrls, Funciones, PilaTorre, Disco;
 
+  type
+  TMovimientos = record
+    MovOrigen: Integer;
+    MovDestino: Integer;
+  end;
 
   type
     TTransicionThread = class(TThread)
@@ -25,6 +30,17 @@
     constructor Create(var ASource, ADestination: TPilaTorre);
     private
 
+    protected
+      procedure Execute; override;
+   end;
+
+    type
+    TReadThread = class(TThread)
+    public
+      FDestination: TPilaTorre;
+      FSource, Faux: TPilaTorre;
+    constructor Create(var ASource, ADestination, Aaux: TPilaTorre);
+    function obtenerPila(numPila: integer): TPilaTorre;
     protected
       procedure Execute; override;
    end;
@@ -68,7 +84,8 @@
       //resolver automatico
       procedure ResolverTorresHanoi(N: Integer; var Origen, Destino, Auxiliar: TPilaTorre);
       procedure MoverDisco(var Origen, Destino, Auxiliar: TPilaTorre);
-
+      procedure GuardarMovimiento(const Movimiento: TMovimientos; const FileName: string);
+//      procedure LeerMovimientos(const FileName: string);
     end;
 
   var
@@ -82,8 +99,10 @@
     numeroPila: Integer;
      hiloResolverHannoi: TTransicionThread;
 
-    //variables resulucion automatica
+    //variables resoslucion automatica
      Movimientos: Integer;
+    const
+    archivoMovimientos:String = 'movimientos.dat';
 
 
 
@@ -102,14 +121,84 @@
 
   end;
 
-  procedure TForm1.Button1Click(Sender: TObject);
+
+   constructor TReadThread.Create(var ASource, ADestination, Aaux: TPilaTorre);
   begin
+    inherited Create(False);
+    FreeOnTerminate := True;
+    FSource := ASource;
+    FDestination := ADestination;
+    Faux:= Aaux;
+
+  end;
+
+  procedure TForm1.Button1Click(Sender: TObject);
+  var
+    hiloLeer: TReadThread;
+  begin
+
+    hiloLeer.Create(pilaTorre1,pilaTorre3,pilaTorre2);
+    hiloLeer.Start;
+    hiloLeer.WaitFor;
+    hiloLeer.Free;
 
 
   end;
 
 
+  //inicio de resolucion automatica
+  procedure TForm1.GuardarMovimiento(const Movimiento: TMovimientos; const FileName: string);
+  var
+  F: file of TMovimientos;
+  begin
+    if not FileExists(FileName) then
+    begin
+      AssignFile(F, FileName);
+      Rewrite(F);
+      try
+        Write(F, Movimiento);
+      finally
+        CloseFile(F);
+      end;
+    end
+    else
+    begin
+      AssignFile(F, FileName);
+      Reset(F);
+      try
+        Seek(F, FileSize(F));
+        Write(F, Movimiento);
+      finally
+        CloseFile(F);
+      end;
+    end;
+  end;
 
+  procedure TReadThread.Execute();
+var
+  F: file of TMovimientos;
+  movimiento: TMovimientos;
+  hiloMoveDisco: TMoveThread;
+  TorreOrigen, TorreDestino: TPilaTorre;
+begin
+  AssignFile(F, archivoMovimientos);
+  Reset(F);
+  try
+    while not Eof(F) do
+    begin
+      Read(F, movimiento);
+
+    TorreOrigen:= obtenerPila(movimiento.MovOrigen);
+    TorreDestino:= obtenerPila(movimiento.MovDestino);
+    hiloMoveDisco := TMoveThread.Create(TorreOrigen,TorreDestino);
+    hiloMoveDisco.Start;
+    hiloMoveDisco.WaitFor;
+
+    end;
+  finally
+    CloseFile(F);
+  end;
+end;
 
   procedure TForm1.Button2Click(Sender: TObject);
 
@@ -124,22 +213,34 @@
     hiloResolverHannoi.WaitFor;
     hiloResolverHannoi.Free;
   //end.
-
+     //LeerMovimientos(archivoMovimientos);
 
       //ResolverTorresHanoi(7,pilaTorre1,pilaTorre3,pilaTorre2);
     Button2.Enabled := True;
   end;
 
   procedure TForm1.FormCreate(Sender: TObject);
+  var
+    F: file of TMovimientos;
   begin
       crearPilas(7);
     cargarTorre(1,7,pilaTorre1);
+
+    //se crea el archivo que contendra los movimientos
+     if FileExists(archivoMovimientos) then
+    begin
+      AssignFile(F, archivoMovimientos);
+      Rewrite(F);
+      CloseFile(F);
+    end
+
   end;
 
 
   procedure TForm1.ResolverTorresHanoi(N: Integer; var Origen, Destino, Auxiliar: TPilaTorre);
   var
   hiloMoveDisco:TMoveThread;
+  Movimiento: TMovimientos;
   begin
     if N > 0 then
     begin
@@ -147,13 +248,15 @@
     //Synchronize(@ResolverTorresHanoi(N - 1, Origen, Auxiliar, Destino));
     ResolverTorresHanoi(N - 1, Origen, Auxiliar, Destino);
 
-      hiloMoveDisco := TMoveThread.Create(Origen,Destino);
-     //hiloMoveDisco.OnTerminate := @ThreadFinished;
+     Movimiento.MovOrigen:=Origen.GetId;
+     Movimiento.MovDestino:=Destino.GetId;
+     GuardarMovimiento(Movimiento,archivoMovimientos);
 
-
+    (*
+    hiloMoveDisco := TMoveThread.Create(Origen,Destino);
     hiloMoveDisco.Start;
     hiloMoveDisco.WaitFor;
-
+       *)
 
       ResolverTorresHanoi(N - 1, Auxiliar, Destino, Origen);
     end;
@@ -199,7 +302,7 @@
     begin
          //movimiento en x
       disco.posicionDisco(disco.Left, disco.top-i);
-        Disco.Refresh;
+        //Disco.Refresh;
 
         i:= i+incremento;
       end;
@@ -226,7 +329,7 @@
              begin
              disco.posicionDisco(disco.Left-j, disco.top);
             //Disco.Repaint;
-            disco.Refresh;
+            //disco.Refresh;
 
            j:=j+incremento;
              //Sleep(1);
@@ -334,9 +437,9 @@
   end;
   procedure TForm1.crearPilas(tamanio: integer);
   begin
-       pilaTorre1:=TPilaTorre.Create(tamanio,(torre1.Left+30),(torre1.Top+torre1.Height), torre1);
-       pilaTorre2:=TPilaTorre.Create(tamanio,(torre2.Left+30),(torre1.Top+torre2.Height), torre2);
-       pilaTorre3:=TPilaTorre.Create(tamanio,(torre3.Left+30),(torre1.Top+torre3.Height), torre3);
+       pilaTorre1:=TPilaTorre.Create(1, tamanio,(torre1.Left+30),(torre1.Top+torre1.Height), torre1);
+       pilaTorre2:=TPilaTorre.Create(2, tamanio,(torre2.Left+30),(torre1.Top+torre2.Height), torre2);
+       pilaTorre3:=TPilaTorre.Create(3, tamanio,(torre3.Left+30),(torre1.Top+torre3.Height), torre3);
   end;
 
   procedure TForm1.CheckIfImageCenterInsideTower1(image: TImage);
@@ -467,6 +570,17 @@
       1: Result := pilaTorre1;
       2: Result := pilaTorre2;
       3: Result := pilaTorre3;
+    else
+      Result := nil; // Retornar nil en caso de que el número de pila no sea válido
+    end;
+  end;
+
+  function TReadThread.obtenerPila(numPila: integer): TPilaTorre;
+  begin
+    case numPila of
+      1: Result := FSource;
+      2: Result := Faux;
+      3: Result := FDestination;
     else
       Result := nil; // Retornar nil en caso de que el número de pila no sea válido
     end;

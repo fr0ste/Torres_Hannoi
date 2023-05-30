@@ -7,6 +7,11 @@
   uses
     Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, stdctrls, Funciones, PilaTorre, Disco;
 
+  type
+  TMovimientos = record
+    MovOrigen: Integer;
+    MovDestino: Integer;
+  end;
 
   type
     TTransicionThread = class(TThread)
@@ -68,7 +73,8 @@
       //resolver automatico
       procedure ResolverTorresHanoi(N: Integer; var Origen, Destino, Auxiliar: TPilaTorre);
       procedure MoverDisco(var Origen, Destino, Auxiliar: TPilaTorre);
-
+      procedure GuardarMovimiento(const Movimiento: TMovimientos; const FileName: string);
+      procedure LeerMovimientos(const FileName: string);
     end;
 
   var
@@ -82,8 +88,10 @@
     numeroPila: Integer;
      hiloResolverHannoi: TTransicionThread;
 
-    //variables resulucion automatica
+    //variables resoslucion automatica
      Movimientos: Integer;
+    const
+    archivoMovimientos:String = 'movimientos.dat';
 
 
 
@@ -104,12 +112,64 @@
 
   procedure TForm1.Button1Click(Sender: TObject);
   begin
-
+    LeerMovimientos(archivoMovimientos);
 
   end;
 
 
+  //inicio de resolucion automatica
+  procedure TForm1.GuardarMovimiento(const Movimiento: TMovimientos; const FileName: string);
+  var
+  F: file of TMovimientos;
+  begin
+    if not FileExists(FileName) then
+    begin
+      AssignFile(F, FileName);
+      Rewrite(F);
+      try
+        Write(F, Movimiento);
+      finally
+        CloseFile(F);
+      end;
+    end
+    else
+    begin
+      AssignFile(F, FileName);
+      Reset(F);
+      try
+        Seek(F, FileSize(F));
+        Write(F, Movimiento);
+      finally
+        CloseFile(F);
+      end;
+    end;
+  end;
 
+  procedure TForm1.LeerMovimientos(const FileName: string);
+var
+  F: file of TMovimientos;
+  movimiento: TMovimientos;
+  hiloMoveDisco: TMoveThread;
+  TorreOrigen, TorreDestino: TPilaTorre;
+begin
+  AssignFile(F, FileName);
+  Reset(F);
+  try
+    while not Eof(F) do
+    begin
+      Read(F, movimiento);
+
+    TorreOrigen:= obtenerPila(movimiento.MovOrigen);
+    TorreDestino:= obtenerPila(movimiento.MovDestino);
+    hiloMoveDisco := TMoveThread.Create(TorreOrigen,TorreDestino);
+    hiloMoveDisco.Start;
+    hiloMoveDisco.WaitFor;
+
+    end;
+  finally
+    CloseFile(F);
+  end;
+end;
 
   procedure TForm1.Button2Click(Sender: TObject);
 
@@ -131,15 +191,27 @@
   end;
 
   procedure TForm1.FormCreate(Sender: TObject);
+  var
+    F: file of TMovimientos;
   begin
       crearPilas(7);
     cargarTorre(1,7,pilaTorre1);
+
+    //se crea el archivo que contendra los movimientos
+     if FileExists(archivoMovimientos) then
+    begin
+      AssignFile(F, archivoMovimientos);
+      Rewrite(F);
+      CloseFile(F);
+    end
+
   end;
 
 
   procedure TForm1.ResolverTorresHanoi(N: Integer; var Origen, Destino, Auxiliar: TPilaTorre);
   var
   hiloMoveDisco:TMoveThread;
+  Movimiento: TMovimientos;
   begin
     if N > 0 then
     begin
@@ -147,10 +219,15 @@
     //Synchronize(@ResolverTorresHanoi(N - 1, Origen, Auxiliar, Destino));
     ResolverTorresHanoi(N - 1, Origen, Auxiliar, Destino);
 
+     Movimiento.MovOrigen:=Origen.GetId;
+     Movimiento.MovDestino:=Destino.GetId;
+     GuardarMovimiento(Movimiento,archivoMovimientos);
+
+    (*
     hiloMoveDisco := TMoveThread.Create(Origen,Destino);
     hiloMoveDisco.Start;
     hiloMoveDisco.WaitFor;
-
+       *)
 
       ResolverTorresHanoi(N - 1, Auxiliar, Destino, Origen);
     end;
@@ -196,7 +273,7 @@
     begin
          //movimiento en x
       disco.posicionDisco(disco.Left, disco.top-i);
-        Disco.Refresh;
+        //Disco.Refresh;
 
         i:= i+incremento;
       end;
@@ -223,7 +300,7 @@
              begin
              disco.posicionDisco(disco.Left-j, disco.top);
             //Disco.Repaint;
-            disco.Refresh;
+            //disco.Refresh;
 
            j:=j+incremento;
              //Sleep(1);
@@ -331,9 +408,9 @@
   end;
   procedure TForm1.crearPilas(tamanio: integer);
   begin
-       pilaTorre1:=TPilaTorre.Create(tamanio,(torre1.Left+30),(torre1.Top+torre1.Height), torre1);
-       pilaTorre2:=TPilaTorre.Create(tamanio,(torre2.Left+30),(torre1.Top+torre2.Height), torre2);
-       pilaTorre3:=TPilaTorre.Create(tamanio,(torre3.Left+30),(torre1.Top+torre3.Height), torre3);
+       pilaTorre1:=TPilaTorre.Create(1, tamanio,(torre1.Left+30),(torre1.Top+torre1.Height), torre1);
+       pilaTorre2:=TPilaTorre.Create(2, tamanio,(torre2.Left+30),(torre1.Top+torre2.Height), torre2);
+       pilaTorre3:=TPilaTorre.Create(3, tamanio,(torre3.Left+30),(torre1.Top+torre3.Height), torre3);
   end;
 
   procedure TForm1.CheckIfImageCenterInsideTower1(image: TImage);
