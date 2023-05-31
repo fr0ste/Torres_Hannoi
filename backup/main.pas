@@ -212,8 +212,8 @@
     var
       F: file of TMovimientos;
     begin
-        crearPilas(7);
-      cargarTorre(1,7,pilaTorre1);
+        crearPilas(8);
+      cargarTorre(1,8,pilaTorre1);
 
       //se crea el archivo que contendra los movimientos
        if FileExists(archivoMovimientos) then
@@ -266,7 +266,7 @@
     procedure TTransicionThread.Execute;
     begin
 
-      Form1.ResolverTorresHanoi(7,pilaTorre1,pilaTorre3,pilaTorre2);
+      Form1.ResolverTorresHanoi(3,pilaTorre1,pilaTorre3,pilaTorre2);
 
       end;
 
@@ -285,12 +285,17 @@
       begin
         Read(F, movimiento);
 
+
+
+      WriteLn('o: ' + IntToStr(movimiento.MovOrigen) + ' d: ' + IntToStr(movimiento.MovDestino));
+
+
       TorreOrigen:= obtenerPila(movimiento.MovOrigen);
       TorreDestino:= obtenerPila(movimiento.MovDestino);
+
       hiloMoveDisco := TMoveThread.Create(TorreOrigen,TorreDestino);
       hiloMoveDisco.Start;
       hiloMoveDisco.WaitFor;
-
 
       end;
     finally
@@ -305,61 +310,59 @@
       var
       Disco: TImgDisco;
       i, j: Integer;
-      incremento: Integer = 80;
+      incremento: Integer = 15;
 
     begin
 
-      i:= 0;
-      j := 0;
+      i:= incremento;
+      j := incremento;
 
       Disco := FSource.Pop;
 
       //Movimientos:=Movimientos+1;
 
-      // Actualizar la interfaz gráfica: Mover el disco visualmente
+       //Actualizar la interfaz gráfica: Mover el disco visualmente
 
       //animar el alzar el disco (movimiento en el eje y)
-//      while disco.top - disco.Height > FSource.GetCoordenadaY-FSource.GetContenedor.Top do
+      while disco.top - disco.Height > FSource.GetCoordenadaY-FSource.GetContenedor.Top do
 
-  //    begin
-           //movimiento en x
-        disco.posicionDisco(disco.Left, disco.top- 100);
-          Disco.Refresh;
-           Sleep(1000);
-    //      i:= i+incremento;
-      //  end;
+      begin
+           //movimiento en y
+        disco.posicionDisco(disco.Left, disco.top- i);
+        Disco.Repaint;
 
-        //Disco.Refresh;
-
-        if FSource.GetCoordenadaX < FDestination.GetCoordenadaX then
-        //begin
-        //while disco.Left < FDestination.GetCoordenadaX do
-      //for i := 0 to 100 do
-        begin
-
-          disco.posicionDisco(disco.Left+ 100, disco.top);
-
-          disco.Repaint;
-         // j:= j+incremento;
-            Sleep(1000);
-           end
-       // end
-        else
-           begin
-
-
-            // while disco.Left > FDestination.GetCoordenadaX do
-               begin
-               disco.posicionDisco(disco.Left- 100, disco.top);
-              Disco.Repaint;
-             // disco.Refresh;
-
-             j:=j+incremento;
-               Sleep(1000);
-               end;
-
+          i:= i+incremento;
         end;
-      //Disco.Refresh;
+
+
+           //movimiento en x
+          if FSource.GetCoordenadaX < FDestination.GetCoordenadaX then
+          begin
+          while disco.Left < FDestination.GetCoordenadaX do
+          begin
+
+            disco.posicionDisco(disco.Left+ j, disco.top);
+
+            disco.Repaint;
+            j:= j+incremento;
+
+             end;
+          end
+          else
+             begin
+
+
+               while disco.Left > FDestination.GetCoordenadaX do
+                 begin
+                 disco.posicionDisco(disco.Left- j, disco.top);
+                Disco.Repaint;
+
+
+              j:=j+incremento;
+
+                 end;
+
+          end;
 
       FDestination.Push(Disco);
 
