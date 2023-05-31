@@ -13,14 +13,6 @@
       MovDestino: Integer;
     end;
 
-    type
-      TTransicionThread = class(TThread)
-        private
-
-
-      protected
-        procedure Execute; override;
-     end;
 
       type
       TReadThread = class(TThread)
@@ -31,10 +23,6 @@
          constructor Create(var ASource, ADestination, Aaux: TPilaTorre; var AFileName: string);
 
          private
-
-
-
-       procedure LeerMovimientos();
        function obtenerPila(numPila: integer): TPilaTorre;
       protected
         procedure Execute; override;
@@ -58,7 +46,6 @@
 
       TForm1 = class(TForm)
         Button1: TButton;
-        Button2: TButton;
         Image1: TImage;
         torre1: TImage;
         torre2: TImage;
@@ -67,9 +54,8 @@
         Image6: TImage;
         Image7: TImage;
         procedure Button1Click(Sender: TObject);
-        procedure Button2Click(Sender: TObject);
         procedure FormCreate(Sender: TObject);
-        procedure Image1Click(Sender: TObject);
+
         procedure torre1Click(Sender: TObject);
       private
         procedure AssignDragPropertiesToImage(image: TImage);
@@ -83,18 +69,19 @@
         procedure SetTowerPosition(var bandera: Boolean; disco,towerImage: TImage);
         procedure hacerPop(pila,pilaOrigen: TPilaTorre; nuevoNumeroPila: Integer);
 
-        //res a
+
 
       public
         procedure cargarTorre(numPila,numDisco: Integer;pila: TPilaTorre);
         procedure crearPilas(tamanio: integer);
         function obtenerTorre(numTorre: integer): TImage;
         function obtenerPila(numPila: integer): TPilaTorre;
-        //resolver automatico
-        procedure ResolverTorresHanoi(N: Integer; var Origen, Destino, Auxiliar: TPilaTorre);
+          //resolver automatico
+
         procedure MoverDisco(var Origen, Destino, Auxiliar: TPilaTorre);
-        procedure GuardarMovimiento(const Movimiento: TMovimientos; const FileName: string);
-        //procedure LeerMovimientos();
+        procedure cargarDatosJuego;
+        function obtenerVelocidad(numDiscos: integer): Integer;
+
       end;
 
     var
@@ -106,13 +93,13 @@
       origX, origY: Integer; // Variables para guardar la posición original (X, Y)
       posX,posY: Integer;
       numeroPila: Integer;
-       hiloResolverHannoi: TTransicionThread;
        hiloLeerMovs: TReadThread;
 
       //variables resoslucion automatica
        Movimientos: Integer;
+       nDiscos: Integer=6;
 
-      archivoMovimientos:String = 'movimientos.dat';
+      archivoMovimientos:String;
 
 
 
@@ -157,66 +144,16 @@
     end;
 
 
-    //inicio de resolucion automatica
-    procedure TForm1.GuardarMovimiento(const Movimiento: TMovimientos; const FileName: string);
-    var
-    F: file of TMovimientos;
-    begin
-      if not FileExists(FileName) then
-      begin
-        AssignFile(F, FileName);
-        Rewrite(F);
-        try
-          Write(F, Movimiento);
-        finally
-          CloseFile(F);
-        end;
-      end
-      else
-      begin
-        AssignFile(F, FileName);
-        Reset(F);
-        try
-          Seek(F, FileSize(F));
-          Write(F, Movimiento);
-        finally
-          CloseFile(F);
-        end;
-      end;
-    end;
-
-    procedure TReadThread.LeerMovimientos();
-     begin
-  end;
-
-    procedure TForm1.Button2Click(Sender: TObject);
-
-
-    begin
-       Button2.Enabled := False;
-
-        //begin
-        hiloResolverHannoi := TTransicionThread.Create(True);
-       //hiloResolverHannoi.OnTerminate := @ThreadFinished;
-      hiloResolverHannoi.Start;
-      hiloResolverHannoi.WaitFor;
-
-    //end.
-
-
-        //ResolverTorresHanoi(7,pilaTorre1,pilaTorre3,pilaTorre2);
-      Button2.Enabled := True;
-    end;
 
     procedure TForm1.FormCreate(Sender: TObject);
     var
       F: file of TMovimientos;
     begin
-        crearPilas(8);
-      cargarTorre(1,8,pilaTorre1);
-
+        crearPilas(nDiscos);
+      cargarTorre(1,ndiscos,pilaTorre1);
+      cargarDatosJuego;
       //se crea el archivo que contendra los movimientos
-       if FileExists(archivoMovimientos) then
+       if not FileExists(archivoMovimientos) then
       begin
         AssignFile(F, archivoMovimientos);
         Rewrite(F);
@@ -225,50 +162,11 @@
 
     end;
 
-  procedure TForm1.Image1Click(Sender: TObject);
-  begin
-
-  end;
-
-
-    procedure TForm1.ResolverTorresHanoi(N: Integer; var Origen, Destino, Auxiliar: TPilaTorre);
-    var
-    hiloMoveDisco:TMoveThread;
-    Movimiento: TMovimientos;
-    begin
-      if N > 0 then
-      begin
-
-      //Synchronize(@ResolverTorresHanoi(N - 1, Origen, Auxiliar, Destino));
-      ResolverTorresHanoi(N - 1, Origen, Auxiliar, Destino);
-
-       Movimiento.MovOrigen:=Origen.GetId;
-       Movimiento.MovDestino:=Destino.GetId;
-       GuardarMovimiento(Movimiento,archivoMovimientos);
-
-      (*
-      hiloMoveDisco := TMoveThread.Create(Origen,Destino);
-      hiloMoveDisco.Start;
-      hiloMoveDisco.WaitFor;
-         *)
-
-        ResolverTorresHanoi(N - 1, Auxiliar, Destino, Origen);
-      end;
-    end;
-
 
     procedure TForm1.MoverDisco(var Origen, Destino, Auxiliar: TPilaTorre);
     begin
 
     end;
-
-
-    procedure TTransicionThread.Execute;
-    begin
-
-      Form1.ResolverTorresHanoi(3,pilaTorre1,pilaTorre3,pilaTorre2);
-
-      end;
 
     procedure TReadThread.Execute;
 
@@ -306,7 +204,7 @@
       var
       Disco: TImgDisco;
       i, j: Integer;
-      incremento: Integer = 15;
+      incremento: Integer = 10;
 
     begin
 
@@ -610,6 +508,24 @@
       end;
     end;
 
+    function TForm1.obtenerVelocidad(numDiscos: integer): Integer;
+    begin
+
+      if numDiscos > 6 then
+      Result:= 50
+      else if numDiscos > 4 then
+           Result:= 10
+                    else
+                    Result:= 1;
+
+      end;
+
+
+
+    procedure TForm1.cargarDatosJuego;
+    begin
+       archivoMovimientos:= 'lvl' + IntToStr(nDiscos-2) + '.dat';
+    end;
 
     end.
 

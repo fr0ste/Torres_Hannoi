@@ -56,6 +56,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="PilaTorre"/>
       </Unit>
+      <Unit>
+        <Filename Value="transitionthread.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TransitionThread"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

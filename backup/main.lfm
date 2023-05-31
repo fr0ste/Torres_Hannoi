@@ -16593,7 +16593,6 @@ object Form1: TForm1
     Height = 720
     Top = 0
     Width = 1280
-    OnClick = Image1Click
     Picture.Data = {
       0A544A706567496D616765841D0D00FFD8FFE000104A46494600010100000100
       010000FFDB004300010101010101010101010101010101010101010101010101
@@ -43459,11 +43458,11 @@ object Form1: TForm1
     }
   end
   object Button1: TButton
-    Left = 896
+    Left = 600
     Height = 25
-    Top = 176
+    Top = 56
     Width = 75
-    Caption = 'Button1'
+    Caption = 'Iniciar'
     OnClick = Button1Click
     TabOrder = 0
   end
@@ -47232,14 +47231,5 @@ object Form1: TForm1
       3A6D616E7566616374757265720047494D504C9E90CA0000000E744558746963
       633A6D6F64656C00735247425B6049430000000049454E44AE426082
     }
-  end
-  object Button2: TButton
-    Left = 256
-    Height = 25
-    Top = 64
-    Width = 75
-    Caption = 'Button2'
-    OnClick = Button2Click
-    TabOrder = 1
   end
 end
