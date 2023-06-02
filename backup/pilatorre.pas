@@ -14,7 +14,6 @@ type
     tope: Integer;
     coordenadaX, coordenadaY: Integer;
     contenedor: TImage;
-    idPila: Integer;
   public
     constructor Create(tamanio, posX, posY: Integer ; contenedorImg: TImage);
     procedure Push(disco: TImgDisco);
@@ -25,20 +24,18 @@ type
     function GetCoordenadaY: Integer;
     function GetTope: TImgDisco;
     function GetContenedor: TImage;
-    function GetId: Integer;
 
   end;
 
 implementation
 
-constructor TPilaTorre.Create(id, tamanio, posX, posY: Integer ; contenedorImg: TImage);
+constructor TPilaTorre.Create(tamanio, posX, posY: Integer ; contenedorImg: TImage);
 begin
   SetLength(elementos, tamanio);
   tope := -1;
   coordenadaX := posX;
   coordenadaY := posY-60;
   contenedor:= contenedorImg;
-  idPila:= id;
 end;
 
 procedure TPilaTorre.Push(disco: TImgDisco);
@@ -98,11 +95,6 @@ end;
 function TPilaTorre.GetContenedor: TImage;
 begin
   Result:= contenedor;
-end;
-
-function TPilaTorre.GetId: Integer;
-begin
-  Result:= idPila;
 end;
 
 end.

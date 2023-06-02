@@ -1,0 +1,62 @@
+unit login;
+
+{$mode ObjFPC}{$H+}
+
+interface
+
+uses
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls;
+
+type
+
+  { TForm4 }
+
+  TForm4 = class(TForm)
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Image1: TImage;
+    Image2: TImage;
+    Image3: TImage;
+    Image4: TImage;
+    procedure Image2Click(Sender: TObject);
+    procedure Image4Click(Sender: TObject);
+
+  private
+
+  public
+
+  end;
+
+var
+  Form4: TForm4;
+
+implementation
+
+{$R *.lfm}
+
+uses
+  menuInicio;
+
+{ TForm4 }
+
+procedure TForm4.Image2Click(Sender: TObject);
+var
+  Form3:TForm3;
+begin
+  Hide;
+  Form3:=TForm3.Create(nil);
+  Form3.Show;
+
+end;
+
+procedure TForm4.Image4Click(Sender: TObject);
+begin
+  Close;
+end;
+
+{ TForm4 }
+
+
+
+end.
+

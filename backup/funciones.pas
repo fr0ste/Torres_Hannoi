@@ -5,14 +5,14 @@ unit Funciones;
 interface
 
 uses
-  Classes, SysUtils, ExtCtrls, Controls, Disco, Forms;
+  Classes, SysUtils, ExtCtrls, Controls, Disco;
 
-function crearImagen(AOwner: TForm; ancho: integer): TImgDisco;
+function crearImagen(AOwner: TWinControl; ancho: integer): TImgDisco;
 function obtenerRutaImagen(rutaApp: String): String;
 function ValidarDisco(disco,discoenTop:TImgDisco):boolean;
 implementation
 
-function crearImagen(AOwner: TForm; ancho: integer): TImgDisco;
+function crearImagen(AOwner: TWinControl; ancho: integer): TImgDisco;
 begin
   Result := TImgDisco.Create(AOwner,ancho);
 end;
@@ -30,7 +30,7 @@ end;
     bandera:boolean;
  begin
    bandera:=false;
-     if disco.numDisco < discoenTop.numDisco then
+     if disco.numDisco > discoenTop.numDisco then
        bandera := false
      else
        bandera:= true;

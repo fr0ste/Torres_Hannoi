@@ -1,0 +1,8 @@
+object Form8: TForm8
+  Left = 2471
+  Height = 720
+  Top = 263
+  Width = 1280
+  Caption = 'Form8'
+  LCLVersion = '2.2.0.4'
+end

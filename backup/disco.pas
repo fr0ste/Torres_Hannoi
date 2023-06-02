@@ -5,7 +5,7 @@ unit Disco;
 interface
 
 uses
- Classes, SysUtils, extctrls, Controls;
+ Classes, SysUtils, ExtCtrls, Controls;
 {creamos un tipo de dato TImageDisco de tipo clase, tiene un constructor y un
 procedimiento para posicionar la imagen dentro de la vista}
 type
@@ -13,7 +13,7 @@ type
  private
  public
    numPila: integer; // Nueva propiedad para almacenar la pila de origen
-   numDisco: integer;//Numero de disco
+   numDisco: integer;
    constructor Create(AOwner: TComponent;ancho:integer); reintroduce;
    procedure posicionDisco(x,y:Integer);
    function getWidth():Integer;
