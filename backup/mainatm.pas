@@ -86,6 +86,7 @@ var
 
 
   archivoMovimientos: string;
+  maxVelocidad: integer = 6;
 
 
 
@@ -130,26 +131,6 @@ begin
 
 end;
 
-
-(*
-procedure TForm9.FormCreate(Sender: TObject);
-var
-  F: file of TMovimientos;
-begin
-  crearPilas(FNumero);
-
-  cargarDatosJuego;
-  velocidad := 16;
-
-  //se crea el archivo que contendra los movimientos en caso de que no exista
-  if not FileExists(archivoMovimientos) then
-  begin
-    AssignFile(F, archivoMovimientos);
-    Rewrite(F);
-    CloseFile(F);
-  end;
-
-end;     *)
 
 procedure TForm9.FormShow(Sender: TObject);
 var
@@ -225,7 +206,11 @@ begin
 
   //Actualizar la interfaz gráfica: Mover el disco visualmente
 
-  //animar el alzar el disco (movimiento en el eje y)
+  if FNumero < maxVelocidad then
+
+  begin
+
+    //animar el alzar el disco (movimiento en el eje y)
   while disco.top - disco.Height > FSource.GetCoordenadaY -
     FSource.GetContenedor.Top do
 
@@ -236,7 +221,7 @@ begin
 
     i := i + velocidad;
   end;
-
+    //fin de animar en y
 
   //movimiento en x
   if FSource.GetCoordenadaX < FDestination.GetCoordenadaX then
@@ -252,6 +237,7 @@ begin
     end;
   end
   else
+
   begin
 
     while disco.Left > FDestination.GetCoordenadaX do
@@ -267,8 +253,22 @@ begin
   end;
 
   FDestination.Push(Disco);
+  end
+  else
+  begin
+    //animar el alzar el disco (movimiento en el eje y)
+
+    //movimiento en y
+    disco.posicionDisco(disco.Left, disco.top - FSource.GetCoordenadaY -
+    FSource.GetContenedor.Top);
+    Disco.Repaint;
+
+
+  FDestination.Push(Disco);
+  end;
 
 end;
+
 
 
 //fin Resolver el juego de las Torres de Hanoi de manera automatica
@@ -285,20 +285,12 @@ begin
   imgDisco:= 8 - (numDisco-1);
   for i := 0 to numDisco - 1 do
   begin
-    // Verificamos si la pila está vacía, de lo contrario le quitamos las
-    // propiedades de movimiento al disco que está en el tope de la pila
-    //if not pila.EsVacia then
-     // RemoveDragPropertiesFromImage(pila.GetTope);
-    // Crea y configura los discos
+
     discoAux := TImgDisco.Create(Self,ancho);
-    // Asignamos la pila de origen al disco
-    //discoAux.numPila := numPila;
-    //asignamos el numero de disco
-    //discoAux.numDisco:= (i+1);
+
     // Cargamos la imagen con la ruta
     discoAux.Picture.LoadFromFile(rutaImg + '/discos/i' + IntToStr(imgDisco) + '.png');
-    // Asignamos propiedades de movimiento al disco creado
-   // AssignDragPropertiesToImage(discoAux);
+
     // Guardamos el disco en la pila
     pila.Push(discoAux);
     ancho := ancho - 30;
@@ -330,7 +322,7 @@ end;
 function TForm9.obtenerVelocidad(numDiscos: integer): integer;
 begin
 
-  if numDiscos > 5 then
+  if numDiscos > maxVelocidad then
     Result := 100
   else if numDiscos > 3 then
     Result := 10

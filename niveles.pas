@@ -143,7 +143,7 @@ var
   Form9: TForm9;
   numDisc: integer;
 begin
-  numDisc:=5;
+  numDisc:=8;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)

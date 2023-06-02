@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="36" Y="7"/>
-        <UsageCount Value="81"/>
+        <UsageCount Value="82"/>
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -18,9 +18,9 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <TopLine Value="73"/>
-        <CursorPos X="54" Y="80"/>
-        <UsageCount Value="81"/>
+        <TopLine Value="163"/>
+        <CursorPos X="144" Y="79"/>
+        <UsageCount Value="82"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -29,7 +29,7 @@
         <UnitName Value="Funciones"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="25" Y="33"/>
-        <UsageCount Value="76"/>
+        <UsageCount Value="77"/>
       </Unit>
       <Unit>
         <Filename Value="disco.pas"/>
@@ -37,7 +37,7 @@
         <UnitName Value="Disco"/>
         <EditorIndex Value="3"/>
         <CursorPos X="73" Y="15"/>
-        <UsageCount Value="69"/>
+        <UsageCount Value="70"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -47,7 +47,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="59"/>
         <CursorPos Y="75"/>
-        <UsageCount Value="64"/>
+        <UsageCount Value="65"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -60,7 +60,7 @@
         <EditorIndex Value="4"/>
         <TopLine Value="34"/>
         <CursorPos X="28" Y="47"/>
-        <UsageCount Value="32"/>
+        <UsageCount Value="33"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -74,7 +74,7 @@
         <EditorIndex Value="7"/>
         <TopLine Value="42"/>
         <CursorPos X="18" Y="57"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -87,7 +87,7 @@
         <EditorIndex Value="9"/>
         <TopLine Value="22"/>
         <CursorPos X="9" Y="54"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -100,7 +100,7 @@
         <EditorIndex Value="8"/>
         <TopLine Value="15"/>
         <CursorPos X="13" Y="42"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -113,7 +113,7 @@
         <EditorIndex Value="5"/>
         <TopLine Value="26"/>
         <CursorPos X="12" Y="51"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -125,9 +125,9 @@
         <ResourceBaseClass Value="Form"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="6"/>
-        <TopLine Value="128"/>
-        <CursorPos X="13" Y="146"/>
-        <UsageCount Value="26"/>
+        <TopLine Value="116"/>
+        <CursorPos X="90" Y="134"/>
+        <UsageCount Value="27"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -139,7 +139,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="10"/>
         <CursorPos X="100" Y="6"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -179,8 +179,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="mainAtm"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="239"/>
-        <CursorPos Y="229"/>
+        <TopLine Value="317"/>
+        <CursorPos X="18" Y="328"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -193,19 +193,7 @@
         <UsageCount Value="10"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="27">
-      <Position>
-        <Filename Value="mainatm.pas"/>
-        <Caret Line="139" Column="25" TopLine="122"/>
-      </Position>
-      <Position>
-        <Filename Value="mainatm.pas"/>
-        <Caret Line="85" Column="66" TopLine="67"/>
-      </Position>
-      <Position>
-        <Filename Value="mainatm.pas"/>
-        <Caret Line="262" Column="12" TopLine="246"/>
-      </Position>
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="mainatm.pas"/>
         <Caret Line="294" Column="12" TopLine="277"/>
@@ -306,21 +294,30 @@
         <Filename Value="niveles.pas"/>
         <Caret Line="156" Column="10" TopLine="128"/>
       </Position>
+      <Position>
+        <Filename Value="mainatm.pas"/>
+        <Caret Line="229" TopLine="301"/>
+      </Position>
+      <Position>
+        <Filename Value="mainatm.pas"/>
+        <Caret Line="271" Column="5" TopLine="239"/>
+      </Position>
+      <Position>
+        <Filename Value="mainatm.pas"/>
+        <Caret Line="256" Column="10" TopLine="234"/>
+      </Position>
+      <Position>
+        <Filename Value="mainatm.pas"/>
+        <Caret Line="263" Column="19" TopLine="244"/>
+      </Position>
+      <Position>
+        <Filename Value="mainatm.pas"/>
+        <Caret Line="89" Column="22" TopLine="55"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode=""/>
     </RunParams>
   </ProjectSession>
-  <Debugging>
-    <BreakPoints>
-      <Item>
-        <Kind Value="bpkSource"/>
-        <WatchScope Value="wpsLocal"/>
-        <WatchKind Value="wpkWrite"/>
-        <Source Value="niveles.pas"/>
-        <Line Value="107"/>
-      </Item>
-    </BreakPoints>
-  </Debugging>
 </CONFIG>
