@@ -324,7 +324,7 @@ begin
 
   if numDiscos > maxVelocidad then
     Result := 100
-  else if numDiscos > 3 then
+  else if numDiscos > 4 then
     Result := 10
   else
     Result := 1;

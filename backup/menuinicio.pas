@@ -27,6 +27,7 @@ type
     Image9: TImage;
     procedure Image10Click(Sender: TObject);
     procedure Image11Click(Sender: TObject);
+    procedure Image12Click(Sender: TObject);
     procedure Image13Click(Sender: TObject);
     procedure Image8Click(Sender: TObject);
   private
@@ -44,7 +45,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Iniciar,historia,puntajes,niveles;
+  Iniciar,historia,puntajes,niveles,creditos;
 
 { TForm3 }
 
@@ -84,6 +85,17 @@ begin
   Hide;
   Form6:=TForm6.Create(nil);
   Form6.Show;
+
+
+end;
+
+procedure TForm3.Image12Click(Sender: TObject);
+var
+  Form10:TForm10;
+begin
+  Hide;
+  Form10:=TForm10.Create(nil);
+  Form10.Show;
 
 
 end;

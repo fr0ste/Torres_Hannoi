@@ -1,11 +1,12 @@
 object Form3: TForm3
-  Left = 2069
+  Left = 2178
   Height = 721
-  Top = 443
+  Top = 287
   Width = 1280
   Caption = 'Form3'
   ClientHeight = 721
   ClientWidth = 1280
+  OnClose = FormClose
   LCLVersion = '2.2.0.4'
   object Image1: TImage
     Left = 0
@@ -12409,6 +12410,7 @@ object Form3: TForm3
     Height = 132
     Top = 280
     Width = 277
+    OnClick = Image12Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B47726170686963D733000089504E47
       0D0A1A0A0000000D4948445200000144000000A70806000000694D255E000033

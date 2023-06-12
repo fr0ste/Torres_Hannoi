@@ -1,17 +1,19 @@
 object Form5: TForm5
-  Left = 2305
+  Left = 2109
   Height = 720
-  Top = 415
+  Top = 191
   Width = 1280
   Caption = 'Form5'
   ClientHeight = 720
   ClientWidth = 1280
+  OnClose = FormClose
   LCLVersion = '2.2.0.4'
   object Image1: TImage
     Left = 0
     Height = 730
     Top = 0
     Width = 1306
+    OnClick = Image1Click
     Picture.Data = {
       0A544A706567496D616765F9D40200FFD8FFE000104A46494600010101006000
       600000FFE100BC45786966000049492A00080000000600120103000100000001

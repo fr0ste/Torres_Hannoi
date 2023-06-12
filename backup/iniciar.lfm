@@ -1,7 +1,7 @@
 object Form2: TForm2
-  Left = 2132
+  Left = 1997
   Height = 720
-  Top = 218
+  Top = 208
   Width = 1280
   Caption = 'Form2'
   ClientHeight = 720
@@ -2954,10 +2954,11 @@ object Form2: TForm2
     Value = 1
   end
   object Image2: TImage
-    Left = 1032
-    Height = 122
-    Top = 584
-    Width = 210
+    Left = 816
+    Height = 56
+    Top = 328
+    Width = 172
+    Center = True
     OnClick = Image2Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B477261706869638A20000089504E47
@@ -3223,5 +3224,11 @@ object Form2: TForm2
       24400224400224400224400224D04E04FE3F4535AAD1F34EF2C9000000004945
       4E44AE426082
     }
+  end
+  object Image3: TImage
+    Left = 1225
+    Height = 90
+    Top = 36
+    Width = 90
   end
 end

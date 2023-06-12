@@ -15,6 +15,7 @@ type
     Button1: TButton;
     Image1: TImage;
     procedure Button1Click(Sender: TObject);
+    procedure Image1Click(Sender: TObject);
   private
 
   public
@@ -40,6 +41,11 @@ begin
   Hide;
   Form3:=TForm3.Create(nil);
   Form3.Show;
+
+end;
+
+procedure TForm5.Image1Click(Sender: TObject);
+begin
 
 end;
 

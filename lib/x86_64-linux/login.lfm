@@ -6,6 +6,7 @@ object Form4: TForm4
   Caption = 'Form4'
   ClientHeight = 720
   ClientWidth = 1280
+  OnClose = FormClose
   LCLVersion = '2.2.0.4'
   object Image1: TImage
     Left = 0
@@ -46980,6 +46981,7 @@ object Form4: TForm4
     Height = 42
     Top = 552
     Width = 106
+    OnClick = Image3Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B47726170686963521B000089504E47
       0D0A1A0A0000000D494844520000007400000023080600000045112E68000000
@@ -47218,10 +47220,11 @@ object Form4: TForm4
     TabOrder = 1
   end
   object Image4: TImage
-    Left = 1032
-    Height = 106
-    Top = 576
-    Width = 208
+    Left = 1136
+    Height = 63
+    Top = 24
+    Width = 116
+    Center = True
     OnClick = Image4Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B477261706869638A20000089504E47

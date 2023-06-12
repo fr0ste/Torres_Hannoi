@@ -1,12 +1,12 @@
 object Form9: TForm9
-  Left = 2202
-  Height = 704
-  Top = 319
-  Width = 1366
+  Left = 402
+  Height = 720
+  Top = 110
+  Width = 1280
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'Form9'
-  ClientHeight = 704
-  ClientWidth = 1366
+  ClientHeight = 720
+  ClientWidth = 1280
   Icon.Data = {
     081808000000010001000000000001002000F21708001600000089504E470D0A
     1A0A0000000D49484452000002D5000001E408020000007E1F44A9000817B949

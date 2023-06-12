@@ -2,4 +2,5 @@
 <CONFIG>
   <Compiler Value="/usr/bin/fpc" Date="1649687632"/>
   <Params Value=" -MObjFPC -Scghi -Cg -O1 -gw3 -gl -l -vewnhibq -Fi/home/labingsw05/Escritorio/Torres_Hannoi/lib/x86_64-linux -Fu/home/labingsw05/.lazarus/lib/units/x86_64-linux/gtk2 -Fu/home/labingsw05/.lazarus/lib/LCLBase/units/x86_64-linux -Fu/home/labingsw05/.lazarus/lib/freetypelaz/lib/x86_64-linux -Fu/usr/lib/lazarus/2.2.0/components/lazutils/lib/x86_64-linux -Fu/usr/lib/lazarus/2.2.0/packager/units/x86_64-linux -Fu/home/labingsw05/Escritorio/Torres_Hannoi/ -FU/home/labingsw05/Escritorio/Torres_Hannoi/lib/x86_64-linux/ -FE/home/labingsw05/Escritorio/Torres_Hannoi/ -o/home/labingsw05/Escritorio/Torres_Hannoi/Torreshanoi -dLCL -dLCLgtk2 Torreshanoi.lpr"/>
+  <Complete Value="False"/>
 </CONFIG>

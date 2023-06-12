@@ -13,12 +13,15 @@ type
 
   TForm7 = class(TForm)
     Image1: TImage;
+    Image2: TImage;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure Image2Click(Sender: TObject);
     procedure Label1Click(Sender: TObject);
     procedure Label1MouseEnter(Sender: TObject);
     procedure Label2Click(Sender: TObject);
@@ -39,7 +42,7 @@ implementation
 
 {$R *.lfm}
 uses
-  main,mainAtm;
+  main,mainAtm,menuInicio;
 
 { TForm7 }
 
@@ -52,13 +55,27 @@ begin
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(nil);
+  Form1 := TForm1.Create(false);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
 
   // Mostrar el formulario Form2
   Form1.Show;
+end;
+
+procedure TForm7.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+      Application.Terminate;
+end;
+
+procedure TForm7.Image2Click(Sender: TObject);
+var
+  Form3:TForm3;
+begin
+      Hide;
+      Form3:=TForm3.Create(nil);
+      Form3.Show;
 end;
 
 procedure TForm7.Label1MouseEnter(Sender: TObject);
@@ -75,7 +92,7 @@ begin
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(nil);
+  Form1 := TForm1.Create(false);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
@@ -93,7 +110,7 @@ begin
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(nil);
+  Form1 := TForm1.Create(false);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
@@ -111,7 +128,7 @@ begin
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(nil);
+  Form1 := TForm1.Create(false);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
@@ -129,7 +146,7 @@ begin
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(nil);
+  Form1 := TForm1.Create(false);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
@@ -140,20 +157,20 @@ end;
 
 procedure TForm7.Label6Click(Sender: TObject);
 var
-  Form9: TForm9;
+  Form1: TForm1;
   numDisc: integer;
 begin
   numDisc:=8;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form9 := TForm9.Create(nil);
+  Form1 := TForm1.Create(true);
 
   // Pasar el número como parámetro al formulario Form2
-  Form9.SetNumero(numDisc);
+  Form1.SetNumero(numDisc);
 
   // Mostrar el formulario Form2
-  Form9.Show;
+  Form1.Show;
 end;
 
 end.

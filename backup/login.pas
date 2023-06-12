@@ -19,6 +19,7 @@ type
     Image3: TImage;
     Image4: TImage;
     procedure Image2Click(Sender: TObject);
+    procedure Image3Click(Sender: TObject);
     procedure Image4Click(Sender: TObject);
 
   private
@@ -35,7 +36,7 @@ implementation
 {$R *.lfm}
 
 uses
-  menuInicio;
+  menuInicio,registro;
 
 { TForm4 }
 
@@ -46,6 +47,16 @@ begin
   Hide;
   Form3:=TForm3.Create(nil);
   Form3.Show;
+
+end;
+
+procedure TForm4.Image3Click(Sender: TObject);
+var
+  Form8: TForm8;
+begin
+  Hide;
+  Form8:=TForm8.Create(nil);
+  Form8.Show;
 
 end;
 

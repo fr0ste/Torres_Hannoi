@@ -16,6 +16,7 @@ type
     Button1: TButton;
     Image1: TImage;
     Image2: TImage;
+    Image3: TImage;
     Label1: TLabel;
     SpinEdit1: TSpinEdit;
     procedure Button1Click(Sender: TObject);
@@ -47,7 +48,7 @@ begin
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(nil);
+  Form1 := TForm1.Create;
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
