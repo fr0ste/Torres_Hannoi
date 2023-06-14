@@ -1,7 +1,7 @@
 object Form1: TForm1
   Left = 217
   Height = 720
-  Top = 387
+  Top = 323
   Width = 1280
   BorderIcons = [biSystemMenu, biMinimize]
   Caption = 'vistaJuegoManual'
@@ -20450,5 +20450,14 @@ object Form1: TForm1
       AE43AB56AD904AED14C66C37B086B185B2A02FCD2D6808B821E01F46888F94D6
       ED3BBBBB2F79BDF9BFFDA50701B648F2180000000049454E44AE426082
     }
+  end
+  object Button2: TButton
+    Left = 790
+    Height = 25
+    Top = 50
+    Width = 75
+    Caption = 'Button2'
+    OnClick = Button2Click
+    TabOrder = 1
   end
 end

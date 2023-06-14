@@ -13,6 +13,7 @@ type
 
   TForm1 = class(TForm)
     Button1: TButton;
+    Button2: TButton;
     Image1: TImage;
     Image2: TImage;
     torre1: TImage;
@@ -67,7 +68,7 @@ var
   posX, posY: integer;
   numeroPila: integer;
   rutaImg: string;//para obtener la ruta de las imagenes a cargar
-
+  idUsuario: Integer = 1;
 implementation
 
 {$R *.lfm}
@@ -86,6 +87,11 @@ procedure TForm1.Button1Click(Sender: TObject);
 begin
   Hide;
   Form7.Show;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  guardarPartida(idUsuario, pilaTorre1,pilaTorre2,pilaTorre3);
 end;
 
 procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
