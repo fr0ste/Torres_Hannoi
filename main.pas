@@ -13,7 +13,6 @@ type
 
   TForm1 = class(TForm)
     Button1: TButton;
-    Button2: TButton;
     Image1: TImage;
     Image2: TImage;
     torre1: TImage;
@@ -23,7 +22,6 @@ type
     Image6: TImage;
     Image7: TImage;
     procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormShow(Sender: TObject);
     procedure Image2Click(Sender: TObject);
@@ -89,10 +87,6 @@ begin
   Form7.Show;
 end;
 
-procedure TForm1.Button2Click(Sender: TObject);
-begin
-  guardarPartida(idUsuario,5, pilaTorre1,pilaTorre2,pilaTorre3);
-end;
 
 procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin

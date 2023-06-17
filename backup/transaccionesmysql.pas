@@ -19,6 +19,8 @@ procedure PrintIntegerArray(var arr: TIntegerArray);
 function obtenerIdPartida(const idUsuario: integer): integer;
 procedure guardarPartida(idUsuario, tiempo: integer; pila1, pila2, pila3: TPilaTorre);
 procedure guardarPila(idPartida: integer; pila: TPilaTorre);
+procedure guardarDisco(idPartida, idDisco, idPila: integer);
+procedure borrarJuego(idPartida: Integer);
 
 implementation
 
@@ -177,11 +179,10 @@ end;
  *)
 procedure guardarDisco(idPartida, idDisco, idPila: integer);
 var
-  arr: TIntegerArray;
+
   SQLTransaction: TSQLTransaction;
   SQLQuery: TSQLQuery;
   Connection: TMySQL80Connection;
-  id: integer = 0;
 begin
 
   SQLTransaction := TSQLTransaction.Create(nil);
@@ -199,13 +200,16 @@ begin
     SQLTransaction.StartTransaction;
 
     try
-      SQLQuery.SQL.Text := 'call Hanoi.actualizarJuego(' + IntToStr(
-        idPartida) + ',' + IntToStr(idDisco) + ',' + IntToStr(idPila) + ');';
+      SQLQuery.SQL.Text := 'CALL Hanoi.actualizarJuego(:partida, :disco, :pila)';
       // Consulta SQL que deseas ejecutar
-      SQLQuery.Open;
-      SetLength(arr, SQLQuery.RecordCount);
-      SQLQuery.Close;
+      SQLQuery.Params.ParamByName('partida').AsInteger := idPartida;
+      SQLQuery.Params.ParamByName('disco').AsInteger := idDisco;
+      SQLQuery.Params.ParamByName('pila').AsInteger := idPila;
+
+      SQLQuery.ExecSQL; // Ejecutamos la consulta
+
       SQLTransaction.Commit;
+
     except
       SQLTransaction.Rollback;
       raise;
@@ -221,10 +225,11 @@ end;
 
  (*
  *
+ *
  *)
 procedure guardarPartida(idUsuario, tiempo: integer; pila1, pila2, pila3: TPilaTorre);
 var
-  i, idPartida: integer;
+  idPartida: integer;
 begin
   idPartida := obtenerIdPartida(idUsuario);
 
@@ -243,5 +248,49 @@ begin
     pila.Pop;
   end;
 end;
+
+procedure borrarJuego(idPartida: Integer);
+  var
+
+    SQLTransaction: TSQLTransaction;
+    SQLQuery: TSQLQuery;
+    Connection: TMySQL80Connection;
+  begin
+
+    SQLTransaction := TSQLTransaction.Create(nil);
+    SQLQuery := TSQLQuery.Create(nil);
+    //abrimos la conexion a la base de datos
+    Connection := EstablecerConexionBD;
+
+    //iniciamos la transaccion
+    if Connection.Connected then
+    begin
+      SQLTransaction.Database := Connection;
+      SQLQuery.Database := Connection;
+      SQLQuery.Transaction := SQLTransaction;
+
+      SQLTransaction.StartTransaction;
+
+      try
+        SQLQuery.SQL.Text := 'call Hanoi.borrarJuego(:partida)';
+        // Consulta SQL que deseas ejecutar
+        SQLQuery.Params.ParamByName('partida').AsInteger := idPartida;
+
+        SQLQuery.ExecSQL; // Ejecutamos la consulta
+
+        SQLTransaction.Commit;
+
+      except
+        SQLTransaction.Rollback;
+        raise;
+      end;
+    end
+    else
+    begin
+      ShowMessage('No se pudo establecer la conexión a la base de datos');
+    end;
+
+    CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
+  end;
 
 end.
