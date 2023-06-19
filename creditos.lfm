@@ -1,13 +1,14 @@
 object Form10: TForm10
-  Left = 2282
+  Left = 2124
   Height = 720
-  Top = 276
+  Top = 124
   Width = 1280
-  Caption = 'Form10'
+  Caption = 'Créditos'
   ClientHeight = 720
   ClientWidth = 1280
   OnClose = FormClose
-  LCLVersion = '2.2.0.4'
+  OnShow = FormShow
+  LCLVersion = '2.2.6.0'
   object Image1: TImage
     Left = 0
     Height = 738
@@ -5065,5 +5066,12 @@ object Form10: TForm10
       958DC0607FDFDB0E4E8CFDF62BBB7AF7AADD11D81D81DD11D81D81BB6F04FE3F
       72DB09761C8666070000000049454E44AE426082
     }
+  end
+  object Sonido: TImage
+    Left = 1144
+    Height = 90
+    Top = 616
+    Width = 90
+    OnClick = SonidoClick
   end
 end

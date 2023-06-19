@@ -1,13 +1,15 @@
 object Form3: TForm3
-  Left = 2178
-  Height = 721
-  Top = 287
+  Left = 2184
+  Height = 677
+  Top = 121
   Width = 1280
-  Caption = 'Form3'
-  ClientHeight = 721
+  Caption = 'Menú'
+  ClientHeight = 677
   ClientWidth = 1280
   OnClose = FormClose
-  LCLVersion = '2.2.0.4'
+  OnCreate = FormCreate
+  OnShow = FormShow
+  LCLVersion = '2.2.6.0'
   object Image1: TImage
     Left = 0
     Height = 730
@@ -12831,10 +12833,11 @@ object Form3: TForm3
     }
   end
   object Image13: TImage
-    Left = 888
-    Height = 146
-    Top = 464
-    Width = 274
+    Left = 952
+    Height = 75
+    Top = 504
+    Width = 192
+    Center = True
     OnClick = Image13Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B477261706869638A20000089504E47
@@ -13100,5 +13103,13 @@ object Form3: TForm3
       24400224400224400224400224D04E04FE3F4535AAD1F34EF2C9000000004945
       4E44AE426082
     }
+  end
+  object Sonido: TImage
+    Left = 1176
+    Height = 58
+    Top = 584
+    Width = 64
+    AutoSize = True
+    OnClick = SonidoClick
   end
 end

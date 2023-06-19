@@ -1,19 +1,19 @@
 object Form5: TForm5
-  Left = 2109
+  Left = 2161
   Height = 720
-  Top = 191
+  Top = 105
   Width = 1280
-  Caption = 'Form5'
+  Caption = 'Historia'
   ClientHeight = 720
   ClientWidth = 1280
   OnClose = FormClose
-  LCLVersion = '2.2.0.4'
+  OnShow = FormShow
+  LCLVersion = '2.2.6.0'
   object Image1: TImage
     Left = 0
     Height = 730
     Top = 0
     Width = 1306
-    OnClick = Image1Click
     Picture.Data = {
       0A544A706567496D616765F9D40200FFD8FFE000104A46494600010101006000
       600000FFE100BC45786966000049492A00080000000600120103000100000001
@@ -5819,12 +5819,19 @@ object Form5: TForm5
     }
   end
   object Button1: TButton
-    Left = 1136
+    Left = 56
     Height = 25
-    Top = 632
+    Top = 144
     Width = 75
     Caption = 'Regresar'
     OnClick = Button1Click
     TabOrder = 0
+  end
+  object Sonido: TImage
+    Left = 1160
+    Height = 90
+    Top = 616
+    Width = 90
+    OnClick = SonidoClick
   end
 end

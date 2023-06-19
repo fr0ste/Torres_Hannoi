@@ -1,9 +1,9 @@
 object Form8: TForm8
-  Left = 2110
+  Left = 397
   Height = 720
-  Top = 166
+  Top = 301
   Width = 1280
-  Caption = 'Form8'
+  Caption = 'Registrar Usuario'
   ClientHeight = 720
   ClientWidth = 1280
   OnClose = FormClose
@@ -46516,6 +46516,7 @@ object Form8: TForm8
     Height = 34
     Top = 328
     Width = 168
+    OnKeyPress = Edit1KeyPress
     TabOrder = 0
   end
   object Edit2: TEdit
@@ -46523,6 +46524,7 @@ object Form8: TForm8
     Height = 34
     Top = 400
     Width = 168
+    OnKeyPress = Edit2KeyPress
     TabOrder = 1
   end
   object Image2: TImage

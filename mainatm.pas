@@ -56,8 +56,10 @@ type
     Image6: TImage;
     Image7: TImage;
     procedure Button1Click(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
    // procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Image2Click(Sender: TObject);
 
   private
 
@@ -93,6 +95,8 @@ var
 implementation
 
     {$R *.lfm}
+    uses
+      nivelesAutomatico;
 
 { TForm9 }
 
@@ -131,6 +135,11 @@ begin
 
 end;
 
+procedure TForm9.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+  Application.Terminate;
+end;
+
 
 procedure TForm9.FormShow(Sender: TObject);
 var
@@ -155,6 +164,16 @@ begin
     Rewrite(F);
     CloseFile(F);
   end;
+end;
+
+procedure TForm9.Image2Click(Sender: TObject);
+var
+  Form12:TForm12;
+begin
+  Hide;
+  Form12:=TForm12.Create(nil);
+  Form12.Show;
+
 end;
 
 
@@ -334,8 +353,12 @@ end;
 
 
 procedure TForm9.cargarDatosJuego;
+var
+  Rutadat: String;
 begin
-  archivoMovimientos := 'lvl' + IntToStr(FNumero - 2) + '.dat';
+  Rutadat := ExtractFilePath(Application.ExeName);
+ // ShowMessage(Rutadat);
+  archivoMovimientos :=Rutadat+'/Leveldat/lvl' + IntToStr(FNumero - 2) + '.dat';
 end;
 
     procedure TForm9.SetNumero(Numero: Integer);

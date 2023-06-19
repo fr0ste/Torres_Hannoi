@@ -114,6 +114,27 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit>
+      <Unit>
+        <Filename Value="manualoautomatico.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form11"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="ManualOAutomatico"/>
+      </Unit>
+      <Unit>
+        <Filename Value="nivelesautomatico.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="Form12"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="nivelesAutomatico"/>
+      </Unit>
+      <Unit>
+        <Filename Value="transaccionesmysql.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="TransaccionesMySQL"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

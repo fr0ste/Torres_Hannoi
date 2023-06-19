@@ -5,7 +5,7 @@ unit historia;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,Funciones;
 
 type
 
@@ -14,13 +14,19 @@ type
   TForm5 = class(TForm)
     Button1: TButton;
     Image1: TImage;
+    Sonido: TImage;
     procedure Button1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-    procedure Image1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure SonidoClick(Sender: TObject);
+
   private
 
   public
+     rutaImg: String;//para obtener la ruta de las imagenes a cargar
 
+
+   isPaused: boolean;
   end;
 
 var
@@ -50,10 +56,37 @@ begin
   Application.Terminate;
 end;
 
-procedure TForm5.Image1Click(Sender: TObject);
+procedure TForm5.FormShow(Sender: TObject);
 begin
-
+      rutaImg := obtenerRutaImagen(Application.ExeName);
+     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
+      isPaused := false;
 end;
+
+procedure TForm5.SonidoClick(Sender: TObject);
+begin
+  // Si la reproducción está pausada, se reanuda la reproducción
+  if isPaused then
+  begin
+       Pause(isPaused);
+    rutaImg := obtenerRutaImagen(Application.ExeName);
+     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
+    //BtnPausePlay.Caption := 'Pause';
+    isPaused := false;
+  end
+  else
+  begin
+    // Si la reproducción está en curso, se pausa la reproducción
+
+    Pause(isPaused);
+    rutaImg := obtenerRutaImagen(Application.ExeName);
+     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sonido.png');
+    //BtnPausePlay.Caption := 'Reanudar';
+    isPaused := true;
+  end;
+end;
+
+
 
 end.
 

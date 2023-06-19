@@ -11,7 +11,8 @@ uses
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, main, Funciones, Disco, PilaTorre, Iniciar, menuInicio, login,
-  historia, puntajes, niveles, registro,mainAtm, creditos;
+  historia, puntajes, niveles, registro, mainAtm, creditos, ManualOAutomatico,
+  nivelesAutomatico, TransaccionesMySQL;
 
 {$R *.res}
 
@@ -29,6 +30,8 @@ begin
   Application.CreateForm(TForm8, Form8);
   Application.CreateForm(TForm9, Form9);
   Application.CreateForm(TForm10, Form10);
+  Application.CreateForm(TForm11, Form11);
+  Application.CreateForm(TForm12, Form12);
   Application.Run;
 end.
 

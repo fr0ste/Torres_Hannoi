@@ -5,7 +5,7 @@ unit creditos;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,Funciones;
 
 type
 
@@ -14,12 +14,15 @@ type
   TForm10 = class(TForm)
     Image1: TImage;
     Image2: TImage;
+    Sonido: TImage;
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormShow(Sender: TObject);
     procedure Image2Click(Sender: TObject);
   private
 
   public
-
+     rutaImg: String;//para obtener la ruta de las imagenes a cargar
+   isPaused: boolean;
   end;
 
 var
@@ -36,6 +39,13 @@ uses
 procedure TForm10.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   Application.Terminate;
+end;
+
+procedure TForm10.FormShow(Sender: TObject);
+begin
+  rutaImg := obtenerRutaImagen(Application.ExeName);
+     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
+      isPaused := false;
 end;
 
 procedure TForm10.Image2Click(Sender: TObject);

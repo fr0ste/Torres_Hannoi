@@ -5,7 +5,7 @@ unit menuInicio;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,stdctrls;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,stdctrls,bass,funciones;
 
 type
 
@@ -17,6 +17,7 @@ type
     Image11: TImage;
     Image12: TImage;
     Image13: TImage;
+    Sonido: TImage;
     Image2: TImage;
     Image3: TImage;
     Image4: TImage;
@@ -25,15 +26,21 @@ type
     Image7: TImage;
     Image8: TImage;
     Image9: TImage;
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
     procedure Image10Click(Sender: TObject);
     procedure Image11Click(Sender: TObject);
     procedure Image12Click(Sender: TObject);
     procedure Image13Click(Sender: TObject);
     procedure Image8Click(Sender: TObject);
+    procedure SonidoClick(Sender: TObject);
+
   private
 
   public
-
+   rutaImg: String;//para obtener la ruta de las imagenes a cargar
+   isPaused: boolean;
   end;
 
 var
@@ -45,24 +52,51 @@ implementation
 {$R *.lfm}
 
 uses
-  Iniciar,historia,puntajes,niveles,creditos;
+  Iniciar,historia,puntajes,niveles,creditos,ManualOAutomatico,login;
 
 { TForm3 }
 
 procedure TForm3.Image8Click(Sender: TObject);
 var
-  Form7:TForm7;
+  Form11:TForm11;
 begin
 
   Hide;
-  Form7 := TForm7.Create(nil);
-  Form7.Show;
+  Form11:= TForm11.Create(nil);
+  Form11.Show;
 
 end;
 
-procedure TForm3.Image13Click(Sender: TObject);
+procedure TForm3.SonidoClick(Sender: TObject);
 begin
-   Application.Terminate;
+  // Si la reproducción está pausada, se reanuda la reproducción
+  if isPaused then
+  begin
+       Pause(isPaused);
+    rutaImg := obtenerRutaImagen(Application.ExeName);
+     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
+    //BtnPausePlay.Caption := 'Pause';
+    isPaused := false;
+  end
+  else
+  begin
+    // Si la reproducción está en curso, se pausa la reproducción
+
+    Pause(isPaused);
+    rutaImg := obtenerRutaImagen(Application.ExeName);
+     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sonido.png');
+    //BtnPausePlay.Caption := 'Reanudar';
+    isPaused := true;
+  end;
+end;
+
+procedure TForm3.Image13Click(Sender: TObject);
+var
+  Form4: TForm4;
+begin
+  Hide;
+  Form4:=TForm4.Create(nil);
+  Form4.Show;
 end;
 
 procedure TForm3.Image10Click(Sender: TObject);
@@ -76,6 +110,33 @@ begin
 
 
 end;
+
+procedure TForm3.FormClose(Sender: TObject; var CloseAction: TCloseAction);
+begin
+      Application.Terminate;
+end;
+
+procedure TForm3.FormCreate(Sender: TObject);
+begin
+       //BASS_Free;
+
+  //BASS_Init(-1, 44100, 0, nil, nil);
+
+end;
+
+
+
+procedure TForm3.FormShow(Sender: TObject);
+begin
+     rutaImg := obtenerRutaImagen(Application.ExeName);
+     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
+      isPaused := false;
+   //fname:=ExtractFilePath(Application.ExeName)+'Cancion2.mp3';
+       //ShowMessage(fname);
+      //PlayMP3(fname);
+end;
+
+
 
 procedure TForm3.Image11Click(Sender: TObject);
 var

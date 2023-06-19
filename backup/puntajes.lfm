@@ -1,12 +1,15 @@
 object Form6: TForm6
-  Left = 2172
-  Height = 720
-  Top = 217
+  Left = 2221
+  Height = 704
+  Top = 173
   Width = 1280
-  Caption = 'Form6'
-  ClientHeight = 720
+  Caption = 'Puntajes'
+  ClientHeight = 704
   ClientWidth = 1280
-  LCLVersion = '2.2.0.4'
+  OnClose = FormClose
+  OnCreate = FormCreate
+  OnShow = FormShow
+  LCLVersion = '2.2.6.0'
   object Image1: TImage
     Left = 0
     Height = 720
@@ -4426,5 +4429,28 @@ object Form6: TForm6
       958DC0607FDFDB0E4E8CFDF62BBB7AF7AADD11D81D81DD11D81D81BB6F04FE3F
       72DB09761C8666070000000049454E44AE426082
     }
+  end
+  object Sonido: TImage
+    Left = 1136
+    Height = 90
+    Top = 592
+    Width = 90
+    OnClick = SonidoClick
+  end
+  object Grid: TStringGrid
+    Left = 440
+    Height = 288
+    Top = 200
+    Width = 360
+    AutoEdit = False
+    Color = clNone
+    ColCount = 2
+    RowCount = 10
+    ScrollBars = ssNone
+    TabOrder = 0
+    ColWidths = (
+      64
+      294
+    )
   end
 end
