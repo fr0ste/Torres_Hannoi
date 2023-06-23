@@ -85,6 +85,7 @@ var
     //Cursor
   CursorImage: TCursorImage;
   CursorImage2: TCursorImage;
+  time: Integer;
 
 implementation
 
@@ -101,10 +102,24 @@ begin
 end;
 
 procedure TForm1.Button1Click(Sender: TObject);
+var
+opcion: integer;
 begin
-  Hide;
+
+
+  // Mostrar el mensaje de acuerdo a la opción seleccionada
+  opcion := MessageDlg('¿Desea guardar la partida?', mtConfirmation, [mbOK, mbCancel], 0);
+  if opcion = mrOk then
+  begin
+
+    guardarPartida(idUsuario,time,pilaTorre1,pilaTorre2,pilaTorre3);
+
+  end;
+
+   Hide;
   Form3.Show;
   Pause(isPaused);
+
 end;
 
 procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -382,8 +397,7 @@ begin
       // El centro de la imagen está dentro de la torre1
       nuevoNumeroPila := 2;
       hacerPop(pilaTorre2, obtenerPila(numeroPila), nuevoNumeroPila);
-      //     pilaTorre2.Push(pilaTorre1.Pop);
-      //       AssignDragPropertiesToImage(pilaTorre2.GetTope);
+
     end
     else
     begin
@@ -391,8 +405,7 @@ begin
       if bandera then
       begin
         // El centro de la imagen está dentro de la torre1
-        //            ShowMessage('imagen dentro de torre3.');
-        //          pilaTorre3.Push(pilaTorre1.Pop);
+
         nuevoNumeroPila := 3;
         hacerPop(pilaTorre3, obtenerPila(numeroPila), nuevoNumeroPila);
       end
@@ -593,7 +606,7 @@ begin
     discoAux := crearDisco(rutaAux, ancho, imgDisco, torre.GetId, Arr[i]);
     // Guardamos el disco en la pila
     torre.Push(discoAux);
-    //ancho := ancho - 30;
+
   end;
 end;
 procedure TForm1.cargarCursor(ruta:String);
@@ -613,10 +626,9 @@ begin
   torre1.Cursor:=crMyCursor;
   torre2.Cursor:=crMyCursor;
   torre3.Cursor:=crMyCursor;
-  //PausaPlay.Cursor:=crMyCursor;
-  //Button1.Cursor:=crMyCursor;
+
   LabelTiempo.Cursor:=crMyCursor;
-  //Sonido.Cursor:=crMyCursor;
+
   Form1.Cursor := crMyCursor;
 
 end;
