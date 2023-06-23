@@ -1,7 +1,7 @@
 object Form6: TForm6
-  Left = 508
+  Left = 2238
   Height = 695
-  Top = 186
+  Top = 138
   Width = 1280
   Caption = 'Puntajes'
   ClientHeight = 695
@@ -4437,27 +4437,12 @@ object Form6: TForm6
     Width = 90
     OnClick = SonidoClick
   end
-  object Grid: TStringGrid
-    Left = 440
-    Height = 288
-    Top = 200
-    Width = 360
-    AutoEdit = False
-    Color = clNone
-    ColCount = 2
-    RowCount = 10
-    ScrollBars = ssNone
-    TabOrder = 0
-    ColWidths = (
-      64
-      294
-    )
-  end
   object Image2: TImage
     Left = 288
     Height = 90
     Top = 72
     Width = 98
+    OnClick = Image2Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B47726170686963253A000089504E47
       0D0A1A0A0000000D494844520000006B0000005F0806000000EF5439B7000039
@@ -7336,5 +7321,14 @@ object Form6: TForm6
       2756E0C40A9C5881132B7062057EB002FF1F9F7AA20D59A8FB99000000004945
       4E44AE426082
     }
+  end
+  object ListBox1: TListBox
+    Left = 440
+    Height = 416
+    Top = 186
+    Width = 352
+    ItemHeight = 0
+    TabOrder = 0
+    TopIndex = -1
   end
 end

@@ -48,7 +48,7 @@ begin
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(nil);
+  Form1 := TForm1.Create(false);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);

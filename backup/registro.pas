@@ -1,3 +1,4 @@
+
 unit registro;
 
 {$mode ObjFPC}{$H+}
@@ -101,4 +102,7 @@ begin
   Form4 := TForm4.Create(nil);
   Form4.Show;
 end;
-end.
+end.s
+
+
+

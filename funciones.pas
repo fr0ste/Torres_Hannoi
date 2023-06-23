@@ -99,13 +99,11 @@ end;
     Randomize;//generador de semillas para numeros aleatorios
        Grid.RowCount:=rows+1;//se le agrega uno mas para los titulos
     Grid.ColCount:=cols+1;//
+    Grid.Cells[0,0]:='Nombre';
+        Grid.Cells[1,0]:='Puntaje';
     //asignar titulos
     for i:=1 to rows do
         Grid.Cells[0,i]:='Jose'+ IntToStr(i);
-
-        Grid.Cells[0,0]:='Nombre';
-        Grid.Cells[1,0]:='Puntaje';
-
      for i:=1 to rows do
          for j:=1 to cols do
          Grid.Cells[j,i]:=IntToStr(RandomRange(18,57));

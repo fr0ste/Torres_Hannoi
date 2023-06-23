@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, Grids,
-  Funciones,Math;
+  StdCtrls, Funciones, Math, TransaccionesMySQL;
 
 type
 
@@ -14,17 +14,24 @@ type
 
   TForm6 = class(TForm)
     Image1: TImage;
+    Image2: TImage;
+    Image4: TImage;
+    Image5: TImage;
+    Image6: TImage;
+    Image7: TImage;
+    Image8: TImage;
+    ListBox1: TListBox;
     Sonido: TImage;
     Image3: TImage;
     Imagen1:Timage;
 
     Imagen3:Timage;
-    Grid: TStringGrid;
 
 
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Image2Click(Sender: TObject);
     procedure Image3Click(Sender: TObject);
     procedure SonidoClick(Sender: TObject);
 
@@ -105,12 +112,29 @@ begin
      Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
       isPaused := false;
       //====================Tabla puntajes=======//
-     Tabla(Grid);
+
 
 
 
 end;
 
+procedure TForm6.Image2Click(Sender: TObject);
+var
+  puntajes: TStringArray;
+  i: Integer;
+begin
+  // Llama a la función obtenerPuntaje para obtener los puntajes
+  puntajes := obtenerPuntaje(1);
+
+  // Limpia el contenido previo del TListBox
+  ListBox1.Clear;
+
+  // Agrega los puntajes al TListBox
+  for i := 0 to Length(puntajes) - 1 do
+  begin
+    ListBox1.AddItem(puntajes, nil);
+  end;
+end;
 
 end.
 

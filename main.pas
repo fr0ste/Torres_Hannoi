@@ -5,7 +5,8 @@ unit main;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, Funciones, PilaTorre, Disco,Tiempo,bass;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+  StdCtrls, Funciones, PilaTorre, Disco, Tiempo, bass, TransaccionesMySQL;
 
 type
   { TForm1 }
@@ -34,52 +35,76 @@ type
     procedure AssignDragPropertiesToImage(image: TImage);
     procedure RemoveDragPropertiesFromImage(image: TImage);
     procedure ImageMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure ImageMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+      Shift: TShiftState; X, Y: integer);
+    procedure ImageMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
     procedure ImageMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
+      Shift: TShiftState; X, Y: integer);
     procedure CheckIfImageCenterInsideTower1(image: TImage);
-    procedure SetTowerPosition(var bandera: Boolean; disco,towerImage: TImage);
-    procedure hacerPop(pila,pilaOrigen: TPilaTorre; nuevoNumeroPila: Integer);
+    procedure SetTowerPosition(var bandera: boolean; disco, towerImage: TImage);
+    procedure hacerPop(pila, pilaOrigen: TPilaTorre; nuevoNumeroPila: integer);
+    procedure cargarPartida(pila1, pila2, pila3: TPilaTorre);
 
   public
-    procedure cargarTorre(numPila,numDisco: Integer;pila: TPilaTorre);
+    procedure cargarTorre(numPila, numDisco: integer; pila: TPilaTorre);
+    function crearDisco(rutaImg: string;
+      ancho, imgDisco, numPila, numDisco: integer): TImgDisco;
     procedure crearPilas(tamanio: integer);
     function obtenerTorre(numTorre: integer): TImage;
     function obtenerPila(numPila: integer): TPilaTorre;
-    procedure SetNumero(Numero: Integer);
+    procedure SetNumero(Numero: integer);
     procedure TimerCronometroTimer(Sender: TObject);
     procedure nuevoJuego();
+    procedure cargarCursor(ruta: string);
+
+    //base de datos
+    procedure cargarTorreDesdeDB(torre: TPilaTorre);
+    constructor Create(nuevo: boolean);
   end;
+const
+  crMyCursor = 1;
+  crMyCursor2 = 2;
+
 
 var
   Form1: TForm1;
-  FNumero: Integer;//numero para cargar los fondos
-  arrastrar: Boolean = False;
+  JuegoNuevo: boolean;
+  FNumero: integer;//numero para cargar los fondos
+  arrastrar: boolean = False;
   DragOffset: TPoint;
   //pilas para las torres
   pilaTorre1, pilaTorre2, pilaTorre3: TPilaTorre;
-  origX, origY: Integer; // Variables para guardar la posición original (X, Y)
-  posX,posY: Integer;
-  numeroPila: Integer;
-  rutaImg: String;//para obtener la ruta de las imagenes a cargar
-  Pausado: String;
-  fname:String;
+  origX, origY: integer; // Variables para guardar la posición original (X, Y)
+  posX, posY: integer;
+  numeroPila: integer;
+  rutaImg: string;//para obtener la ruta de las imagenes a cargar
+  idUsuario: integer = 1;
+  Pausado: string;
+  fname: string;
   isPaused: boolean;
-   Bstream: dword; // Canal del audio
+  Bstream: dword; // Canal del audio
+    //Cursor
+  CursorImage: TCursorImage;
+  CursorImage2: TCursorImage;
+
 implementation
 
 {$R *.lfm}
 uses
-  Iniciar,niveles;
+  Iniciar, niveles, menuInicio;
 
 { TForm1 }
+
+constructor TForm1.Create(nuevo: boolean);
+begin
+  inherited Create(nil);
+  JuegoNuevo := nuevo;
+end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
   Hide;
-  Form7.Show;
-  Pause(isPaused)
+  Form3.Show;
+  Pause(isPaused);
 end;
 
 procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -89,60 +114,94 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-                BASS_Free;
-      // Inicializa el sistema de audio BASS con la configuración predeterminada
+  BASS_Free;
+  // Inicializa el sistema de audio BASS con la configuración predeterminada
   BASS_Init(-1, 44100, 0, nil, nil);
 end;
 
 procedure TForm1.FormShow(Sender: TObject);
 begin
+
+  //********************************************************************************************************************
+  if JuegoNuevo then
+  begin
     //********************************************************************************************************************
     rutaImg := obtenerRutaImagen(Application.ExeName);
-        // Cargamos la imagen con la ruta
-    Image1.Picture.LoadFromFile(rutaImg + '/fondos/fondo' + IntToStr(FNumero) + '.png');
-    //ShowMessage(rutaImg);
+    // Cargamos la imagen con la ruta
+    Image1.Picture.LoadFromFile(rutaImg + 'fondos/fondo' + IntToStr(FNumero) + '.png');
     crearPilas(FNumero);
-    cargarTorre(pilaTorre1.Getid,FNumero,pilaTorre1);
-    Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
-      isPaused := false;
-    PausaPlay.Picture.LoadFromFile(rutaImg+'/fondos/Pausa.png');
-    Pausado:= 'Pausa';
+    cargarPartida(pilaTorre1, pilaTorre2, pilaTorre3);
+    Sonido.Picture.LoadFromFile(rutaImg + 'fondos/sinsonido.png');
+    isPaused := False;
+    PausaPlay.Picture.LoadFromFile(rutaImg + 'fondos/Pausa.png');
+    Pausado := 'Pausa';
     TimerCronometro := TTiempoCronometro.Create;
-  TimerCronometro.Interval := 1000; // Intervalo del temporizador en milisegundos (1 segundo)
-  TimerCronometro.OnTimer := @TimerCronometroTimer;
-  TimerCronometro.IniciarTimer(LabelTiempo);
+    TimerCronometro.Interval := 1000;
+    // Intervalo del temporizador en milisegundos (1 segundo)
+    TimerCronometro.OnTimer := @TimerCronometroTimer;
+    TimerCronometro.IniciarTimer(LabelTiempo);
+    fname := ExtractFilePath(Application.ExeName) + '/Audios/Audio' +
+      IntToStr(FNumero - 2) + '.mp3';
+    //ShowMessage(fname);
+    PlayMP3(fname);
+    // Cargar cursor
+       cargarCursor(rutaImg+'cursor/');
+  end
+  else
+  begin
+    //********************************************************************************************************************
+    rutaImg := obtenerRutaImagen(Application.ExeName);
+    // Cargamos la imagen con la ruta
+    Image1.Picture.LoadFromFile(rutaImg + 'fondos/fondo' + IntToStr(FNumero) + '.png');
+    crearPilas(FNumero);
+    cargarTorre(pilaTorre1.Getid, FNumero, pilaTorre1);
+    Sonido.Picture.LoadFromFile(rutaImg + 'fondos/sinsonido.png');
+    isPaused := False;
+    PausaPlay.Picture.LoadFromFile(rutaImg + 'fondos/Pausa.png');
+    Pausado := 'Pausa';
+    TimerCronometro := TTiempoCronometro.Create;
+    TimerCronometro.Interval := 1000;
+    // Intervalo del temporizador en milisegundos (1 segundo)
+    TimerCronometro.OnTimer := @TimerCronometroTimer;
+    TimerCronometro.IniciarTimer(LabelTiempo);
+    fname := ExtractFilePath(Application.ExeName) + '/Audios/Audio' +
+      IntToStr(FNumero - 2) + '.mp3';
+    //ShowMessage(fname);
+    PlayMP3(fname);
+    //ShowMessage(IntToStr(FNumero));
+        // Cargar cursor
+       cargarCursor(rutaImg+'cursor/');
+  end;
 
-  fname:=ExtractFilePath(Application.ExeName)+'/Audios/Audio'+IntToStr(FNumero-2) +'.mp3';
-       //ShowMessage(fname);
-       PlayMP3(fname);
-       //ShowMessage(IntToStr(FNumero));
 end;
+
+
 
 procedure TForm1.PausaPlayClick(Sender: TObject);
 begin
-         if Pausado = 'Pausa' then
-         begin
-         Pausado:='Play';
-          TimerCronometro.Pausar;
-         PausaPlay.Picture.LoadFromFile(rutaImg+'/fondos/PLAY.png')
-         end
-          else if Pausado = 'Play' then
-          begin
-           TimerCronometro.Continuar;
-         PausaPlay.Picture.LoadFromFile(rutaImg+'/fondos/Pausa.png');
-          Pausado:='Pausa';
-         end;
+  if Pausado = 'Pausa' then
+  begin
+    Pausado := 'Play';
+    TimerCronometro.Pausar;
+    PausaPlay.Picture.LoadFromFile(rutaImg + '/fondos/PLAY.png');
+  end
+  else if Pausado = 'Play' then
+  begin
+    TimerCronometro.Continuar;
+    PausaPlay.Picture.LoadFromFile(rutaImg + '/fondos/Pausa.png');
+    Pausado := 'Pausa';
+  end;
 end;
 
 procedure TForm1.SonidoClick(Sender: TObject);
 begin
-    if isPaused then
+  if isPaused then
   begin
-       Pause(isPaused);
+    Pause(isPaused);
     rutaImg := obtenerRutaImagen(Application.ExeName);
-     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
+    Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sinsonido.png');
     //BtnPausePlay.Caption := 'Pause';
-    isPaused := false;
+    isPaused := False;
   end
   else
   begin
@@ -151,9 +210,9 @@ begin
     Pause(isPaused);
     rutaImg := obtenerRutaImagen(Application.ExeName);
 
-     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sonido.png');
+    Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sonido.png');
     //BtnPausePlay.Caption := 'Reanudar';
-    isPaused := true;
+    isPaused := True;
   end;
 end;
 
@@ -171,15 +230,15 @@ begin
 
 end;
 
-procedure TForm1.cargarTorre(numPila,numDisco: Integer; pila: TPilaTorre);
+procedure TForm1.cargarTorre(numPila, numDisco: integer; pila: TPilaTorre);
 var
   ancho, i: integer;
   imgDisco: integer;
   discoAux: TImgDisco;
 begin
   rutaImg := obtenerRutaImagen(Application.ExeName);
-  ancho := 60+(numDisco*30);
-  imgDisco:= 8 - (numDisco-1);
+  ancho := 60 + (numDisco * 30);
+  imgDisco := 8 - (numDisco - 1);
   for i := 0 to numDisco - 1 do
   begin
     // Verificamos si la pila está vacía, de lo contrario le quitamos las
@@ -187,11 +246,11 @@ begin
     if not pila.EsVacia then
       RemoveDragPropertiesFromImage(pila.GetTope);
     // Crea y configura los discos
-    discoAux := TImgDisco.Create(Self,ancho);
+    discoAux := TImgDisco.Create(Self, ancho);
     // Asignamos la pila de origen al disco
     discoAux.numPila := numPila;
     //asignamos el numero de disco
-    discoAux.numDisco:= (i+1);
+    discoAux.numDisco := (i + 1);
     // Cargamos la imagen con la ruta
     discoAux.Picture.LoadFromFile(rutaImg + '/discos/i' + IntToStr(imgDisco) + '.png');
     // Asignamos propiedades de movimiento al disco creado
@@ -199,9 +258,31 @@ begin
     // Guardamos el disco en la pila
     pila.Push(discoAux);
     ancho := ancho - 30;
-    imgDisco:=imgDisco+1;
+    imgDisco := imgDisco + 1;
   end;
 end;
+
+function TForm1.crearDisco(rutaImg: string;
+  ancho, imgDisco, numPila, numDisco: integer): TImgDisco;
+var
+  discoAux: TImgDisco;
+begin
+  // Crea y configura los discos
+  discoAux := TImgDisco.Create(Self, ancho);
+  // Asignamos la pila de origen al disco
+  discoAux.numPila := numPila;
+  //asignamos el numero de disco
+  discoAux.numDisco := (numDisco);
+  // Cargamos la imagen con la ruta
+  discoAux.Picture.LoadFromFile(rutaImg);
+  // Asignamos propiedades de movimiento al disco creado
+  AssignDragPropertiesToImage(discoAux);
+
+  Result := discoAux;
+end;
+
+
+
 
 procedure TForm1.AssignDragPropertiesToImage(image: TImage);
 begin
@@ -209,7 +290,10 @@ begin
   image.OnMouseMove := @ImageMouseMove;
   image.OnMouseUp := @ImageMouseUp;
   image.DragMode := dmAutomatic;
+  //cursor
+    image.Cursor:=crMyCursor;
 end;
+
 procedure TForm1.RemoveDragPropertiesFromImage(image: TImage);
 begin
   image.OnMouseDown := nil;
@@ -219,7 +303,7 @@ begin
 end;
 
 procedure TForm1.ImageMouseDown(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+  Shift: TShiftState; X, Y: integer);
 begin
   arrastrar := True;
   DragOffset := Point(X, Y);
@@ -227,41 +311,51 @@ begin
   // Guarda la posición original (X, Y) de la imagen
   origX := TImage(Sender).Left;
   origY := TImage(Sender).Top;
+    //cursor
+  Cursor := crMyCursor2;
 end;
 
-procedure TForm1.ImageMouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+procedure TForm1.ImageMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
 begin
   if arrastrar then
   begin
     TImage(Sender).Left := TImage(Sender).Left + X - DragOffset.X;
     TImage(Sender).Top := TImage(Sender).Top + Y - DragOffset.Y;
+        //cursor
+    Cursor := crMyCursor2;
   end;
 end;
 
 procedure TForm1.ImageMouseUp(Sender: TObject; Button: TMouseButton;
-  Shift: TShiftState; X, Y: Integer);
+  Shift: TShiftState; X, Y: integer);
 begin
   arrastrar := False;
   CheckIfImageCenterInsideTower1(TImage(Sender));
+    //cursor
+  Cursor := crMyCursor;
 end;
 
-Function Tform1.obtenerTorre(numTorre: integer): TImage;
+function Tform1.obtenerTorre(numTorre: integer): TImage;
 begin
   case numTorre of
-      1:
-        Result:= torre1;
-      2:
-        Result:= torre2;
-      3:
-        Result:= torre3;
-    end;
+    1:
+      Result := torre1;
+    2:
+      Result := torre2;
+    3:
+      Result := torre3;
+  end;
 
 end;
+
 procedure TForm1.crearPilas(tamanio: integer);
 begin
-     pilaTorre1:=TPilaTorre.Create(1,tamanio,(torre1.Left+30),(torre1.Top+torre1.Height), torre1);
-     pilaTorre2:=TPilaTorre.Create(2,tamanio,(torre2.Left+30),(torre1.Top+torre2.Height), torre2);
-     pilaTorre3:=TPilaTorre.Create(3,tamanio,(torre3.Left+30),(torre1.Top+torre3.Height), torre3);
+  pilaTorre1 := TPilaTorre.Create(1, tamanio, (torre1.Left + 30),
+    (torre1.Top + torre1.Height), torre1);
+  pilaTorre2 := TPilaTorre.Create(2, tamanio, (torre2.Left + 30),
+    (torre1.Top + torre2.Height), torre2);
+  pilaTorre3 := TPilaTorre.Create(3, tamanio, (torre3.Left + 30),
+    (torre1.Top + torre3.Height), torre3);
 end;
 
 procedure TForm1.CheckIfImageCenterInsideTower1(image: TImage);
@@ -270,94 +364,94 @@ var
   disco: TImgDisco;
   nuevoNumeroPila: integer;
 begin
-  nuevoNumeroPila:=0;
-  disco:=TImgDisco(image);
-  numeroPila:=disco.numPila;
-  SetTowerPosition(bandera,image,torre1);
+  nuevoNumeroPila := 0;
+  disco := TImgDisco(image);
+  numeroPila := disco.numPila;
+  SetTowerPosition(bandera, image, torre1);
   if bandera then
   begin
     // El centro de la imagen está dentro de la torre1
-    nuevoNumeroPila:=1;
-    hacerPop(pilaTorre1,obtenerPila(numeroPila),nuevoNumeroPila);
+    nuevoNumeroPila := 1;
+    hacerPop(pilaTorre1, obtenerPila(numeroPila), nuevoNumeroPila);
   end
   else
   begin
-    SetTowerPosition(bandera,image,torre2);
+    SetTowerPosition(bandera, image, torre2);
     if bandera then
     begin
-         // El centro de la imagen está dentro de la torre1
-       nuevoNumeroPila:=2;
-       hacerPop(pilaTorre2,obtenerPila(numeroPila),nuevoNumeroPila);
-  //     pilaTorre2.Push(pilaTorre1.Pop);
-//       AssignDragPropertiesToImage(pilaTorre2.GetTope);
+      // El centro de la imagen está dentro de la torre1
+      nuevoNumeroPila := 2;
+      hacerPop(pilaTorre2, obtenerPila(numeroPila), nuevoNumeroPila);
+      //     pilaTorre2.Push(pilaTorre1.Pop);
+      //       AssignDragPropertiesToImage(pilaTorre2.GetTope);
     end
     else
     begin
-         SetTowerPosition(bandera,image,torre3);
-         if bandera then
-         begin
-              // El centro de la imagen está dentro de la torre1
-//            ShowMessage('imagen dentro de torre3.');
-  //          pilaTorre3.Push(pilaTorre1.Pop);
-              nuevoNumeroPila:=3;
-              hacerPop(pilaTorre3,obtenerPila(numeroPila),nuevoNumeroPila);
-         end
-         else
-         begin
-              image.Left:=origX;
-              image.Top:=origY;
-              ShowMessage('El centro de la imagen no está dentro de la torre1 ni la 2 ni la 3.');
-         end;
+      SetTowerPosition(bandera, image, torre3);
+      if bandera then
+      begin
+        // El centro de la imagen está dentro de la torre1
+        //            ShowMessage('imagen dentro de torre3.');
+        //          pilaTorre3.Push(pilaTorre1.Pop);
+        nuevoNumeroPila := 3;
+        hacerPop(pilaTorre3, obtenerPila(numeroPila), nuevoNumeroPila);
+      end
+      else
+      begin
+        image.Left := origX;
+        image.Top := origY;
+        ShowMessage('El centro de la imagen no está dentro de la torre1 ni la 2 ni la 3.');
+      end;
     end;
   end;
 
 end;
 
-procedure TForm1.SetTowerPosition(var bandera: Boolean; disco,towerImage: TImage);
-  var
-    imageCenterX, imageCenterY: Integer;
-    towerLeft, towerRight, towerTop, towerBottom: Integer;
+procedure TForm1.SetTowerPosition(var bandera: boolean; disco, towerImage: TImage);
+var
+  imageCenterX, imageCenterY: integer;
+  towerLeft, towerRight, towerTop, towerBottom: integer;
+begin
+  // Calcula las coordenadas del centro de la imagen
+  imageCenterX := disco.Left + disco.Width div 2;
+  imageCenterY := disco.Top + disco.Height div 2;
+
+  // Obtiene las coordenadas del área de la torre1
+  towerLeft := towerImage.Left;
+  towerRight := towerImage.Left + towerImage.Width;
+  towerTop := towerImage.Top;
+  towerBottom := towerImage.Top + towerImage.Height;
+
+  // Verifica si el centro de la imagen está dentro del área de la torre1
+  if (imageCenterX >= towerLeft) and (imageCenterX <= towerRight) and
+    (imageCenterY >= towerTop) and (imageCenterY <= towerBottom) then
   begin
-    // Calcula las coordenadas del centro de la imagen
-    imageCenterX := disco.Left + disco.Width div 2;
-    imageCenterY := disco.Top + disco.Height div 2;
-
-    // Obtiene las coordenadas del área de la torre1
-    towerLeft := towerImage.Left;
-    towerRight := towerImage.Left + towerImage.Width;
-    towerTop := towerImage.Top;
-    towerBottom := towerImage.Top + towerImage.Height;
-
-    // Verifica si el centro de la imagen está dentro del área de la torre1
-    if (imageCenterX >= towerLeft) and (imageCenterX <= towerRight) and
-       (imageCenterY >= towerTop) and (imageCenterY <= towerBottom) then
-    begin
-         bandera:=true;
-    end
-    else
-    begin
-         bandera:=false;
-    end;
+    bandera := True;
+  end
+  else
+  begin
+    bandera := False;
+  end;
 end;
 
-procedure TForm1.hacerPop(pila,pilaorigen: TPilaTorre;nuevoNumeroPila: Integer);
+procedure TForm1.hacerPop(pila, pilaorigen: TPilaTorre; nuevoNumeroPila: integer);
 var
   disco: TImgDisco;
 begin
-  if pila=pilaOrigen then
-     begin
-          disco:=pilaOrigen.GetTope;
-          //showMessage('pilas iguales');
-          disco.posicionDisco(origX,origY);
-     end
+  if pila = pilaOrigen then
+  begin
+    disco := pilaOrigen.GetTope;
+    //showMessage('pilas iguales');
+    disco.posicionDisco(origX, origY);
+  end
   else if pila.EsVacia then
   begin
     // Si la pila está vacía, solo se agrega el disco
-    disco:=pilaOrigen.Pop;
-    if pilaOrigen.EsVacia=false then
-        AssignDragPropertiesToImage(pilaOrigen.GetTope);
+    disco := pilaOrigen.Pop;
+    if pilaOrigen.EsVacia = False then
+      AssignDragPropertiesToImage(pilaOrigen.GetTope);
     AssignDragPropertiesToImage(disco);
-    disco.numPila:=nuevoNumeroPila;
+    disco.numPila := nuevoNumeroPila;
     pila.Push(disco);
   end
   else if pila.EsLlena then
@@ -368,33 +462,33 @@ begin
   end
   else
   begin
-       disco:=pilaOrigen.GetTope;
-       if  ValidarDisco(disco,pila.GetTope) then
-      begin
-         // Si la pila no está vacía ni llena, se quita el movimiento al disco del tope,
-    // se agrega el nuevo disco y se le asigna movimiento al disco agregado
-    disco:=pilaOrigen.Pop;
-    if pilaOrigen.EsVacia=false then
+    disco := pilaOrigen.GetTope;
+    if ValidarDisco(disco, pila.GetTope) then
+    begin
+      // Si la pila no está vacía ni llena, se quita el movimiento al disco del tope,
+      // se agrega el nuevo disco y se le asigna movimiento al disco agregado
+      disco := pilaOrigen.Pop;
+      if pilaOrigen.EsVacia = False then
         AssignDragPropertiesToImage(pilaOrigen.GetTope);
-    RemoveDragPropertiesFromImage(pila.GetTope);
-    AssignDragPropertiesToImage(disco);
-    disco.numPila:=nuevoNumeroPila;
-    pila.Push(disco);
-      end
-      else
-      begin
-       disco.posicionDisco(origX,origY);
-        ShowMessage('No se puede poner un disco pequeño sobre uno grande.');
-      end;
+      RemoveDragPropertiesFromImage(pila.GetTope);
+      AssignDragPropertiesToImage(disco);
+      disco.numPila := nuevoNumeroPila;
+      pila.Push(disco);
+    end
+    else
+    begin
+      disco.posicionDisco(origX, origY);
+      ShowMessage('No se puede poner un disco pequeño sobre uno grande.');
+    end;
   end;
 
   //validamos cuando ya gane el juego
   if pilaTorre3.EsLlena then
   begin
-    showMessage('Felicidades');
-    if FNumero<>8 then
+    ShowMessage('Felicidades');
+    if FNumero <> 8 then
     begin
-      SetNumero(FNumero+1);
+      SetNumero(FNumero + 1);
     end;
     Hide;
     nuevoJuego();
@@ -411,11 +505,12 @@ begin
     1: Result := pilaTorre1;
     2: Result := pilaTorre2;
     3: Result := pilaTorre3;
-  else
-    Result := nil; // Retornar nil en caso de que el número de pila no sea válido
+    else
+      Result := nil; // Retornar nil en caso de que el número de pila no sea válido
   end;
 end;
-procedure TForm1.SetNumero(Numero: Integer);
+
+procedure TForm1.SetNumero(Numero: integer);
 begin
   FNumero := Numero;
 end;
@@ -425,11 +520,11 @@ procedure TForm1.nuevoJuego();
 var
   Form1: TForm1;
   numDisc: integer;
-  opcion:Integer;
+  opcion: integer;
 begin
-      // Mostrar el mensaje de acuerdo a la opción seleccionada
+  // Mostrar el mensaje de acuerdo a la opción seleccionada
   opcion := MessageDlg('¿Desea continuar?', mtConfirmation, [mbOK, mbCancel], 0);
-  if opcion = mrOK then
+  if opcion = mrOk then
   begin
     // Continuar
 
@@ -446,11 +541,11 @@ begin
   end;
 
   // Ocultar el formulario actual (Form1)
-  numDisc:= FNumero;
+  numDisc := FNumero;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(nil);
+  Form1 := TForm1.Create(False);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
@@ -460,5 +555,69 @@ begin
   Form1.Show;
 end;
 
-end.
 
+
+procedure TForm1.cargarPartida(pila1, pila2, pila3: TPilaTorre);
+begin
+  //obtenemos un arreglo con los numeros de los discos de la torre 1
+  cargarTorreDesdeDB(pila1);
+  cargarTorreDesdeDB(pila2);
+  cargarTorreDesdeDB(pila3);
+end;
+
+
+procedure TForm1.cargarTorreDesdeDB(torre: TPilaTorre);
+var
+  arr: TIntegerArray;
+  ancho, i: integer;
+  imgDisco: integer = 1;
+  discoAux: TImgDisco;
+  rutaAux: string;
+begin
+  arr := ObtenerDiscos(1, torre.GetId);
+
+  for i := 0 to Length(arr) - 1 do
+  begin
+    // Verificamos si la pila está vacía, de lo contrario le quitamos las
+    // propiedades de movimiento al disco que está en el tope de la pila
+    if not torre.EsVacia then
+      RemoveDragPropertiesFromImage(torre.GetTope);
+    imgDisco := 8 - (Arr[i] - 1);
+    //calculamos el ancho del disco de acuerdo a su número
+    ancho := 60 + (imgDisco * 30);
+
+    // Cargamos la imagen con la ruta
+    rutaAux := rutaImg + '/discos/i' + IntToStr(Arr[i]) + '.png';
+
+
+    discoAux := crearDisco(rutaAux, ancho, imgDisco, torre.GetId, Arr[i]);
+    // Guardamos el disco en la pila
+    torre.Push(discoAux);
+    //ancho := ancho - 30;
+  end;
+end;
+procedure TForm1.cargarCursor(ruta:String);
+begin
+  CursorImage := TCursorImage.Create;
+  CursorImage.LoadFromFile(ruta+'Cursor3.cur');
+  Screen.Cursors[crMyCursor] := CursorImage.Handle;
+  Form1.Cursor := crMyCursor;
+
+  CursorImage2 := TCursorImage.Create;
+  CursorImage2.LoadFromFile(ruta+'Cursor.cur');
+  Screen.Cursors[crMyCursor2] := CursorImage2.Handle;
+  Image1.Cursor:=crMyCursor;
+  Image5.Cursor:=crMyCursor;
+  Image6.Cursor:=crMyCursor;
+  Image7.Cursor:=crMyCursor;
+  torre1.Cursor:=crMyCursor;
+  torre2.Cursor:=crMyCursor;
+  torre3.Cursor:=crMyCursor;
+  //PausaPlay.Cursor:=crMyCursor;
+  //Button1.Cursor:=crMyCursor;
+  LabelTiempo.Cursor:=crMyCursor;
+  //Sonido.Cursor:=crMyCursor;
+  Form1.Cursor := crMyCursor;
+
+end;
+end.

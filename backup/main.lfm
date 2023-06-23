@@ -20393,6 +20393,7 @@ object Form1: TForm1
     ParentFont = False
   end
   object Sonido: TImage
+    Cursor = crHandPoint
     Left = 1163
     Height = 90
     Top = 608

@@ -13,6 +13,10 @@ function ValidarDisco(disco,discoenTop:TImgDisco):boolean;
 procedure PlayMP3(FileName: string);
 procedure Pause(isPause: Boolean);
 procedure Tabla(Grid:TStringGrid);
+function EsAlfaNumerico(ch: char): boolean;
+function EsLetra(ch: char): boolean;
+function EsDigito(ch: char): boolean;
+function EsCaracterEspecial(ch: Char): Boolean;
 var
  Bstream: dword; // Canal del audio
 implementation
@@ -83,6 +87,7 @@ end;
 
   end;
  end;
+
  procedure Tabla(Grid:TStringGrid);
  var
  rows:Integer;
@@ -94,17 +99,44 @@ end;
     Randomize;//generador de semillas para numeros aleatorios
        Grid.RowCount:=rows+1;//se le agrega uno mas para los titulos
     Grid.ColCount:=cols+1;//
+    Grid.Cells[0,0]:='Nombre';
+        Grid.Cells[1,0]:='Puntaje';
     //asignar titulos
     for i:=1 to rows do
         Grid.Cells[0,i]:='Jose'+ IntToStr(i);
 
-        Grid.Cells[0,0]:='Nombre';
-        Grid.Cells[1,0]:='Puntaje';
+
 
      for i:=1 to rows do
          for j:=1 to cols do
          Grid.Cells[j,i]:=IntToStr(RandomRange(18,57));
  end;
+
+    
+function EsAlfaNumerico(ch: char): boolean;
+begin
+  Result := EsLetra(ch) or EsDigito(ch);
+end;
+
+function EsLetra(ch: char): boolean;
+begin
+  Result := (ch >= 'A') and (ch <= 'Z') or (ch >= 'a') and (ch <= 'z');
+end;
+
+function EsDigito(ch: char): boolean;
+begin
+  Result := (ch >= '0') and (ch <= '9');
+end;
+
+function EsCaracterEspecial(ch: Char): Boolean;
+const
+  CaracteresEspeciales = ['!', '@', '#', '$', '%', '&']; // Caracteres especiales permitidos
+begin
+  Result := ch in CaracteresEspeciales;
+end;
+
+
+
 
 end.
 

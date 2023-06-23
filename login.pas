@@ -58,7 +58,6 @@ begin
     e := ValidarUsuario(user, pwd);
     if e <> 0 then
     begin
-      ShowMessage('Inicio de sesión exitoso.');
       Hide;
       Form3 := TForm3.Create(nil);
       Form3.Show;

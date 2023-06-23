@@ -9,6 +9,7 @@ uses
 
 type
   TIntegerArray = array of integer;
+  TStringArray =  array of array of  string;
 
 
 function EstablecerConexionBD: TMySQL80Connection;
@@ -23,6 +24,7 @@ procedure guardarPila(idPartida: integer; pila: TPilaTorre);
 procedure guardarDisco(idPartida, idDisco, idPila: integer);
 procedure borrarJuego(idPartida: Integer);
 function crearUsuario(user, pwd: string): Integer;
+function obtenerPuntaje(nivel: Integer):TStringArray;
 
 implementation
 
@@ -35,7 +37,7 @@ begin
     Connection.HostName := 'localhost'; // Configura la conexión a la base de datos
     Connection.DatabaseName := 'Hanoi';
     Connection.UserName := 'root';
-    Connection.Password := 'froste';
+    Connection.Password := 'Root_123';
     Connection.Open;
     Result := Connection;
   except
@@ -401,6 +403,63 @@ begin
   Result := bandera;
   CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
 end;
+
+function obtenerPuntaje(nivel:Integer):TStringArray;
+  var
+    arr: TStringArray;
+    SQLTransaction: TSQLTransaction;
+    SQLQuery: TSQLQuery;
+    Connection: TMySQL80Connection;
+    i: integer = 0;
+  begin
+
+    SQLTransaction := TSQLTransaction.Create(nil);
+    SQLQuery := TSQLQuery.Create(nil);
+    //abrimos la conexion a la base de datos
+    Connection := EstablecerConexionBD;
+
+    //iniciamos la transaccion
+    if Connection.Connected then
+    begin
+      SQLTransaction.Database := Connection;
+      SQLQuery.Database := Connection;
+      SQLQuery.Transaction := SQLTransaction;
+
+      SQLTransaction.StartTransaction;
+
+      try
+        SQLQuery.SQL.Text := 'call Hanoi.obtenerUsuarioTiempo('+IntToStr(nivel)+')';
+        // Consulta SQL que deseas ejecutar
+        SQLQuery.Open;
+        SetLength(arr, SQLQuery.RecordCount);
+
+        while not SQLQuery.EOF do
+        begin
+          // Accede a los campos de cada registro
+          // ...
+          arr[i][0] := SQLQuery.FieldByName('nombre').AsAnsiString;
+          arr[i][1] := SQLQuery.FieldByName('puntaje').AsAnsiString;
+          SQLQuery.Next;
+          i := i + 1;
+
+        end;
+
+        SQLQuery.Close;
+        SQLTransaction.Commit;
+      except
+        SQLTransaction.Rollback;
+        raise;
+      end;
+    end
+    else
+    begin
+      ShowMessage('No se pudo establecer la conexión a la base de datos');
+
+    end;
+
+    Result := arr;
+    CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
+    end;
 
 
 

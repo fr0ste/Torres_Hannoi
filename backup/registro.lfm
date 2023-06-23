@@ -46516,7 +46516,6 @@ object Form8: TForm8
     Height = 36
     Top = 328
     Width = 168
-    OnKeyPress = Edit1KeyPress
     TabOrder = 0
   end
   object Edit2: TEdit
@@ -46524,7 +46523,6 @@ object Form8: TForm8
     Height = 36
     Top = 400
     Width = 168
-    OnKeyPress = Edit2KeyPress
     TabOrder = 1
   end
   object Image2: TImage

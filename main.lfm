@@ -16591,12 +16591,14 @@ object Form1: TForm1
   OnShow = FormShow
   LCLVersion = '2.2.6.0'
   object Image1: TImage
+    Cursor = crHandPoint
     Left = 0
     Height = 720
     Top = 0
     Width = 1280
   end
   object Button1: TButton
+    Cursor = crHandPoint
     Left = 952
     Height = 41
     Top = 640
@@ -20376,6 +20378,7 @@ object Form1: TForm1
     }
   end
   object PausaPlay: TImage
+    Cursor = crHandPoint
     Left = 32
     Height = 90
     Top = 8
@@ -20393,6 +20396,7 @@ object Form1: TForm1
     ParentFont = False
   end
   object Sonido: TImage
+    Cursor = crHandPoint
     Left = 1163
     Height = 90
     Top = 608
