@@ -25,6 +25,7 @@ type
     Image7: TImage;
     TimerCronometro: TTiempoCronometro;
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -55,6 +56,7 @@ type
     procedure TimerCronometroTimer(Sender: TObject);
     procedure nuevoJuego();
     procedure cargarCursor(ruta: string);
+    procedure MostrarImagenEmergente(const RutaImagen: string);
 
     //base de datos
     procedure cargarTorreDesdeDB(torre: TPilaTorre);
@@ -120,6 +122,11 @@ begin
   Form3.Show;
   Pause(isPaused);
 
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  MostrarImagenEmergente('bicho.png');
 end;
 
 procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -413,7 +420,7 @@ begin
       begin
         image.Left := origX;
         image.Top := origY;
-        ShowMessage('El centro de la imagen no está dentro de la torre1 ni la 2 ni la 3.');
+
       end;
     end;
   end;
@@ -491,7 +498,9 @@ begin
     else
     begin
       disco.posicionDisco(origX, origY);
-      ShowMessage('No se puede poner un disco pequeño sobre uno grande.');
+
+      //muestra una ventana emergente cuando se realiza un movimiento no valido
+      MostrarImagenEmergente('bicho.png');
     end;
   end;
 
@@ -632,4 +641,57 @@ begin
   Form1.Cursor := crMyCursor;
 
 end;
+
+
+procedure TForm1.MostrarImagenEmergente(const RutaImagen: string);
+var
+  FormImagen: TForm;
+  Imagen: TImage;
+  ButtonAceptar: TButton;
+begin
+  // Creamos el formulario personalizado sin barra superior
+  FormImagen := TForm.CreateNew(nil, 0);
+  try
+    // Configuramos las propiedades del formulario
+    FormImagen.BorderStyle := bsNone;  // Sin borde
+    //FormImagen.Position := poScreenCenter; // Centramos el formulario en la pantalla
+    FormImagen.Position := poDesigned; // Posición relativa al formulario padre
+    FormImagen.Width := 400;
+    FormImagen.Height := 250;
+
+    // Ajustamos la posición del formulario para centrarlo en el formulario padre
+    FormImagen.Left := Self.Left + (Self.Width - FormImagen.Width) div 2;
+    FormImagen.Top := Self.Top + (Self.Height - FormImagen.Height) div 2;
+
+
+    // Creamos un componente TImage y lo agregamos al formulario
+    Imagen := TImage.Create(FormImagen);
+    Imagen.Parent := FormImagen;
+    Imagen.Align := alClient;
+    Imagen.Stretch := True;
+
+    // Cargamos la imagen en el componente TImage
+    Imagen.Picture.LoadFromFile(RutaImagen);
+
+    // Creamos un botón de aceptar y lo agregamos al formulario
+    ButtonAceptar := TButton.Create(FormImagen);
+    ButtonAceptar.Parent := FormImagen;
+    ButtonAceptar.Caption := 'Aceptar';
+    ButtonAceptar.Left := (FormImagen.Width - ButtonAceptar.Width) div 2;
+    ButtonAceptar.Top := FormImagen.Height - ButtonAceptar.Height - 20;
+    ButtonAceptar.ModalResult := mrOk;  // Asignamos el resultado modal al botón Aceptar
+
+    // Mostramos el formulario emergente de forma modal
+    if FormImagen.ShowModal = mrOk then
+    begin
+
+    end;
+
+  finally
+    // Liberamos los recursos del formulario
+    FormImagen.Free;
+  end;
+end;
+
+
 end.

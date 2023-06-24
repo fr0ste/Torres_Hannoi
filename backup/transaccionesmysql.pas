@@ -37,7 +37,7 @@ begin
     Connection.HostName := 'localhost'; // Configura la conexión a la base de datos
     Connection.DatabaseName := 'Hanoi';
     Connection.UserName := 'root';
-    Connection.Password := 'Root_123';
+    Connection.Password := 'froste';
     Connection.Open;
     Result := Connection;
   except
@@ -151,13 +151,13 @@ begin
     SQLTransaction.StartTransaction;
 
     try
-      SQLQuery.SQL.Text := 'select Hanoi.obtenerIdPartida(' + IntToStr(1) + ');';
+      SQLQuery.SQL.Text := 'select Hanoi.obtenerIdPartida(' + IntToStr(1) + ') as partida;';
       // Consulta SQL que deseas ejecutar
       SQLQuery.Open;
       SetLength(arr, SQLQuery.RecordCount);
 
 
-      id := SQLQuery.FieldByName('Hanoi.obtenerIdPartida(1)').AsInteger;
+      id := SQLQuery.FieldByName('partida').AsInteger;
 
 
       SQLQuery.Close;
