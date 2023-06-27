@@ -67,7 +67,7 @@ implementation
 {$R *.lfm}
 
 uses
-  Iniciar, historia, puntajes, niveles, creditos, ManualOAutomatico, login, main;
+  historia, puntajes, niveles, creditos, ManualOAutomatico, login, main;
 
 { TForm3 }
 

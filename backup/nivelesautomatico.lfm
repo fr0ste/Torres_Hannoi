@@ -2,11 +2,11 @@ object Form12: TForm12
   Left = 2177
   Height = 720
   Top = 132
-  Width = 1280
+  Width = 1282
   BorderStyle = bsSingle
   Caption = 'Niveles Automaticos'
   ClientHeight = 720
-  ClientWidth = 1280
+  ClientWidth = 1282
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow

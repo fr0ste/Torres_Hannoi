@@ -24,6 +24,11 @@ type
     Image6: TImage;
     Image7: TImage;
     TimerCronometro: TTiempoCronometro;
+<<<<<<< HEAD
+=======
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+>>>>>>> cdd3736eb7c9e0135070fb9f863ef3a7020d34a5
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -55,7 +60,12 @@ type
     procedure TimerCronometroTimer(Sender: TObject);
     procedure nuevoJuego();
     procedure cargarCursor(ruta: string);
+<<<<<<< HEAD
     procedure pausarReanudar();
+=======
+    procedure MostrarImagenEmergente(const RutaImagen: string);
+
+>>>>>>> cdd3736eb7c9e0135070fb9f863ef3a7020d34a5
     //base de datos
     procedure cargarTorreDesdeDB(torre: TPilaTorre);
     constructor Create(nuevo: boolean;UserID: Integer);
@@ -108,6 +118,11 @@ begin
   IdUsuario:= UserID;
 end;
 
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  MostrarImagenEmergente('bicho.png');
+end;
 
 procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
@@ -437,6 +452,10 @@ begin
       begin
         image.Left := origX;
         image.Top := origY;
+<<<<<<< HEAD
+=======
+
+>>>>>>> cdd3736eb7c9e0135070fb9f863ef3a7020d34a5
       end;
     end;
   end;
@@ -515,9 +534,14 @@ begin
     begin
       disco.posicionDisco(origX, origY);
 
+<<<<<<< HEAD
       //mostramos una ventana emergente de error
       rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
       MostrarImagenEmergente(rutaImg + '/mensajes/movimientoIncorrecto.png', form1);
+=======
+      //muestra una ventana emergente cuando se realiza un movimiento no valido
+      MostrarImagenEmergente('bicho.png');
+>>>>>>> cdd3736eb7c9e0135070fb9f863ef3a7020d34a5
     end;
   end;
 
@@ -571,7 +595,7 @@ var
 begin
   // Mostrar el mensaje de acuerdo a la opción seleccionada
   rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
-  opcion := fMostrarImagenEmergente(rutaImg + '/mensajes/',Form1);
+  opcion := fMostrarImagenEmergente(rutaImg + '/mensajes/deseaContinuar.jpg',Form1);
   if opcion then
   begin
     // Continuar
@@ -664,6 +688,7 @@ begin
 
 end;
 
+<<<<<<< HEAD
 procedure TForm1.pausarReanudar();
 var
   pila: TPilaTorre;
@@ -686,9 +711,62 @@ begin
       if not pila.EsVacia then
         AssignDragPropertiesToImage(pila.GetTope);
     end;
+=======
+
+procedure TForm1.MostrarImagenEmergente(const RutaImagen: string);
+var
+  FormImagen: TForm;
+  Imagen: TImage;
+  ButtonAceptar: TButton;
+begin
+  // Creamos el formulario personalizado sin barra superior
+  FormImagen := TForm.CreateNew(nil, 0);
+  try
+    // Configuramos las propiedades del formulario
+    FormImagen.BorderStyle := bsNone;  // Sin borde
+    //FormImagen.Position := poScreenCenter; // Centramos el formulario en la pantalla
+    FormImagen.Position := poDesigned; // Posición relativa al formulario padre
+    FormImagen.Width := 400;
+    FormImagen.Height := 250;
+
+    // Ajustamos la posición del formulario para centrarlo en el formulario padre
+    FormImagen.Left := Self.Left + (Self.Width - FormImagen.Width) div 2;
+    FormImagen.Top := Self.Top + (Self.Height - FormImagen.Height) div 2;
+
+
+    // Creamos un componente TImage y lo agregamos al formulario
+    Imagen := TImage.Create(FormImagen);
+    Imagen.Parent := FormImagen;
+    Imagen.Align := alClient;
+    Imagen.Stretch := True;
+
+    // Cargamos la imagen en el componente TImage
+    Imagen.Picture.LoadFromFile(RutaImagen);
+
+    // Creamos un botón de aceptar y lo agregamos al formulario
+    ButtonAceptar := TButton.Create(FormImagen);
+    ButtonAceptar.Parent := FormImagen;
+    ButtonAceptar.Caption := 'Aceptar';
+    ButtonAceptar.Left := (FormImagen.Width - ButtonAceptar.Width) div 2;
+    ButtonAceptar.Top := FormImagen.Height - ButtonAceptar.Height - 20;
+    ButtonAceptar.ModalResult := mrOk;  // Asignamos el resultado modal al botón Aceptar
+
+    // Mostramos el formulario emergente de forma modal
+    if FormImagen.ShowModal = mrOk then
+    begin
+
+    end;
+
+  finally
+    // Liberamos los recursos del formulario
+    FormImagen.Free;
+>>>>>>> cdd3736eb7c9e0135070fb9f863ef3a7020d34a5
   end;
 end;
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> cdd3736eb7c9e0135070fb9f863ef3a7020d34a5
 end.

@@ -18,7 +18,6 @@ type
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
-    procedure Button1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);

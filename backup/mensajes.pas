@@ -108,7 +108,7 @@ begin
     ButtonAceptar.Caption := 'Aceptar';
     ButtonAceptar.Left := (FormImagen.Width div 2) - 100;
     ButtonAceptar.Top := FormImagen.Height - ButtonAceptar.Height - 20;
-    ButtonAceptar.ModalResult := mrYes;  // Asignamos el resultado modal al botón Aceptar
+    ButtonAceptar.ModalResult := mrOK;  // Asignamos el resultado modal al botón Aceptar
 
     ButtonCancelar := TButton.Create(FormImagen);
     ButtonCancelar.Parent := FormImagen;

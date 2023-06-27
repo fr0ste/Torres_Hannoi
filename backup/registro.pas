@@ -92,7 +92,9 @@ begin
     creado := crearUsuario(user, pwd);
     if creado = 1 then
     begin
-      ShowMessage('El usuario ya existe');
+      rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
+      MostrarImagenEmergente(rutaImg + '/mensajes/usuarioExiste.png',Form8);
+
     end
     else
     begin

@@ -155,14 +155,22 @@ begin
     SQLTransaction.StartTransaction;
 
     try
+<<<<<<< HEAD
       SQLQuery.SQL.Text := 'select Hanoi.obtenerIdPartida(' +
         IntToStr(idUsuario) + ') as id;';
+=======
+      SQLQuery.SQL.Text := 'select Hanoi.obtenerIdPartida(' + IntToStr(1) + ') as partida;';
+>>>>>>> cdd3736eb7c9e0135070fb9f863ef3a7020d34a5
       // Consulta SQL que deseas ejecutar
       SQLQuery.Open;
 
 
+<<<<<<< HEAD
 
       id := SQLQuery.FieldByName('id').AsInteger;
+=======
+      id := SQLQuery.FieldByName('partida').AsInteger;
+>>>>>>> cdd3736eb7c9e0135070fb9f863ef3a7020d34a5
 
 
       SQLQuery.Close;
@@ -242,7 +250,7 @@ begin
   guardarPila(idPartida, pila2);
   guardarPila(idPartida, pila3);
   guardarTiempoNivel(idUsuario,tiempo,nivel);
-  fMostrarImagenEmergente(rutaImg + '/mensajes/partidaGuardada.png', ParentComponent);
+  MostrarImagenEmergente(rutaImg + '/mensajes/partidaGuardada.png', ParentComponent);
 
 end;
 
