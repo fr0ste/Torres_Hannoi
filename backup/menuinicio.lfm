@@ -1,15 +1,17 @@
 object Form3: TForm3
-  Left = 2184
+  Left = 2349
   Height = 677
-  Top = 121
+  Top = 272
   Width = 1280
+  BorderStyle = bsSingle
   Caption = 'Menú'
   ClientHeight = 677
   ClientWidth = 1280
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  LCLVersion = '2.2.6.0'
+  Position = poScreenCenter
+  LCLVersion = '2.2.0.4'
   object Image1: TImage
     Left = 0
     Height = 730
@@ -11264,6 +11266,7 @@ object Form3: TForm3
     Height = 90
     Top = 448
     Width = 232
+    OnClick = Image9Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B477261706869635624000089504E47
       0D0A1A0A0000000D49484452000000D2000000540806000000F7706987000024
@@ -13105,10 +13108,10 @@ object Form3: TForm3
     }
   end
   object Sonido: TImage
-    Left = 1176
-    Height = 58
-    Top = 584
-    Width = 64
+    Left = 1200
+    Height = 77
+    Top = 600
+    Width = 80
     AutoSize = True
     OnClick = SonidoClick
   end

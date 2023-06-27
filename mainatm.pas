@@ -47,19 +47,20 @@ type
   { TForm9 }
 
   TForm9 = class(TForm)
-    Button1: TButton;
     Image1: TImage;
+    Image2: TImage;
+    Image3: TImage;
     torre1: TImage;
     torre2: TImage;
     torre3: TImage;
     Image5: TImage;
     Image6: TImage;
     Image7: TImage;
-    procedure Button1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
-   // procedure FormCreate(Sender: TObject);
+    // procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Image2Click(Sender: TObject);
+    procedure Image3Click(Sender: TObject);
 
   private
 
@@ -68,7 +69,7 @@ type
     procedure crearPilas(tamanio: integer);
 
     //resolver automatico
-     procedure SetNumero(Numero: Integer);
+    procedure SetNumero(Numero: integer);
     procedure nuevoJuego();
     procedure cargarDatosJuego;
     function obtenerVelocidad(numDiscos: integer): integer;
@@ -80,11 +81,11 @@ var
 
   //pilas para las torres
   pilaTorre1, pilaTorre2, pilaTorre3: TPilaTorre;
-  FNumero: Integer;//numero para cargar los fondos
+  FNumero: integer;//numero para cargar los fondos
   //variables para la resolucion automatica
   hiloLeerMovs: TReadThread;
   velocidad: integer;
-  rutaImg: String;//para obtener la ruta de las imagenes a cargar
+  rutaImg: string;//para obtener la ruta de las imagenes a cargar
 
 
   archivoMovimientos: string;
@@ -95,8 +96,8 @@ var
 implementation
 
     {$R *.lfm}
-    uses
-      nivelesAutomatico;
+uses
+  nivelesAutomatico;
 
 { TForm9 }
 
@@ -121,20 +122,6 @@ begin
 
 end;
 
-
-
-procedure TForm9.Button1Click(Sender: TObject);
-
-begin
-
-  //LeerMovimientos(archivoMovimientos);
-  hiloLeerMovs := TReadThread.Create(pilaTorre1, pilaTorre3, pilaTorre2,
-    archivoMovimientos);
-  hiloLeerMovs.Start;
-  hiloLeerMovs.WaitFor;
-
-end;
-
 procedure TForm9.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   Application.Terminate;
@@ -145,19 +132,19 @@ procedure TForm9.FormShow(Sender: TObject);
 var
   F: file of TMovimientos;
 begin
-     //********************************************************************************************************************
-    rutaImg := obtenerRutaImagen(Application.ExeName);
-        // Cargamos la imagen con la ruta
-    Image1.Picture.LoadFromFile(rutaImg + '/fondos/fondo' + IntToStr(FNumero) + '.png');
-        crearPilas(FNumero);
-        cargarDatosJuego;
-        cargarTorre(1,FNumero,pilaTorre1);
-   // cargarTorre(1,FNumero,pilaTorre1);
+  //********************************************************************************************************************
+  rutaImg := obtenerRutaImagen(Application.ExeName);
+  // Cargamos la imagen con la ruta
+  Image1.Picture.LoadFromFile(rutaImg + '/fondos/fondo' + IntToStr(FNumero) + '.png');
+  crearPilas(FNumero);
+  cargarDatosJuego;
+  cargarTorre(1, FNumero, pilaTorre1);
+  // cargarTorre(1,FNumero,pilaTorre1);
 
 
 
-    velocidad := 16;
-     //se crea el archivo que contendra los movimientos en caso de que no exista
+  velocidad := 16;
+  //se crea el archivo que contendra los movimientos en caso de que no exista
   if not FileExists(archivoMovimientos) then
   begin
     AssignFile(F, archivoMovimientos);
@@ -168,14 +155,23 @@ end;
 
 procedure TForm9.Image2Click(Sender: TObject);
 var
-  Form12:TForm12;
+  Form12: TForm12;
 begin
   Hide;
-  Form12:=TForm12.Create(nil);
+  Form12 := TForm12.Create(nil);
   Form12.Show;
 
 end;
 
+procedure TForm9.Image3Click(Sender: TObject);
+begin
+  //LeerMovimientos(archivoMovimientos);
+  hiloLeerMovs := TReadThread.Create(pilaTorre1, pilaTorre3, pilaTorre2,
+    archivoMovimientos);
+  hiloLeerMovs.Start;
+  hiloLeerMovs.WaitFor;
+  Image3.Enabled:=False;
+end;
 
 procedure TReadThread.Execute;
 
@@ -230,48 +226,48 @@ begin
   begin
 
     //animar el alzar el disco (movimiento en el eje y)
-  while disco.top - disco.Height > FSource.GetCoordenadaY -
-    FSource.GetContenedor.Top do
+    while disco.top - disco.Height > FSource.GetCoordenadaY -
+      FSource.GetContenedor.Top do
 
-  begin
-    //movimiento en y
-    disco.posicionDisco(disco.Left, disco.top - i);
-    Disco.Repaint;
-
-    i := i + velocidad;
-  end;
-    //fin de animar en y
-
-  //movimiento en x
-  if FSource.GetCoordenadaX < FDestination.GetCoordenadaX then
-  begin
-    while disco.Left < FDestination.GetCoordenadaX do
     begin
-
-      disco.posicionDisco(disco.Left + j, disco.top);
-
-      disco.Repaint;
-      j := j + velocidad;
-
-    end;
-  end
-  else
-
-  begin
-
-    while disco.Left > FDestination.GetCoordenadaX do
-    begin
-      disco.posicionDisco(disco.Left - j, disco.top);
+      //movimiento en y
+      disco.posicionDisco(disco.Left, disco.top - i);
       Disco.Repaint;
 
+      i := i + velocidad;
+    end;
+    //fin de animar en y
 
-      j := j + velocidad;
+    //movimiento en x
+    if FSource.GetCoordenadaX < FDestination.GetCoordenadaX then
+    begin
+      while disco.Left < FDestination.GetCoordenadaX do
+      begin
+
+        disco.posicionDisco(disco.Left + j, disco.top);
+
+        disco.Repaint;
+        j := j + velocidad;
+
+      end;
+    end
+    else
+
+    begin
+
+      while disco.Left > FDestination.GetCoordenadaX do
+      begin
+        disco.posicionDisco(disco.Left - j, disco.top);
+        Disco.Repaint;
+
+
+        j := j + velocidad;
+
+      end;
 
     end;
 
-  end;
-
-  FDestination.Push(Disco);
+    FDestination.Push(Disco);
   end
   else
   begin
@@ -279,11 +275,11 @@ begin
 
     //movimiento en y
     disco.posicionDisco(disco.Left, disco.top - FSource.GetCoordenadaY -
-    FSource.GetContenedor.Top);
+      FSource.GetContenedor.Top);
     Disco.Repaint;
 
 
-  FDestination.Push(Disco);
+    FDestination.Push(Disco);
   end;
 
 end;
@@ -293,19 +289,19 @@ end;
 //fin Resolver el juego de las Torres de Hanoi de manera automatica
 
 
-procedure TForm9.cargarTorre(numPila,numDisco: Integer; pila: TPilaTorre);
+procedure TForm9.cargarTorre(numPila, numDisco: integer; pila: TPilaTorre);
 var
   ancho, i: integer;
   imgDisco: integer;
   discoAux: TImgDisco;
 begin
   rutaImg := obtenerRutaImagen(Application.ExeName);
-  ancho := 60+(numDisco*30);
-  imgDisco:= 8 - (numDisco-1);
+  ancho := 60 + (numDisco * 30);
+  imgDisco := 8 - (numDisco - 1);
   for i := 0 to numDisco - 1 do
   begin
 
-    discoAux := TImgDisco.Create(Self,ancho);
+    discoAux := TImgDisco.Create(Self, ancho);
 
     // Cargamos la imagen con la ruta
     discoAux.Picture.LoadFromFile(rutaImg + '/discos/i' + IntToStr(imgDisco) + '.png');
@@ -313,7 +309,7 @@ begin
     // Guardamos el disco en la pila
     pila.Push(discoAux);
     ancho := ancho - 30;
-    imgDisco:=imgDisco+1;
+    imgDisco := imgDisco + 1;
   end;
 end;
 
@@ -354,14 +350,14 @@ end;
 
 procedure TForm9.cargarDatosJuego;
 var
-  Rutadat: String;
+  Rutadat: string;
 begin
   Rutadat := ExtractFilePath(Application.ExeName);
- // ShowMessage(Rutadat);
-  archivoMovimientos :=Rutadat+'/Leveldat/lvl' + IntToStr(FNumero - 2) + '.dat';
+  // ShowMessage(Rutadat);
+  archivoMovimientos := Rutadat + '/Leveldat/lvl' + IntToStr(FNumero - 2) + '.dat';
 end;
 
-    procedure TForm9.SetNumero(Numero: Integer);
+procedure TForm9.SetNumero(Numero: integer);
 begin
   FNumero := Numero;
 end;
@@ -372,7 +368,7 @@ var
   numDisc: integer;
 begin
   // Ocultar el formulario actual (Form9)
-  numDisc:= FNumero;
+  numDisc := FNumero;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
@@ -388,6 +384,3 @@ end;
 
 
 end.
-
-
-

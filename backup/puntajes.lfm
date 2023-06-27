@@ -1,15 +1,17 @@
 object Form6: TForm6
-  Left = 2238
+  Left = 2367
   Height = 695
-  Top = 138
+  Top = 334
   Width = 1280
+  BorderStyle = bsSingle
   Caption = 'Puntajes'
   ClientHeight = 695
   ClientWidth = 1280
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  LCLVersion = '2.2.6.0'
+  Position = poScreenCenter
+  LCLVersion = '2.2.0.4'
   object Image1: TImage
     Left = 0
     Height = 720
@@ -4431,10 +4433,10 @@ object Form6: TForm6
     }
   end
   object Sonido: TImage
-    Left = 1136
-    Height = 90
-    Top = 592
-    Width = 90
+    Left = 1200
+    Height = 82
+    Top = 613
+    Width = 82
     OnClick = SonidoClick
   end
   object Image2: TImage
@@ -4918,6 +4920,7 @@ object Form6: TForm6
     Height = 90
     Top = 176
     Width = 98
+    OnClick = Image4Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B47726170686963B53B000089504E47
       0D0A1A0A0000000D494844520000006B0000005F0806000000EF5439B700003B
@@ -5405,6 +5408,7 @@ object Form6: TForm6
     Height = 90
     Top = 280
     Width = 98
+    OnClick = Image5Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B47726170686963DF3B000089504E47
       0D0A1A0A0000000D494844520000006B0000005F0806000000EF5439B700003B
@@ -5893,6 +5897,7 @@ object Form6: TForm6
     Height = 90
     Top = 72
     Width = 98
+    OnClick = Image6Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B47726170686963EB3A000089504E47
       0D0A1A0A0000000D494844520000006B0000005F0806000000EF5439B700003A
@@ -6374,6 +6379,7 @@ object Form6: TForm6
     Height = 90
     Top = 176
     Width = 98
+    OnClick = Image7Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B47726170686963593A000089504E47
       0D0A1A0A0000000D494844520000006B0000005F0806000000EF5439B700003A
@@ -6850,6 +6856,7 @@ object Form6: TForm6
     Height = 90
     Top = 280
     Width = 98
+    OnClick = Image8Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B477261706869636A3A000089504E47
       0D0A1A0A0000000D494844520000006B0000005F0806000000EF5439B700003A
@@ -7322,13 +7329,33 @@ object Form6: TForm6
       4E44AE426082
     }
   end
-  object ListBox1: TListBox
+  object StringGrid1: TStringGrid
     Left = 440
-    Height = 416
-    Top = 186
+    Height = 456
+    Top = 136
     Width = 352
-    ItemHeight = 0
+    AutoFillColumns = True
+    Color = clActiveCaption
+    ColCount = 3
+    DefaultColWidth = 80
+    DefaultRowHeight = 60
+    FixedColor = clActiveCaption
+    Font.Height = -21
+    Font.Name = 'Ubuntu'
+    Font.Pitch = fpFixed
+    Font.Style = [fsBold]
+    GridLineStyle = psDash
+    ParentFont = False
+    RowCount = 10
     TabOrder = 0
-    TopIndex = -1
+    TitleFont.Height = -27
+    TitleFont.Name = 'Sans'
+    TitleFont.Pitch = fpFixed
+    TitleFont.Style = [fsBold, fsItalic]
+    ColWidths = (
+      80
+      128
+      129
+    )
   end
 end

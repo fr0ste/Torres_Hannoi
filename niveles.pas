@@ -5,7 +5,8 @@ unit niveles;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,bass,funciones;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+  StdCtrls, bass, funciones;
 
 type
 
@@ -33,23 +34,28 @@ type
     procedure Label5Click(Sender: TObject);
     procedure Label6Click(Sender: TObject);
     procedure SonidoClick(Sender: TObject);
+    constructor Create(UserID: Integer); // Constructor personalizado
   private
-
+    IdUsuario:Integer;
   public
-     rutaImg: String;//para obtener la ruta de las imagenes a cargar
-   fname:String;
-   Bstream: dword; // Canal del audio
-   isPaused: boolean;
+    rutaImg: string;//para obtener la ruta de las imagenes a cargar
+    fname: string;
+    Bstream: dword; // Canal del audio
+    isPaused: boolean;
+
   end;
 
 var
   Form7: TForm7;
 
+  {agregado de la variable, despues se cambiará a privado**********************}
+
+
 implementation
 
 {$R *.lfm}
 uses
-  main,mainAtm,menuInicio;
+  main, mainAtm, menuInicio;
 
 { TForm7 }
 
@@ -58,11 +64,14 @@ var
   Form1: TForm1;
   numDisc: integer;
 begin
-  numDisc:=3;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  numDisc := 3;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(false);
+  Form1 := TForm1.Create(False,IdUsuario);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
@@ -73,7 +82,7 @@ end;
 
 procedure TForm7.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-      Application.Terminate;
+  Application.Terminate;
 end;
 
 procedure TForm7.FormCreate(Sender: TObject);
@@ -83,24 +92,27 @@ end;
 
 procedure TForm7.FormShow(Sender: TObject);
 begin
-        BASS_Free;
-      // Inicializa el sistema de audio BASS con la configuración predeterminada
+  //BASS_Free;
+  // Inicializa el sistema de audio BASS con la configuración predeterminada
   BASS_Init(-1, 44100, 0, nil, nil);
-  fname:=ExtractFilePath(Application.ExeName)+'/Audios/AudioMenu.mp3';
-       //ShowMessage(fname);
-      PlayMP3(fname);
-       rutaImg := obtenerRutaImagen(Application.ExeName);
-     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
-      isPaused := false;
+  //fname:=ExtractFilePath(Application.ExeName)+'/Audios/AudioMenu.mp3';
+  //ShowMessage(fname);
+  //  PlayMP3(fname);
+  rutaImg := obtenerRutaImagen(Application.ExeName);
+  Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sinsonido.png');
+  isPaused := False;
 end;
 
 procedure TForm7.Image2Click(Sender: TObject);
 var
-  Form3:TForm3;
+  Form3: TForm3;
 begin
-      Hide;
-      Form3:=TForm3.Create(nil);
-      Form3.Show;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  Hide;
+  Form3 := TForm3.Create(IdUsuario);
+  Form3.Show;
 end;
 
 procedure TForm7.Label1MouseEnter(Sender: TObject);
@@ -113,11 +125,14 @@ var
   Form1: TForm1;
   numDisc: integer;
 begin
-  numDisc:=4;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  numDisc := 4;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(false);
+  Form1 := TForm1.Create(False,IdUsuario);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
@@ -131,11 +146,14 @@ var
   Form1: TForm1;
   numDisc: integer;
 begin
-  numDisc:=5;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  numDisc := 5;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(false);
+  Form1 := TForm1.Create(False,IdUsuario);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
@@ -149,11 +167,14 @@ var
   Form1: TForm1;
   numDisc: integer;
 begin
-  numDisc:=6;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  numDisc := 6;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(false);
+  Form1 := TForm1.Create(False,IdUsuario);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
@@ -167,11 +188,14 @@ var
   Form1: TForm1;
   numDisc: integer;
 begin
-  numDisc:=7;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  numDisc := 7;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(false);
+  Form1 := TForm1.Create(False,IdUsuario);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
@@ -185,11 +209,14 @@ var
   Form1: TForm1;
   numDisc: integer;
 begin
-  numDisc:=8;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  numDisc := 8;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(false);
+  Form1 := TForm1.Create(False,IdUsuario);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
@@ -200,13 +227,16 @@ end;
 
 procedure TForm7.SonidoClick(Sender: TObject);
 begin
-    if isPaused then
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  if isPaused then
   begin
-       Pause(isPaused);
+    Pause(isPaused);
     rutaImg := obtenerRutaImagen(Application.ExeName);
-     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
+    Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sinsonido.png');
     //BtnPausePlay.Caption := 'Pause';
-    isPaused := false;
+    isPaused := False;
   end
   else
   begin
@@ -214,11 +244,18 @@ begin
 
     Pause(isPaused);
     rutaImg := obtenerRutaImagen(Application.ExeName);
-     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sonido.png');
+    Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sonido.png');
     //BtnPausePlay.Caption := 'Reanudar';
-    isPaused := true;
+    isPaused := True;
   end;
 end;
 
-end.
 
+constructor TForm7.Create(UserID: Integer);
+begin
+  inherited Create(nil);
+  IdUsuario:= UserID;
+  // Resto del código de inicialización del formulario...
+end;
+
+end.

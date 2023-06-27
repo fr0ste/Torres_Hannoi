@@ -8,7 +8,7 @@ object Form10: TForm10
   ClientWidth = 1280
   OnClose = FormClose
   OnShow = FormShow
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '2.2.0.4'
   object Image1: TImage
     Left = 0
     Height = 738
@@ -5072,5 +5072,6 @@ object Form10: TForm10
     Height = 90
     Top = 616
     Width = 90
+    OnClick = SonidoClick
   end
 end

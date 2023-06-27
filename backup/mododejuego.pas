@@ -5,7 +5,7 @@ unit modoDeJuego;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs,bass,funciones;
 
 type
   TForm11 = class(TForm)

@@ -5,7 +5,8 @@ unit ManualOAutomatico;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,bass,funciones;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+  StdCtrls, bass, funciones;
 
 type
 
@@ -24,13 +25,14 @@ type
     procedure Label1Click(Sender: TObject);
     procedure Label2Click(Sender: TObject);
     procedure SonidoClick(Sender: TObject);
+    constructor Create(UserID: Integer); // Constructor personalizado
   private
 
   public
-    fname:String;
-     isPaused: boolean;
-      rutaImg: String;//para obtener la ruta de las imagenes a cargar
-       Bstream: dword; // Canal del audio
+    fname: string;
+    isPaused: boolean;
+    rutaImg: string;//para obtener la ruta de las imagenes a cargar
+    Bstream: dword; // Canal del audio
   end;
 
 var
@@ -40,46 +42,59 @@ implementation
 
 {$R *.lfm}
 uses
-  menuInicio,niveles,nivelesAutomatico;
+  menuInicio, niveles, nivelesAutomatico;
 
 { TForm11 }
 
 procedure TForm11.Image6Click(Sender: TObject);
 var
-  Form3:TForm3;
+  Form3: TForm3;
 begin
+   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
   Hide;
-  Form3:=TForm3.Create(nil);
+  Form3 := TForm3.Create(IdUsuario);
   Form3.Show;
 end;
 
 procedure TForm11.Label1Click(Sender: TObject);
 var
-  Form12:TForm12;
+  Form12: TForm12;
 begin
+   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
   Hide;
-  Form12:=TForm12.Create(nil);
-  Form12.Show; end;
+  Form12 := TForm12.Create(nil);
+  Form12.Show;
+end;
 
 procedure TForm11.Label2Click(Sender: TObject);
 var
-  Form7:TForm7;
+  Form7: TForm7;
 begin
+   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
   Hide;
-  Form7:=TForm7.Create(nil);
+  Form7 := TForm7.Create(IdUsuario);
   Form7.Show;
 
 end;
 
 procedure TForm11.SonidoClick(Sender: TObject);
 begin
-     if isPaused then
+  if isPaused then
   begin
-       Pause(isPaused);
+     fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+    Pause(isPaused);
     rutaImg := obtenerRutaImagen(Application.ExeName);
-     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
+    Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sinsonido.png');
     //BtnPausePlay.Caption := 'Pause';
-    isPaused := false;
+    isPaused := False;
   end
   else
   begin
@@ -87,34 +102,41 @@ begin
 
     Pause(isPaused);
     rutaImg := obtenerRutaImagen(Application.ExeName);
-     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sonido.png');
+    Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sonido.png');
     //BtnPausePlay.Caption := 'Reanudar';
-    isPaused := true;
+    isPaused := True;
   end;
 end;
 
 procedure TForm11.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-       Application.Terminate;
+  Application.Terminate;
 end;
 
 procedure TForm11.FormCreate(Sender: TObject);
 begin
-    //BASS_Free;
-      // Inicializa el sistema de audio BASS con la configuración predeterminada
+  //BASS_Free;
+  // Inicializa el sistema de audio BASS con la configuración predeterminada
   //BASS_Init(-1, 44100, 0, nil, nil);
-        rutaImg := obtenerRutaImagen(Application.ExeName);
-     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
-      isPaused := false;
+  rutaImg := obtenerRutaImagen(Application.ExeName);
+  Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sinsonido.png');
+  isPaused := False;
 end;
 
 procedure TForm11.FormShow(Sender: TObject);
 begin
   //fname:=ExtractFilePath(Application.ExeName)+'Cancion3.mp3';
-       //ShowMessage(fname);
-      // PlayMP3(fname);
+  //ShowMessage(fname);
+  // PlayMP3(fname);
+end;
+
+
+constructor TForm11.Create(UserID: Integer);
+begin
+  inherited Create(nil);
+  IdUsuario:= UserID;
+  // Resto del código de inicialización del formulario...
 end;
 
 
 end.
-

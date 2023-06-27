@@ -5,7 +5,8 @@ unit DBConection;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, stdctrls, SQLDB, TransaccionesMySQL,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  SQLDB, TransaccionesMySQL,
   mysql80conn;
 
 type
@@ -32,8 +33,7 @@ implementation
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
-     listarUsuarios;
+  listarUsuarios;
 end;
 
 end.
-

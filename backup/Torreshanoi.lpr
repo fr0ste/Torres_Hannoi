@@ -10,9 +10,9 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, main, Funciones, Disco, PilaTorre, Iniciar, menuInicio, login,
+  Forms, main, Funciones, Disco, PilaTorre, menuInicio, login,
   historia, puntajes, niveles, registro, mainAtm, creditos, ManualOAutomatico,
-  nivelesAutomatico, unit1;
+  nivelesAutomatico, TransaccionesMySQL, mensajes;
 
 {$R *.res}
 

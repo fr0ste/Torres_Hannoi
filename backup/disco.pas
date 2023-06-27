@@ -13,7 +13,7 @@ type
  private
  public
    numPila: integer; // Nueva propiedad para almacenar la pila de origen
-   numDisco: integer;
+   numDisco: integer;//Numero de disco
    constructor Create(AOwner: TComponent;ancho:integer); reintroduce;
    procedure posicionDisco(x,y:Integer);
    function getWidth():Integer;

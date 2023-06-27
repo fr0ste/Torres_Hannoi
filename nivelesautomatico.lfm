@@ -1,20 +1,23 @@
 object Form12: TForm12
   Left = 2177
   Height = 720
-  Top = 126
-  Width = 1280
+  Top = 132
+  Width = 1282
+  BorderStyle = bsSingle
   Caption = 'Niveles Automaticos'
   ClientHeight = 720
-  ClientWidth = 1280
+  ClientWidth = 1282
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  LCLVersion = '2.2.6.0'
+  Position = poScreenCenter
+  LCLVersion = '2.2.0.4'
   object Image1: TImage
     Left = 0
     Height = 720
     Top = 0
     Width = 1288
+    OnClick = Image1Click
     Picture.Data = {
       0A544A706567496D6167657E1F0200FFD8FFE000104A46494600010101006000
       600000FFE100BC45786966000049492A00080000000600120103000100000001
@@ -4817,7 +4820,6 @@ object Form12: TForm12
     Top = 304
     Width = 85
     AutoSize = False
-    ParentColor = False
     OnClick = Label1Click
   end
   object Label2: TLabel
@@ -4826,7 +4828,6 @@ object Form12: TForm12
     Top = 304
     Width = 85
     AutoSize = False
-    ParentColor = False
     OnClick = Label2Click
   end
   object Label3: TLabel
@@ -4835,7 +4836,6 @@ object Form12: TForm12
     Top = 304
     Width = 85
     AutoSize = False
-    ParentColor = False
     OnClick = Label3Click
   end
   object Label4: TLabel
@@ -4844,7 +4844,6 @@ object Form12: TForm12
     Top = 304
     Width = 85
     AutoSize = False
-    ParentColor = False
     OnClick = Label4Click
   end
   object Label5: TLabel
@@ -4853,7 +4852,6 @@ object Form12: TForm12
     Top = 408
     Width = 85
     AutoSize = False
-    ParentColor = False
     OnClick = Label5Click
   end
   object Label6: TLabel
@@ -4862,14 +4860,13 @@ object Form12: TForm12
     Top = 400
     Width = 85
     AutoSize = False
-    ParentColor = False
     OnClick = Label6Click
   end
   object Sonido: TImage
-    Left = 1141
-    Height = 89
-    Top = 599
-    Width = 115
+    Left = 1200
+    Height = 80
+    Top = 640
+    Width = 80
     AutoSize = True
     OnClick = SonidoClick
   end

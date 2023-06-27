@@ -11,14 +11,17 @@ function crearImagen(AOwner: TWinControl; ancho: integer): TImgDisco;
 function obtenerRutaImagen(rutaApp: String): String;
 function ValidarDisco(disco,discoenTop:TImgDisco):boolean;
 procedure PlayMP3(FileName: string);
+procedure PlayBoton(FileName: string);
 procedure Pause(isPause: Boolean);
 procedure Tabla(Grid:TStringGrid);
 function EsAlfaNumerico(ch: char): boolean;
 function EsLetra(ch: char): boolean;
 function EsDigito(ch: char): boolean;
 function EsCaracterEspecial(ch: Char): Boolean;
+function CalcularPuntaje(tiempo, nivel: Integer): Integer;
 var
  Bstream: dword; // Canal del audio
+ BstreamBoton:dword;
 implementation
 
 
@@ -71,6 +74,31 @@ begin
   // Reproduce el canal de audio
   BASS_ChannelPlay(BStream, False);
 end;
+
+procedure PlayBoton(FileName: string);
+var
+  flags: DWORD;
+  err: integer;
+  Vol: single;
+
+begin
+  // Configura las opciones de reproducción
+  flags := BASS_STREAM_PRESCAN;
+  flags := flags or  BASS_Sample_Float;
+
+  // Crea un canal de transmisión de audio a partir del archivo especificado
+  BstreamBoton := BASS_StreamCreateFile(False, PChar(Filename), 0, 0, flags);
+
+
+  // Establece el volumen del canal de audio
+  BASS_ChannelSetAttribute(BstreamBoton, BASS_ATTRIB_VOL, 0.3);
+
+  // Obtiene el código de error actual (si lo hay)
+  err := BASS_ErrorGetCode;
+
+  // Reproduce el canal de audio
+  BASS_ChannelPlay(BstreamBoton, False);
+end;
  procedure Pause(isPause: Boolean);
  begin
    if isPause then
@@ -104,9 +132,6 @@ end;
     //asignar titulos
     for i:=1 to rows do
         Grid.Cells[0,i]:='Jose'+ IntToStr(i);
-
-
-
      for i:=1 to rows do
          for j:=1 to cols do
          Grid.Cells[j,i]:=IntToStr(RandomRange(18,57));
@@ -135,7 +160,24 @@ begin
   Result := ch in CaracteresEspeciales;
 end;
 
+function CalcularPuntaje(tiempo, nivel: Integer): Integer;
+const
+  ValorBaseNivel: array[1..6] of Integer = (100, 200, 300, 400, 500, 600);
+  FactorConversion: Real = 0.5;
+var
+  puntaje: Integer;
+begin
+  if (tiempo >= 0) and (nivel >= 1) and (nivel <= 6) then
+  begin
+    puntaje := ValorBaseNivel[nivel] - Round(tiempo * FactorConversion);
+    if (puntaje < 0) then
+      puntaje := 0;
+  end
+  else
+    puntaje := 0;
 
+  Result := puntaje;
+end;
 
 
 end.

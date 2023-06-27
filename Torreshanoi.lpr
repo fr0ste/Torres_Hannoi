@@ -10,9 +10,9 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, main, Funciones, Disco, PilaTorre, Iniciar, menuInicio, login,
+  Forms, main, Funciones, Disco, PilaTorre, menuInicio, login,
   historia, puntajes, niveles, registro, mainAtm, creditos, ManualOAutomatico,
-  nivelesAutomatico, TransaccionesMySQL;
+  nivelesAutomatico, TransaccionesMySQL, mensajes;
 
 {$R *.res}
 
@@ -22,7 +22,6 @@ begin
   Application.Initialize;
     Application.CreateForm(TForm4, Form4);
     Application.CreateForm(TForm3, Form3);
-    Application.CreateForm(TForm2, Form2);
   Application.CreateForm(TForm1, Form1);
   Application.CreateForm(TForm5, Form5);
   Application.CreateForm(TForm6, Form6);

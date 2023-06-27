@@ -1,15 +1,15 @@
 object Form7: TForm7
-  Left = 2077
-  Height = 720
-  Top = 94
+  Left = 2227
+  Height = 714
+  Top = 132
   Width = 1280
   Caption = 'Niveles Manuales'
-  ClientHeight = 720
+  ClientHeight = 714
   ClientWidth = 1280
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '2.2.0.4'
   object Image1: TImage
     Left = 0
     Height = 724
@@ -4374,7 +4374,6 @@ object Form7: TForm7
     Top = 304
     Width = 78
     AutoSize = False
-    ParentColor = False
     OnClick = Label1Click
     OnMouseEnter = Label1MouseEnter
   end
@@ -4385,7 +4384,6 @@ object Form7: TForm7
     Top = 304
     Width = 78
     AutoSize = False
-    ParentColor = False
     OnClick = Label2Click
   end
   object Label3: TLabel
@@ -4395,7 +4393,6 @@ object Form7: TForm7
     Top = 304
     Width = 72
     AutoSize = False
-    ParentColor = False
     OnClick = Label3Click
   end
   object Label4: TLabel
@@ -4405,7 +4402,6 @@ object Form7: TForm7
     Top = 304
     Width = 72
     AutoSize = False
-    ParentColor = False
     OnClick = Label4Click
   end
   object Label5: TLabel
@@ -4415,7 +4411,6 @@ object Form7: TForm7
     Top = 408
     Width = 72
     AutoSize = False
-    ParentColor = False
     OnClick = Label5Click
   end
   object Label6: TLabel
@@ -4425,7 +4420,6 @@ object Form7: TForm7
     Top = 408
     Width = 72
     AutoSize = False
-    ParentColor = False
     OnClick = Label6Click
   end
   object Image2: TImage
@@ -4873,10 +4867,10 @@ object Form7: TForm7
     }
   end
   object Sonido: TImage
-    Left = 1144
-    Height = 90
-    Top = 608
-    Width = 90
+    Left = 1198
+    Height = 74
+    Top = 640
+    Width = 82
     OnClick = SonidoClick
   end
 end

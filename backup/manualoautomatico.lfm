@@ -1,7 +1,7 @@
 object Form11: TForm11
-  Left = 2088
+  Left = 2132
   Height = 720
-  Top = 192
+  Top = 153
   Width = 1280
   Caption = 'Modo de Juego'
   ClientHeight = 720
@@ -9,7 +9,7 @@ object Form11: TForm11
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '2.2.0.4'
   object Image1: TImage
     Left = 0
     Height = 720
@@ -5044,7 +5044,6 @@ object Form11: TForm11
     Top = 368
     Width = 152
     AutoSize = False
-    ParentColor = False
     OnClick = Label1Click
   end
   object Label2: TLabel
@@ -5053,14 +5052,13 @@ object Form11: TForm11
     Top = 368
     Width = 152
     AutoSize = False
-    ParentColor = False
     OnClick = Label2Click
   end
   object Sonido: TImage
-    Left = 1163
-    Height = 90
-    Top = 608
-    Width = 90
+    Left = 1198
+    Height = 82
+    Top = 640
+    Width = 82
     OnClick = SonidoClick
   end
 end

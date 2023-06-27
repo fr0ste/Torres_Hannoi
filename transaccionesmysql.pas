@@ -5,11 +5,11 @@ unit TransaccionesMySQL;
 interface
 
 uses
-  Classes, SysUtils, SQLDB, mysql80conn, Dialogs, PilaTorre;
+  Classes, SysUtils, SQLDB, mysql80conn, Dialogs, PilaTorre, Funciones, mensajes;
 
 type
   TIntegerArray = array of integer;
-  TStringArray =  array of array of  string;
+  TStringArray = array of array of string;
 
 
 function EstablecerConexionBD: TMySQL80Connection;
@@ -18,13 +18,18 @@ procedure CerrarConexionDB(SQLTransaction: TSQLTransaction; SQLQuery: TSQLQuery;
 function ObtenerDiscos(id: integer; idPila: integer): TIntegerArray;
 procedure PrintIntegerArray(var arr: TIntegerArray);
 function obtenerIdPartida(const idUsuario: integer): integer;
-function ValidarUsuario(const nombre,contrasena:String): Integer ;
-procedure guardarPartida(idUsuario, tiempo: integer; pila1, pila2, pila3: TPilaTorre);
+function ValidarUsuario(const nombre, contrasena: string): integer;
+procedure guardarPartida(idUsuario, tiempo,nivel: integer; pila1, pila2, pila3: TPilaTorre; ParentComponent: TComponent; rutaImg: String);
 procedure guardarPila(idPartida: integer; pila: TPilaTorre);
 procedure guardarDisco(idPartida, idDisco, idPila: integer);
-procedure borrarJuego(idPartida: Integer);
-function crearUsuario(user, pwd: string): Integer;
-function obtenerPuntaje(nivel: Integer):TStringArray;
+procedure borrarJuego(idPartida: integer);
+function crearUsuario(user, pwd: string): integer;
+function obtenerPuntaje(nivel: integer): TStringArray;
+function existePartida(idUsuario: integer): integer;
+function obtenerNumeroDiscos(idPartida: integer): integer;
+procedure guardarTiempoNivel(idUsuario,tiempo,nivel: Integer);
+function obtenerTiempoBD(idUsuario: integer): integer;
+procedure guardarPuntajeTiempo(idUsuario,tiempo,nivel: Integer);
 
 implementation
 
@@ -37,7 +42,7 @@ begin
     Connection.HostName := 'localhost'; // Configura la conexión a la base de datos
     Connection.DatabaseName := 'Hanoi';
     Connection.UserName := 'root';
-    Connection.Password := 'froste';
+    Connection.Password := 'Oscar12';
     Connection.Open;
     Result := Connection;
   except
@@ -129,7 +134,6 @@ end;
 
 function obtenerIdPartida(const idUsuario: integer): integer;
 var
-  arr: TIntegerArray;
   SQLTransaction: TSQLTransaction;
   SQLQuery: TSQLQuery;
   Connection: TMySQL80Connection;
@@ -151,13 +155,14 @@ begin
     SQLTransaction.StartTransaction;
 
     try
-      SQLQuery.SQL.Text := 'select Hanoi.obtenerIdPartida(' + IntToStr(1) + ');';
+      SQLQuery.SQL.Text := 'select Hanoi.obtenerIdPartida(' +
+        IntToStr(idUsuario) + ') as id;';
       // Consulta SQL que deseas ejecutar
       SQLQuery.Open;
-      SetLength(arr, SQLQuery.RecordCount);
 
 
-      id := SQLQuery.FieldByName('Hanoi.obtenerIdPartida(1)').AsInteger;
+
+      id := SQLQuery.FieldByName('id').AsInteger;
 
 
       SQLQuery.Close;
@@ -176,11 +181,6 @@ begin
   CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
 end;
 
- (*
- *
- *
- *
- *)
 procedure guardarDisco(idPartida, idDisco, idPila: integer);
 var
 
@@ -231,7 +231,7 @@ end;
  *
  *
  *)
-procedure guardarPartida(idUsuario, tiempo: integer; pila1, pila2, pila3: TPilaTorre);
+procedure guardarPartida(idUsuario, tiempo,nivel: integer; pila1, pila2, pila3: TPilaTorre; ParentComponent: TComponent; rutaImg: String);
 var
   idPartida: integer;
 begin
@@ -241,7 +241,9 @@ begin
   guardarPila(idPartida, pila1);
   guardarPila(idPartida, pila2);
   guardarPila(idPartida, pila3);
-  ShowMessage('partida guardada');
+  guardarTiempoNivel(idUsuario,tiempo,nivel);
+  MostrarImagenEmergente(rutaImg + '/mensajes/partidaGuardada.png', ParentComponent);
+
 end;
 
 procedure guardarPila(idPartida: integer; pila: TPilaTorre);
@@ -253,54 +255,9 @@ begin
   end;
 end;
 
-procedure borrarJuego(idPartida: Integer);
-  var
-
-    SQLTransaction: TSQLTransaction;
-    SQLQuery: TSQLQuery;
-    Connection: TMySQL80Connection;
-  begin
-
-    SQLTransaction := TSQLTransaction.Create(nil);
-    SQLQuery := TSQLQuery.Create(nil);
-    //abrimos la conexion a la base de datos
-    Connection := EstablecerConexionBD;
-
-    //iniciamos la transaccion
-    if Connection.Connected then
-    begin
-      SQLTransaction.Database := Connection;
-      SQLQuery.Database := Connection;
-      SQLQuery.Transaction := SQLTransaction;
-
-      SQLTransaction.StartTransaction;
-
-      try
-        SQLQuery.SQL.Text := 'call Hanoi.borrarJuego(:partida)';
-        // Consulta SQL que deseas ejecutar
-        SQLQuery.Params.ParamByName('partida').AsInteger := idPartida;
-
-        SQLQuery.ExecSQL; // Ejecutamos la consulta
-
-        SQLTransaction.Commit;
-
-      except
-        SQLTransaction.Rollback;
-        raise;
-      end;
-    end
-    else
-    begin
-      ShowMessage('No se pudo establecer la conexión a la base de datos');
-    end;
-
-    CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
-  end;
-
-
-Function ValidarUsuario(const nombre, contrasena: String): Integer;
+procedure borrarJuego(idPartida: integer);
 var
-       id: Integer = 0;
+
   SQLTransaction: TSQLTransaction;
   SQLQuery: TSQLQuery;
   Connection: TMySQL80Connection;
@@ -309,7 +266,7 @@ begin
   SQLTransaction := TSQLTransaction.Create(nil);
   SQLQuery := TSQLQuery.Create(nil);
   //abrimos la conexion a la base de datos
-  Connection:=EstablecerConexionBD;
+  Connection := EstablecerConexionBD;
 
   //iniciamos la transaccion
   if Connection.Connected then
@@ -320,14 +277,56 @@ begin
 
     SQLTransaction.StartTransaction;
 
-     try
-       SQLQuery.SQL.Text := 'select Hanoi.userExist(:nombre, :contrasena) as existe';
-       // Consulta SQL que deseas ejecutar
-       SQLQuery.Params.ParamByName('nombre').AsString := nombre;
-       SQLQuery.Params.ParamByName('contrasena').AsString := contrasena;
+    try
+      SQLQuery.SQL.Text := 'call Hanoi.borrarJuego(:partida)';
+      // Consulta SQL que deseas ejecutar
+      SQLQuery.Params.ParamByName('partida').AsInteger := idPartida;
 
-     // SQLQuery.SQL.Text := 'select Hanoi.userExist('+ nombre+ ','+ contrasena +') as existe;';
-       //SQLQuery.SQL.Text := 'select Hanoi.userExist('+'d'+', '+'d'+') as existe;';
+      SQLQuery.ExecSQL; // Ejecutamos la consulta
+
+      SQLTransaction.Commit;
+
+    except
+      SQLTransaction.Rollback;
+      raise;
+    end;
+  end
+  else
+  begin
+    ShowMessage('No se pudo establecer la conexión a la base de datos');
+  end;
+
+  CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
+end;
+
+
+function ValidarUsuario(const nombre, contrasena: string): integer;
+var
+  id: integer = 0;
+  SQLTransaction: TSQLTransaction;
+  SQLQuery: TSQLQuery;
+  Connection: TMySQL80Connection;
+begin
+
+  SQLTransaction := TSQLTransaction.Create(nil);
+  SQLQuery := TSQLQuery.Create(nil);
+  //abrimos la conexion a la base de datos
+  Connection := EstablecerConexionBD;
+
+  //iniciamos la transaccion
+  if Connection.Connected then
+  begin
+    SQLTransaction.Database := Connection;
+    SQLQuery.Database := Connection;
+    SQLQuery.Transaction := SQLTransaction;
+
+    SQLTransaction.StartTransaction;
+
+    try
+      SQLQuery.SQL.Text := 'select Hanoi.userExist(:nombre, :contrasena) as existe';
+      // Consulta SQL que deseas ejecutar
+      SQLQuery.Params.ParamByName('nombre').AsString := nombre;
+      SQLQuery.Params.ParamByName('contrasena').AsString := contrasena;
 
 
       // Consulta SQL que deseas ejecutar
@@ -335,7 +334,7 @@ begin
 
 
 
-       id:= SQLQuery.FieldByName('existe').AsInteger;
+      id := SQLQuery.FieldByName('existe').AsInteger;
 
 
       SQLQuery.Close;
@@ -352,17 +351,17 @@ begin
 
   end;
 
-   Result:= id;
-  CerrarConexionDB(SQLTransaction,SQLQuery,Connection);
+  Result := id;
+  CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
 end;
 
 //devolvemos un 1 si ya existe el usuario y un 0 si se pudo crear
-function crearUsuario(user, pwd: string): Integer;
+function crearUsuario(user, pwd: string): integer;
 var
   SQLTransaction: TSQLTransaction;
   SQLQuery: TSQLQuery;
   Connection: TMySQL80Connection;
-  bandera: Integer;
+  bandera: integer;
 begin
   SQLTransaction := TSQLTransaction.Create(nil);
   SQLQuery := TSQLQuery.Create(nil);
@@ -404,62 +403,300 @@ begin
   CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
 end;
 
-function obtenerPuntaje(nivel:Integer):TStringArray;
-  var
-    arr: TStringArray;
-    SQLTransaction: TSQLTransaction;
-    SQLQuery: TSQLQuery;
-    Connection: TMySQL80Connection;
-    i: integer = 0;
+
+function obtenerPuntaje(nivel: integer): TStringArray;
+var
+  arr: TStringArray;
+  SQLTransaction: TSQLTransaction;
+  SQLQuery: TSQLQuery;
+  Connection: TMySQL80Connection;
+  i: integer = 0;
+begin
+
+  SQLTransaction := TSQLTransaction.Create(nil);
+  SQLQuery := TSQLQuery.Create(nil);
+  //abrimos la conexion a la base de datos
+  Connection := EstablecerConexionBD;
+
+  //iniciamos la transaccion
+  if Connection.Connected then
   begin
+    SQLTransaction.Database := Connection;
+    SQLQuery.Database := Connection;
+    SQLQuery.Transaction := SQLTransaction;
 
-    SQLTransaction := TSQLTransaction.Create(nil);
-    SQLQuery := TSQLQuery.Create(nil);
-    //abrimos la conexion a la base de datos
-    Connection := EstablecerConexionBD;
+    SQLTransaction.StartTransaction;
 
-    //iniciamos la transaccion
-    if Connection.Connected then
-    begin
-      SQLTransaction.Database := Connection;
-      SQLQuery.Database := Connection;
-      SQLQuery.Transaction := SQLTransaction;
+    try
+      SQLQuery.SQL.Text := 'call Hanoi.obtenerTiempoPuntaje(' + IntToStr(nivel) + ')';
+      // Consulta SQL que deseas ejecutar
+      SQLQuery.Open;
+      SetLength(arr, SQLQuery.RecordCount);
+      i := 0;
+      while not SQLQuery.EOF do
+      begin
 
-      SQLTransaction.StartTransaction;
 
-      try
-        SQLQuery.SQL.Text := 'call Hanoi.obtenerUsuarioTiempo('+IntToStr(nivel)+')';
-        // Consulta SQL que deseas ejecutar
-        SQLQuery.Open;
-        SetLength(arr, SQLQuery.RecordCount);
+        SetLength(arr[i], 2); // Inicializar cada elemento como un array de longitud 2
+        arr[i][0] := SQLQuery.FieldByName('nombre').AsString;
+        arr[i][1] := IntToStr(CalcularPuntaje(
+          StrToInt(SQLQuery.FieldByName('tiempo').AsString), nivel));
+        SQLQuery.Next;
+        Inc(i);
 
-        while not SQLQuery.EOF do
-        begin
-          // Accede a los campos de cada registro
-          // ...
-          arr[i][0] := SQLQuery.FieldByName('nombre').AsAnsiString;
-          arr[i][1] := SQLQuery.FieldByName('puntaje').AsAnsiString;
-          SQLQuery.Next;
-          i := i + 1;
-
-        end;
-
-        SQLQuery.Close;
-        SQLTransaction.Commit;
-      except
-        SQLTransaction.Rollback;
-        raise;
       end;
-    end
-    else
-    begin
-      ShowMessage('No se pudo establecer la conexión a la base de datos');
 
+      SQLQuery.Close;
+      SQLTransaction.Commit;
+    except
+      SQLTransaction.Rollback;
+      raise;
     end;
+  end
+  else
+  begin
+    ShowMessage('No se pudo establecer la conexión a la base de datos');
 
-    Result := arr;
-    CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
+  end;
+
+  Result := arr;
+  CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
+end;
+
+function existePartida(idUsuario: integer): integer;
+var
+  SQLTransaction: TSQLTransaction;
+  SQLQuery: TSQLQuery;
+  Connection: TMySQL80Connection;
+  id: integer = 0;
+begin
+
+  SQLTransaction := TSQLTransaction.Create(nil);
+  SQLQuery := TSQLQuery.Create(nil);
+  //abrimos la conexion a la base de datos
+  Connection := EstablecerConexionBD;
+
+  //iniciamos la transaccion
+  if Connection.Connected then
+  begin
+    SQLTransaction.Database := Connection;
+    SQLQuery.Database := Connection;
+    SQLQuery.Transaction := SQLTransaction;
+
+    SQLTransaction.StartTransaction;
+
+    try
+      SQLQuery.SQL.Text := 'select Hanoi.existPartida(' +
+        IntToStr(idUsuario) + ') as id;';
+      // Consulta SQL que deseas ejecutar
+      SQLQuery.Open;
+      id := SQLQuery.FieldByName('id').AsInteger;
+
+      SQLQuery.Close;
+      SQLTransaction.Commit;
+    except
+      SQLTransaction.Rollback;
+      raise;
     end;
+  end
+  else
+  begin
+    ShowMessage('No se pudo establecer la conexión a la base de datos');
+  end;
+
+  Result := id;
+  CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
+end;
+
+function obtenerNumeroDiscos(idPartida: integer): integer;
+var
+  SQLTransaction: TSQLTransaction;
+  SQLQuery: TSQLQuery;
+  Connection: TMySQL80Connection;
+  discos: integer = 0;
+begin
+
+  SQLTransaction := TSQLTransaction.Create(nil);
+  SQLQuery := TSQLQuery.Create(nil);
+  //abrimos la conexion a la base de datos
+  Connection := EstablecerConexionBD;
+
+  //iniciamos la transaccion
+  if Connection.Connected then
+  begin
+    SQLTransaction.Database := Connection;
+    SQLQuery.Database := Connection;
+    SQLQuery.Transaction := SQLTransaction;
+
+    SQLTransaction.StartTransaction;
+
+    try
+      SQLQuery.SQL.Text := 'select Hanoi.obtenerNumeroDiscos(' +
+        IntToStr(idPartida) + ')as total;';
+      // Consulta SQL que deseas ejecutar
+      SQLQuery.Open;
+
+
+
+      discos := SQLQuery.FieldByName('total').AsInteger;
+
+
+      SQLQuery.Close;
+      SQLTransaction.Commit;
+    except
+      SQLTransaction.Rollback;
+      raise;
+    end;
+  end
+  else
+  begin
+    ShowMessage('No se pudo establecer la conexión a la base de datos');
+  end;
+
+  Result := discos;
+  CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
+end;
+
+procedure guardarTiempoNivel(idUsuario,tiempo,nivel: Integer);
+var
+  SQLTransaction: TSQLTransaction;
+  SQLQuery: TSQLQuery;
+  Connection: TMySQL80Connection;
+begin
+  SQLTransaction := TSQLTransaction.Create(nil);
+  SQLQuery := TSQLQuery.Create(nil);
+  //abrimos la conexion a la base de datos
+  Connection := EstablecerConexionBD;
+
+  //iniciamos la transaccion
+  if Connection.Connected then
+  begin
+    SQLTransaction.Database := Connection;
+    SQLQuery.Database := Connection;
+    SQLQuery.Transaction := SQLTransaction;
+
+    SQLTransaction.StartTransaction;
+
+    try
+      SQLQuery.SQL.Text := 'call Hanoi.actualizarTiempoNivel(:idUsuario, :tiempo, :nivel);';
+      // Consulta SQL que deseas ejecutar
+      SQLQuery.Params.ParamByName('idUsuario').AsInteger := idUsuario;
+      SQLQuery.Params.ParamByName('tiempo').AsInteger := tiempo;
+      SQLQuery.Params.ParamByName('nivel').AsInteger := nivel;
+      // Consulta SQL que deseas ejecutar
+
+
+      SQLQuery.ExecSQL; // Ejecutamos la consulta
+
+      SQLTransaction.Commit;
+    except
+      SQLTransaction.Rollback;
+      raise;
+    end;
+  end
+  else
+  begin
+    ShowMessage('No se pudo establecer la conexión a la base de datos');
+  end;
+
+
+  CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
+end;
+
+function obtenerTiempoBD(idUsuario: integer): integer;
+var
+  SQLTransaction: TSQLTransaction;
+  SQLQuery: TSQLQuery;
+  Connection: TMySQL80Connection;
+  tiempo: integer = 0;
+begin
+
+  SQLTransaction := TSQLTransaction.Create(nil);
+  SQLQuery := TSQLQuery.Create(nil);
+  //abrimos la conexion a la base de datos
+  Connection := EstablecerConexionBD;
+
+  //iniciamos la transaccion
+  if Connection.Connected then
+  begin
+    SQLTransaction.Database := Connection;
+    SQLQuery.Database := Connection;
+    SQLQuery.Transaction := SQLTransaction;
+
+    SQLTransaction.StartTransaction;
+
+    try
+      SQLQuery.SQL.Text := 'select Hanoi.obtenerTiempo('+IntToStr(idUsuario)+') as tiempo;';
+      // Consulta SQL que deseas ejecutar
+      SQLQuery.Open;
+
+
+
+      tiempo := SQLQuery.FieldByName('tiempo').AsInteger;
+
+
+      SQLQuery.Close;
+      SQLTransaction.Commit;
+    except
+      SQLTransaction.Rollback;
+      raise;
+    end;
+  end
+  else
+  begin
+    ShowMessage('No se pudo establecer la conexión a la base de datos');
+  end;
+
+  Result := tiempo;
+  CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
+end;
+
+
+procedure guardarPuntajeTiempo(idUsuario,tiempo,nivel: Integer);
+var
+  SQLTransaction: TSQLTransaction;
+  SQLQuery: TSQLQuery;
+  Connection: TMySQL80Connection;
+begin
+  SQLTransaction := TSQLTransaction.Create(nil);
+  SQLQuery := TSQLQuery.Create(nil);
+  //abrimos la conexion a la base de datos
+  Connection := EstablecerConexionBD;
+
+  //iniciamos la transaccion
+  if Connection.Connected then
+  begin
+    SQLTransaction.Database := Connection;
+    SQLQuery.Database := Connection;
+    SQLQuery.Transaction := SQLTransaction;
+
+    SQLTransaction.StartTransaction;
+
+    try
+      SQLQuery.SQL.Text := 'call Hanoi.guardarPuntajeTiempo(:idUsuario, :tiempo, :nivel);';
+      // Consulta SQL que deseas ejecutar
+      SQLQuery.Params.ParamByName('idUsuario').AsInteger := idUsuario;
+      SQLQuery.Params.ParamByName('tiempo').AsInteger := tiempo;
+      SQLQuery.Params.ParamByName('nivel').AsInteger := nivel;
+      // Consulta SQL que deseas ejecutar
+
+
+      SQLQuery.ExecSQL; // Ejecutamos la consulta
+
+      SQLTransaction.Commit;
+    except
+      SQLTransaction.Rollback;
+      raise;
+    end;
+  end
+  else
+  begin
+    ShowMessage('No se pudo establecer la conexión a la base de datos');
+  end;
+
+
+  CerrarConexionDB(SQLTransaction, SQLQuery, Connection);
+end;
 
 
 

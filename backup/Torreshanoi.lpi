@@ -135,6 +135,10 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="TransaccionesMySQL"/>
       </Unit>
+      <Unit>
+        <Filename Value="mensajes.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

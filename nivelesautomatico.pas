@@ -5,14 +5,15 @@ unit nivelesAutomatico;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls,bass,funciones;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+  StdCtrls, bass, funciones;
 
 type
 
   { TForm12 }
 
   TForm12 = class(TForm)
-     Image1: TImage;
+    Image1: TImage;
     Image2: TImage;
     Sonido: TImage;
     Label1: TLabel;
@@ -24,6 +25,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure Image1Click(Sender: TObject);
     procedure Image2Click(Sender: TObject);
     procedure Label1Click(Sender: TObject);
     procedure Label2Click(Sender: TObject);
@@ -35,9 +37,9 @@ type
   private
 
   public
-
-    rutaImg: String;//para obtener la ruta de las imagenes a cargar
-   isPaused: boolean;
+    fname: string;
+    rutaImg: string;//para obtener la ruta de las imagenes a cargar
+    isPaused: boolean;
   end;
 
 var
@@ -47,48 +49,59 @@ implementation
 
 {$R *.lfm}
 uses
-  mainAtm,menuInicio;
+  mainAtm, menuInicio;
 
 { TForm12 }
 
 procedure TForm12.Image2Click(Sender: TObject);
 var
-  Form3:TForm3;
+  Form3: TForm3;
 begin
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
   Hide;
-  Form3:=TForm3.Create(nil);
+  Form3 := TForm3.Create(IdUsuario);
   Form3.Show;
 
 end;
 
 procedure TForm12.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
-     Application.Terminate;
+  Application.Terminate;
 end;
 
 procedure TForm12.FormCreate(Sender: TObject);
 begin
   //BASS_Free;
-      // Inicializa el sistema de audio BASS con la configuración predeterminada
+  // Inicializa el sistema de audio BASS con la configuración predeterminada
   //BASS_Init(-1, 44100, 0, nil, nil);
 end;
 
 procedure TForm12.FormShow(Sender: TObject);
 begin
-       rutaImg := obtenerRutaImagen(Application.ExeName);
-     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
-      isPaused := false;
-   //fname:=ExtractFilePath(Application.ExeName)+'BandaMisteriosaRango.mp3';
-       //ShowMessage(fname);
-       //PlayMP3(fname);
+  rutaImg := obtenerRutaImagen(Application.ExeName);
+  Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sinsonido.png');
+  isPaused := False;
+  //fname:=ExtractFilePath(Application.ExeName)+'BandaMisteriosaRango.mp3';
+  //ShowMessage(fname);
+  //PlayMP3(fname);
+end;
+
+procedure TForm12.Image1Click(Sender: TObject);
+begin
+
 end;
 
 procedure TForm12.Label1Click(Sender: TObject);
 var
-  Farm9:TForm9;
+  Farm9: TForm9;
   numDisc: integer;
 begin
-  numDisc:=3;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  numDisc := 3;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
@@ -104,10 +117,13 @@ end;
 
 procedure TForm12.Label2Click(Sender: TObject);
 var
-  Farm9:TForm9;
+  Farm9: TForm9;
   numDisc: integer;
 begin
-  numDisc:=4;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  numDisc := 4;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
@@ -122,10 +138,13 @@ end;
 
 procedure TForm12.Label3Click(Sender: TObject);
 var
-  Farm9:TForm9;
+  Farm9: TForm9;
   numDisc: integer;
 begin
-  numDisc:=5;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  numDisc := 5;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
@@ -140,10 +159,13 @@ end;
 
 procedure TForm12.Label4Click(Sender: TObject);
 var
-  Farm9:TForm9;
+  Farm9: TForm9;
   numDisc: integer;
 begin
-  numDisc:=6;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  numDisc := 6;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
@@ -158,10 +180,13 @@ end;
 
 procedure TForm12.Label5Click(Sender: TObject);
 var
-  Farm9:TForm9;
+  Farm9: TForm9;
   numDisc: integer;
 begin
-  numDisc:=7;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  numDisc := 7;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
@@ -176,10 +201,13 @@ end;
 
 procedure TForm12.Label6Click(Sender: TObject);
 var
-  Farm9:TForm9;
+  Farm9: TForm9;
   numDisc: integer;
 begin
-  numDisc:=8;
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
+  //ShowMessage(fname);
+  PlayBoton(fname);
+  numDisc := 8;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
@@ -194,14 +222,14 @@ end;
 
 procedure TForm12.SonidoClick(Sender: TObject);
 begin
-   // Si la reproducción está pausada, se reanuda la reproducción
+  // Si la reproducción está pausada, se reanuda la reproducción
   if isPaused then
   begin
-       Pause(isPaused);
+    Pause(isPaused);
     rutaImg := obtenerRutaImagen(Application.ExeName);
-     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sinsonido.png');
+    Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sinsonido.png');
     //BtnPausePlay.Caption := 'Pause';
-    isPaused := false;
+    isPaused := False;
   end
   else
   begin
@@ -209,11 +237,10 @@ begin
 
     Pause(isPaused);
     rutaImg := obtenerRutaImagen(Application.ExeName);
-     Sonido.Picture.LoadFromFile(rutaImg+'/fondos/sonido.png');
+    Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sonido.png');
     //BtnPausePlay.Caption := 'Reanudar';
-    isPaused := true;
+    isPaused := True;
   end;
 end;
 
 end.
-

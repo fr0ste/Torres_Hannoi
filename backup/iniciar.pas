@@ -1,4 +1,4 @@
-unit Iniciar;
+unit Inicia;
 
 {$mode ObjFPC}{$H+}
 
@@ -44,11 +44,11 @@ var
   numDisc: integer;
 begin
   // Ocultar el formulario actual (Form1)
-  numDisc:= SpinEdit1.Value+2;
+  numDisc := SpinEdit1.Value + 2;
   Hide;
 
   // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(nil);
+  Form1 := TForm1.Create(False,IdUsuario);
 
   // Pasar el número como parámetro al formulario Form2
   Form1.SetNumero(numDisc);
@@ -63,4 +63,3 @@ begin
 end;
 
 end.
-
