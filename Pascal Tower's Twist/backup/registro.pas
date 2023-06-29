@@ -112,7 +112,8 @@ begin
     end
     else
     begin
-      ShowMessage('Las contraseñas no coinciden');
+       rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
+    MostrarImagenEmergente(rutaImg + '/mensajes/noCoinciden.png', Form8);
     end;
   end
   else
