@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 2348
+  Left = 380
   Height = 720
-  Top = 340
+  Top = 170
   Width = 1280
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
@@ -18581,7 +18581,6 @@ object Form1: TForm1
     Height = 392
     Top = 152
     Width = 60
-    OnClick = torre1Click
     Picture.Data = {
       1754506F727461626C654E6574776F726B477261706869636049000089504E47
       0D0A1A0A0000000D494844520000003C0000018A0806000000501822AE000001
