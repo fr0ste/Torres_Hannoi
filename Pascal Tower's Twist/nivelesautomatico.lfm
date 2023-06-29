@@ -1,7 +1,7 @@
 object Form12: TForm12
-  Left = 2177
+  Left = 2124
   Height = 720
-  Top = 132
+  Top = 355
   Width = 1282
   BorderStyle = bsSingle
   Caption = 'Niveles Automaticos'

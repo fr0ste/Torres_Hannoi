@@ -1,7 +1,8 @@
 (*
-  fecha de creacion:
-  fecha de actualización:
-  descripción:
+  fecha de creacion: 26/05/2023
+  fecha de actualización:29/06/2023
+  descripción: En esta unidad se modifican las vistas dandole una sola medida y
+  estilo a cada una, asi como el diseño de los mensajes emergentes en las vistas
 *)
 unit mensajes;
 
@@ -25,17 +26,17 @@ var
   Imagen: TImage;
   ButtonAceptar: TButton;
 begin
-  // Creamos el formulario personalizado sin barra superior
+  (*Creamos el formulario personalizado sin barra superior*)
   FormImagen := TForm.CreateNew(nil, 0);
   try
-    // Configuramos las propiedades del formulario
-    FormImagen.BorderStyle := bsNone;  // Sin borde
-    //FormImagen.Position := poScreenCenter; // Centramos el formulario en la pantalla
-    FormImagen.Position := poDesigned; // Posición relativa al formulario padre
+    (*Configuramos las propiedades del formulario*)
+    FormImagen.BorderStyle := bsNone; (*Sin borde*)
+    //FormImagen.Position := poScreenCenter;(*Centramos el formulario en la pantalla*)
+    FormImagen.Position := poDesigned;(*Posición relativa al formulario padre*)
     FormImagen.Width := 400;
     FormImagen.Height := 250;
 
-    // Ajustamos la posición del formulario para centrarlo en el formulario padre
+    (*Ajustamos la posición del formulario para centrarlo en el padre*)
     FormImagen.Left := TForm(ParentComponent).Left +
       (TForm(ParentComponent).Width - FormImagen.Width) div 2;
     FormImagen.Top := TForm(ParentComponent).Top +
@@ -78,7 +79,6 @@ var
   Image1: TImage;
   ButtonAceptar, ButtonCancelar: TButton;
 
-
 begin
   Result := False;
 
@@ -113,7 +113,7 @@ begin
     ButtonAceptar.Caption := 'Aceptar';
     ButtonAceptar.Left := (FormImagen.Width div 2) - 100;
     ButtonAceptar.Top := FormImagen.Height - ButtonAceptar.Height - 20;
-    ButtonAceptar.ModalResult := mrOK;  // Asignamos el resultado modal al botón Aceptar
+    ButtonAceptar.ModalResult := mrOk;  // Asignamos el resultado modal al botón Aceptar
 
     ButtonCancelar := TButton.Create(FormImagen);
     ButtonCancelar.Parent := FormImagen;
@@ -126,7 +126,7 @@ begin
 
     // Mostramos el formulario emergente de forma modal
 
-      if FormImagen.ShowModal = mrOk then
+    if FormImagen.ShowModal = mrOk then
       Result := True;
 
   finally

@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="43" Y="24"/>
-        <UsageCount Value="165"/>
+        <UsageCount Value="166"/>
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -18,10 +18,10 @@
         <ComponentName Value="Form1"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="161"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="226"/>
         <CursorPos X="50" Y="185"/>
-        <UsageCount Value="165"/>
+        <UsageCount Value="166"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -31,7 +31,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="68"/>
         <CursorPos X="62" Y="97"/>
-        <UsageCount Value="160"/>
+        <UsageCount Value="161"/>
       </Unit>
       <Unit>
         <Filename Value="disco.pas"/>
@@ -39,7 +39,7 @@
         <UnitName Value="Disco"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="53" Y="14"/>
-        <UsageCount Value="153"/>
+        <UsageCount Value="154"/>
       </Unit>
       <Unit>
         <Filename Value="pilatorre.pas"/>
@@ -48,7 +48,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="76"/>
         <CursorPos Y="108"/>
-        <UsageCount Value="63"/>
+        <UsageCount Value="64"/>
       </Unit>
       <Unit>
         <Filename Value="iniciar.pas"/>
@@ -59,7 +59,7 @@
         <UnitName Value="Iniciar"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="30" Y="14"/>
-        <UsageCount Value="116"/>
+        <UsageCount Value="117"/>
       </Unit>
       <Unit>
         <Filename Value="menuinicio.pas"/>
@@ -68,10 +68,11 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="menuInicio"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="52"/>
-        <CursorPos X="3" Y="70"/>
-        <UsageCount Value="113"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="52" Y="98"/>
+        <UsageCount Value="114"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="login.pas"/>
@@ -79,10 +80,9 @@
         <ComponentName Value="Form4"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="49"/>
-        <CursorPos X="16" Y="84"/>
-        <UsageCount Value="113"/>
+        <EditorIndex Value="6"/>
+        <CursorPos X="27" Y="7"/>
+        <UsageCount Value="114"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -94,7 +94,7 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="2" Y="70"/>
-        <UsageCount Value="111"/>
+        <UsageCount Value="112"/>
       </Unit>
       <Unit>
         <Filename Value="puntajes.pas"/>
@@ -105,7 +105,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="81"/>
         <CursorPos X="71" Y="108"/>
-        <UsageCount Value="111"/>
+        <UsageCount Value="112"/>
       </Unit>
       <Unit>
         <Filename Value="niveles.pas"/>
@@ -116,7 +116,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="204"/>
         <CursorPos X="31" Y="219"/>
-        <UsageCount Value="110"/>
+        <UsageCount Value="111"/>
       </Unit>
       <Unit>
         <Filename Value="registro.pas"/>
@@ -124,11 +124,9 @@
         <ComponentName Value="Form8"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="99"/>
-        <CursorPos X="64" Y="116"/>
-        <UsageCount Value="107"/>
+        <EditorIndex Value="3"/>
+        <CursorPos X="63" Y="116"/>
+        <UsageCount Value="108"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -141,7 +139,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="10"/>
         <CursorPos X="70" Y="22"/>
-        <UsageCount Value="102"/>
+        <UsageCount Value="103"/>
       </Unit>
       <Unit>
         <Filename Value="manualoautomatico.pas"/>
@@ -150,10 +148,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ManualOAutomatico"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="106"/>
-        <CursorPos X="22" Y="137"/>
-        <UsageCount Value="100"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="107"/>
+        <CursorPos X="3" Y="127"/>
+        <UsageCount Value="101"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="nivelesautomatico.pas"/>
@@ -162,10 +163,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="nivelesAutomatico"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="103"/>
-        <CursorPos X="36" Y="127"/>
-        <UsageCount Value="99"/>
+        <EditorIndex Value="4"/>
+        <UsageCount Value="100"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="transaccionesmysql.pas"/>
@@ -174,14 +175,14 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="47"/>
         <CursorPos X="26" Y="47"/>
-        <UsageCount Value="89"/>
+        <UsageCount Value="90"/>
       </Unit>
       <Unit>
         <Filename Value="mensajes.pas"/>
         <IsPartOfProject Value="True"/>
-        <TopLine Value="70"/>
-        <CursorPos X="30" Y="70"/>
-        <UsageCount Value="52"/>
+        <TopLine Value="109"/>
+        <CursorPos X="45" Y="133"/>
+        <UsageCount Value="53"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -229,10 +230,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="mainAtm"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="130"/>
+        <EditorIndex Value="7"/>
         <CursorPos Y="157"/>
-        <UsageCount Value="14"/>
+        <UsageCount Value="16"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -350,7 +350,7 @@
         <UsageCount Value="8"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="10">
+    <JumpHistory HistoryIndex="16">
       <Position>
         <Filename Value="mainatm.pas"/>
         <Caret Line="177" Column="60" TopLine="163"/>
@@ -394,6 +394,30 @@
       <Position>
         <Filename Value="registro.pas"/>
         <Caret Line="122" Column="6" TopLine="94"/>
+      </Position>
+      <Position>
+        <Filename Value="menuinicio.pas"/>
+        <Caret Line="233" Column="48" TopLine="226"/>
+      </Position>
+      <Position>
+        <Filename Value="menuinicio.pas"/>
+        <Caret Line="99" Column="77" TopLine="193"/>
+      </Position>
+      <Position>
+        <Filename Value="menuinicio.pas"/>
+        <Caret Line="152" Column="33" TopLine="146"/>
+      </Position>
+      <Position>
+        <Filename Value="menuinicio.pas"/>
+        <Caret Line="197" Column="33" TopLine="193"/>
+      </Position>
+      <Position>
+        <Filename Value="menuinicio.pas"/>
+        <Caret Line="209" Column="32" TopLine="193"/>
+      </Position>
+      <Position>
+        <Filename Value="menuinicio.pas"/>
+        <Caret Line="141" Column="30" TopLine="219"/>
       </Position>
     </JumpHistory>
     <RunParams>
