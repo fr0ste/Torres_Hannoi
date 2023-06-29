@@ -1,7 +1,7 @@
 (*
-  fecha de creacion:
-  fecha de actualización:
-  descripción:
+  fecha de creacion: 26/05/2023
+  fecha de actualización:29/06/2023
+  descripción: clase para mostrar un poco de historia sobre las torres de hanoi
 *)
 unit historia;
 
@@ -55,7 +55,9 @@ begin
   Form3 := TForm3.Create(IdUsuario);
   Form3.Show;
 end;
-
+    (*
+      Al cerra la aplicacion se termina la ejecucion
+    *)
 procedure TForm5.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   Application.Terminate;
@@ -76,7 +78,9 @@ begin
   Form3 := TForm3.Create(IdUsuario);
   Form3.Show;
 end;
-
+     (*
+     comprueba si se esta reporduciendo o no la musica cada que se la click
+     *)
 procedure TForm5.SonidoClick(Sender: TObject);
 begin
   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
@@ -103,12 +107,14 @@ begin
   end;
 end;
 
-
+     (*
+     Al crear el form define Asigna el id del usuario
+     *)
 constructor TForm5.Create(UserID: Integer);
 begin
   inherited Create(nil);
   IdUsuario:= UserID;
-  // Resto del código de inicialización del formulario...
+
 end;
 
 

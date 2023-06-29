@@ -1,3 +1,9 @@
+(*
+  fecha de creacion: 26/05/2023
+  fecha de actualización:29/06/2023
+  descripción: Caracteristicas del disco para su comparacion, creacion y
+               posicionamiento
+*)
 unit Disco;
 
 {$mode objfpc}{$H+}
@@ -21,7 +27,9 @@ type
   end;
 
 implementation
-
+(*
+Crea un disco con todas sus caracteristicas
+*)
 constructor TImgDisco.Create(AOwner: TComponent; ancho: integer);
 begin
   inherited Create(AOwner);
@@ -31,13 +39,18 @@ begin
   Top := 0;
   Parent := AOwner as TWinControl;
 end;
-
+ (*
+ determina la posicion del disco en los ejes "X" y "Y"
+ *)
 procedure TImgDisco.posicionDisco(x, y: integer);
 begin
   Left := x;
   Top := y;
 end;
-
+  (*
+    Nos da el tamaño del disco para compararlo con otro disco y saber cuyal es
+    mas grande
+  *)
 function TImgDisco.getWidth(): integer;
 begin
   Result := Width;

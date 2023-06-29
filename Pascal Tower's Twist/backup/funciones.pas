@@ -1,7 +1,7 @@
 (*
-  fecha de creacion:
-  fecha de actualización:
-  descripción:
+  fecha de creacion: 26/05/2023
+  fecha de actualización:29/06/2023
+  descripción: Funciones para validacion y reproduccion
 *)
 
 unit Funciones;
@@ -32,12 +32,14 @@ var
 
 implementation
 
-
+(*Crea una imagen para los discos*)
 function crearImagen(AOwner: TWinControl; ancho: integer): TImgDisco;
 begin
   Result := TImgDisco.Create(AOwner, ancho);
 end;
-
+(*
+Obtiene la ruta de la imagen tomando la ruta original de la aplicacion
+*)
 function obtenerRutaImagen(rutaApp: string): string;
 var
   ruta: string;
@@ -46,7 +48,10 @@ begin
   ruta := IncludeTrailingPathDelimiter(ruta) + 'img' + PathDelim;
   Result := ruta;
 end;
-
+  (*
+  valida el tamaño del disco para que no se ponga un disco mas grande en uno
+  pequeño
+  *)
 function ValidarDisco(disco, discoenTop: TImgDisco): boolean;
 var
   bandera: boolean;
@@ -83,7 +88,9 @@ begin
   // Reproduce el canal de audio
   BASS_ChannelPlay(BStream, False);
 end;
-
+(*
+  Reproduce el sonido de los botones
+*)
 procedure PlayBoton(FileName: string);
 var
   flags: DWORD;
@@ -108,24 +115,25 @@ begin
   // Reproduce el canal de audio
   BASS_ChannelPlay(BstreamBoton, False);
 end;
-
+   (*
+     Dependiendo de si la reproduccion esta pausada o en curso se ejecuta alguna
+     opcion del if
+   *)
 procedure Pause(isPause: boolean);
 begin
   if isPause then
   begin
     BASS_ChannelPlay(Bstream, False);
-    //BtnPausePlay.Caption := 'Pause';
-
   end
   else
   begin
     // Si la reproducción está en curso, se pausa la reproducción
     BASS_ChannelPause(Bstream);
-    //BtnPausePlay.Caption := 'Reanudar';
-
   end;
 end;
-
+   (*
+   Rellena la tabal de puntajes
+   *)
 procedure Tabla(Grid: TStringGrid);
 var
   rows: integer;
@@ -147,22 +155,30 @@ begin
       Grid.Cells[j, i] := IntToStr(RandomRange(18, 57));
 end;
 
-
+ (*
+ Comprueba si lo ingresado en un Edit es una letra o digito
+ *)
 function EsAlfaNumerico(ch: char): boolean;
 begin
   Result := EsLetra(ch) or EsDigito(ch);
 end;
-
+  (*
+ Comprueba si lo ingresado en un Edit es una letra
+ *)
 function EsLetra(ch: char): boolean;
 begin
   Result := (ch >= 'A') and (ch <= 'Z') or (ch >= 'a') and (ch <= 'z');
 end;
-
+(*
+Comprueba si lo ingresado en un Edit es un digito
+*)
 function EsDigito(ch: char): boolean;
 begin
   Result := (ch >= '0') and (ch <= '9');
 end;
-
+      (*
+ Comprueba si lo ingresado en un Edit es un caracter especial
+ *)
 function EsCaracterEspecial(ch: char): boolean;
 const
   CaracteresEspeciales = ['!', '@', '#', '$', '%', '&'];

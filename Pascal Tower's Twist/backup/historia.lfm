@@ -10,7 +10,7 @@ object Form5: TForm5
   OnClose = FormClose
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.6.0'
   object Image1: TImage
     Left = 0
     Height = 730
@@ -5820,16 +5820,8 @@ object Form5: TForm5
       E33D71D6916DFFD9
     }
   end
-  object Button1: TButton
-    Left = 56
-    Height = 25
-    Top = 144
-    Width = 75
-    Caption = 'Regresar'
-    OnClick = Button1Click
-    TabOrder = 0
-  end
   object Sonido: TImage
+    Cursor = crHandPoint
     Left = 1198
     Height = 82
     Top = 640
@@ -5837,6 +5829,7 @@ object Form5: TForm5
     OnClick = SonidoClick
   end
   object Image2: TImage
+    Cursor = crHandPoint
     Left = 8
     Height = 90
     Top = 8
