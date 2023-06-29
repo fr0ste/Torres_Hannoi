@@ -1,7 +1,8 @@
 (*
-  fecha de creacion:
-  fecha de actualización:
-  descripción:
+  fecha de creacion: 26/05/2023
+  fecha de actualización:29/06/2023
+  descripción: Esta clase se encarga de controlar la ejecución del tiempo en
+  las partidas
 *)
 unit Tiempo;
 
@@ -33,6 +34,9 @@ type
 
 implementation
 
+(*
+  Crea el cornometro
+*)
 constructor TTiempoCronometro.Create;
 begin
   inherited Create(nil);
@@ -41,9 +45,9 @@ begin
   Paused := False;
 end;
 
-//procedure TTiempoCronometro.IniciarTimer(var labelTiempo: TLabel);
-//var
-//  Hours, Minutes, Seconds, Milliseconds: word;
+(*
+Inicializa el timer para su reproduccion
+*)
 procedure TTiempoCronometro.IniciarTimer(var labelTiempo: TLabel);
 var
   Hours, Minutes, Seconds, Milliseconds: word;
@@ -67,7 +71,9 @@ begin
   labelTiempo.Caption := Format('%.2d:%.2d:%.2d', [Hours, Minutes, Seconds]);
 end;
 
-
+ (*
+ Pausa el timer para que no se pierda el tiempo
+ *)
 procedure TTiempoCronometro.Pausar;
 begin
   Paused := True;
@@ -75,6 +81,9 @@ begin
 
 end;
 
+   (*
+   Reinicia el timer cada que se inicia un nuevo nivel
+   *)
 procedure TTiempoCronometro.Reiniciar;
 begin
   Paused := True;
@@ -83,6 +92,9 @@ begin
   ElapsedTime := 0;
 end;
 
+    (*
+    Cuando se reanuda se toma el tiempo que se dejo
+    *)
 procedure TTiempoCronometro.Continuar;
 begin
   if Paused then
@@ -93,13 +105,16 @@ begin
 
   end;
 end;
-
-
+(*
+  Devuelve el tiempo en milisegundos
+*)
 function TTiempoCronometro.MillisecondsBetween(const DT1, DT2: TDateTime): int64;
 begin
   Result := Round(MillisecondsBetweenFloat(DT1, DT2));
 end;
-
+(*
+Devuelve el tiempo en floats
+*)
 function TTiempoCronometro.MillisecondsBetweenFloat(const DT1, DT2: TDateTime): double;
 begin
   Result := (DT2 - DT1) * MSecsPerDay;
@@ -112,7 +127,7 @@ end;
 
 procedure TTiempoCronometro.setTiempo(tiempo: integer);
 var
-  Horas, Minutos, segundos: Word;
+  Horas, Minutos, segundos: word;
 begin
 
   horas := tiempo div 3600; // Obtener las horas
