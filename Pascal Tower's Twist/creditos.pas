@@ -1,7 +1,9 @@
 (*
   fecha de creacion: 26/05/2023
   fecha de actualización:29/06/2023
-  descripción:
+  descripción: Formulario que mostrará la lista de los involucrados en el
+               proyecto, esto por medio de una imágen con todos los datos
+               previamente cargados
 *)
 unit creditos;
 

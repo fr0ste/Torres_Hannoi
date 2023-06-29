@@ -1,3 +1,10 @@
+ (*
+  fecha de creacion: 26/05/2023
+  fecha de actualización:29/06/2023
+  descripción: Formulario que mostrará la lista de los involucrados en el
+               proyecto, esto por medio de una imágen con todos los datos
+               previamente cargados
+*)
 unit DBConection;
 
 {$mode objfpc}{$H+}
@@ -5,7 +12,8 @@ unit DBConection;
 interface
 
 uses
-  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, stdctrls, SQLDB, TransaccionesMySQL,
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  SQLDB, TransaccionesMySQL,
   mysql80conn;
 
 type
@@ -32,8 +40,7 @@ implementation
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
-     listarUsuarios;
+  listarUsuarios;
 end;
 
 end.
-
