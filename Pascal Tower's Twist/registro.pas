@@ -118,7 +118,7 @@ begin
     else
     begin
        rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
-    MostrarImagenEmergente(rutaImg + '/mensajes/noCoinciden.png', Form8);
+    MostrarImagenEmergente(rutaImg + '/mensajes/noCoincide.jpg', Form8);
     end;
   end
   else
