@@ -10,7 +10,11 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="43" Y="24"/>
+<<<<<<< HEAD
         <UsageCount Value="166"/>
+=======
+        <UsageCount Value="167"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -19,10 +23,17 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="2"/>
+<<<<<<< HEAD
         <TopLine Value="226"/>
         <CursorPos X="50" Y="185"/>
         <UsageCount Value="166"/>
+=======
+        <TopLine Value="452"/>
+        <CursorPos X="55" Y="455"/>
+        <UsageCount Value="167"/>
+>>>>>>> oscarF
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="funciones.pas"/>
@@ -31,7 +42,11 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="68"/>
         <CursorPos X="62" Y="97"/>
+<<<<<<< HEAD
         <UsageCount Value="161"/>
+=======
+        <UsageCount Value="162"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="disco.pas"/>
@@ -39,7 +54,11 @@
         <UnitName Value="Disco"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="53" Y="14"/>
+<<<<<<< HEAD
         <UsageCount Value="154"/>
+=======
+        <UsageCount Value="155"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="pilatorre.pas"/>
@@ -48,7 +67,11 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="76"/>
         <CursorPos Y="108"/>
+<<<<<<< HEAD
         <UsageCount Value="64"/>
+=======
+        <UsageCount Value="65"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="iniciar.pas"/>
@@ -59,7 +82,11 @@
         <UnitName Value="Iniciar"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="30" Y="14"/>
+<<<<<<< HEAD
         <UsageCount Value="117"/>
+=======
+        <UsageCount Value="118"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="menuinicio.pas"/>
@@ -68,11 +95,18 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="menuInicio"/>
+<<<<<<< HEAD
         <EditorIndex Value="1"/>
         <CursorPos X="52" Y="98"/>
         <UsageCount Value="114"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
+=======
+        <EditorIndex Value="-1"/>
+        <TopLine Value="52"/>
+        <CursorPos X="3" Y="70"/>
+        <UsageCount Value="115"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="login.pas"/>
@@ -80,11 +114,17 @@
         <ComponentName Value="Form4"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+<<<<<<< HEAD
         <EditorIndex Value="6"/>
         <CursorPos X="27" Y="7"/>
         <UsageCount Value="114"/>
+=======
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="16" Y="5"/>
+        <UsageCount Value="115"/>
+>>>>>>> oscarF
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="historia.pas"/>
@@ -94,7 +134,11 @@
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="2" Y="70"/>
+<<<<<<< HEAD
         <UsageCount Value="112"/>
+=======
+        <UsageCount Value="113"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="puntajes.pas"/>
@@ -105,7 +149,11 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="81"/>
         <CursorPos X="71" Y="108"/>
+<<<<<<< HEAD
         <UsageCount Value="112"/>
+=======
+        <UsageCount Value="113"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="niveles.pas"/>
@@ -116,7 +164,11 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="204"/>
         <CursorPos X="31" Y="219"/>
+<<<<<<< HEAD
         <UsageCount Value="111"/>
+=======
+        <UsageCount Value="112"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="registro.pas"/>
@@ -124,11 +176,17 @@
         <ComponentName Value="Form8"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+<<<<<<< HEAD
         <EditorIndex Value="3"/>
         <CursorPos X="63" Y="116"/>
         <UsageCount Value="108"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
+=======
+        <EditorIndex Value="-1"/>
+        <CursorPos X="16" Y="4"/>
+        <UsageCount Value="109"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="creditos.pas"/>
@@ -139,7 +197,11 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="10"/>
         <CursorPos X="70" Y="22"/>
+<<<<<<< HEAD
         <UsageCount Value="103"/>
+=======
+        <UsageCount Value="104"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="manualoautomatico.pas"/>
@@ -148,6 +210,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="ManualOAutomatico"/>
+<<<<<<< HEAD
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="5"/>
         <TopLine Value="108"/>
@@ -155,6 +218,12 @@
         <UsageCount Value="101"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
+=======
+        <EditorIndex Value="-1"/>
+        <TopLine Value="106"/>
+        <CursorPos X="22" Y="137"/>
+        <UsageCount Value="102"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="nivelesautomatico.pas"/>
@@ -163,10 +232,17 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="nivelesAutomatico"/>
+<<<<<<< HEAD
         <EditorIndex Value="4"/>
         <UsageCount Value="100"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
+=======
+        <EditorIndex Value="-1"/>
+        <TopLine Value="103"/>
+        <CursorPos X="36" Y="127"/>
+        <UsageCount Value="101"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="transaccionesmysql.pas"/>
@@ -175,15 +251,26 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="47"/>
         <CursorPos X="26" Y="47"/>
+<<<<<<< HEAD
         <UsageCount Value="90"/>
+=======
+        <UsageCount Value="91"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="mensajes.pas"/>
         <IsPartOfProject Value="True"/>
+<<<<<<< HEAD
         <TopLine Value="109"/>
         <CursorPos X="45" Y="133"/>
         <UsageCount Value="53"/>
         <Loaded Value="True"/>
+=======
+        <EditorIndex Value="-1"/>
+        <TopLine Value="70"/>
+        <CursorPos X="30" Y="70"/>
+        <UsageCount Value="54"/>
+>>>>>>> oscarF
       </Unit>
       <Unit>
         <Filename Value="img\fondos\unit1.pas"/>
@@ -230,11 +317,14 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="mainAtm"/>
+<<<<<<< HEAD
         <EditorIndex Value="7"/>
         <CursorPos Y="157"/>
+=======
+        <CursorPos X="41" Y="5"/>
+>>>>>>> oscarF
         <UsageCount Value="16"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="..\..\..\..\usr\lib\lazarus\2.2.0\lcl\include\picture.inc"/>
@@ -350,7 +440,11 @@
         <UsageCount Value="8"/>
       </Unit>
     </Units>
+<<<<<<< HEAD
     <JumpHistory HistoryIndex="16">
+=======
+    <JumpHistory HistoryIndex="13">
+>>>>>>> oscarF
       <Position>
         <Filename Value="mainatm.pas"/>
         <Caret Line="177" Column="60" TopLine="163"/>
@@ -388,12 +482,24 @@
         <Caret Line="190" Column="37" TopLine="169"/>
       </Position>
       <Position>
-        <Filename Value="registro.pas"/>
-        <Caret Line="123" Column="47" TopLine="83"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="38" Column="54" TopLine="26"/>
       </Position>
       <Position>
-        <Filename Value="registro.pas"/>
-        <Caret Line="122" Column="6" TopLine="94"/>
+        <Filename Value="main.pas"/>
+        <Caret Line="188" Column="19" TopLine="154"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="206" Column="32" TopLine="192"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="175" Column="54" TopLine="149"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="553" Column="59" TopLine="529"/>
       </Position>
       <Position>
         <Filename Value="menuinicio.pas"/>

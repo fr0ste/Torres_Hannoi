@@ -1,7 +1,11 @@
 (*
   fecha de creacion: 26/05/2023
   fecha de actualización:29/06/2023
-  descripción:
+  descripción: Esta unidad se utilizará paa el diseño e implementación del juego
+               de manera manual, se ejecutará después de que el usuario
+               seleccione un nivel, al finalizar una partida y pasar a la
+               siguiente, o cuando existe una partida guardada y se le da a
+               continuar.
 *)
 unit main;
 
@@ -61,80 +65,78 @@ type
     procedure nuevoJuego();
     procedure cargarCursor(ruta: string);
     procedure pausarReanudar();
-    //base de datos
     procedure cargarTorreDesdeDB(torre: TPilaTorre);
-    constructor Create(nuevo: boolean;UserID: Integer);
+    constructor Create(nuevo: boolean; UserID: integer);
   end;
 
+(*declaración de las variables para el manejo del cursor*)
 const
   crMyCursor = 1;
   crMyCursor2 = 2;
-
-
+(*Declaración de variables globales dentro de la clase*)
 var
   Form1: TForm1;
   JuegoNuevo: boolean;
-  FNumero: integer;//numero para cargar los fondos
+  (*numero para cargar los fondos*)
+  FNumero: integer;
   arrastrar: boolean = False;
   DragOffset: TPoint;
-  //pilas para las torres
+  (*pilas para las torres*)
   pilaTorre1, pilaTorre2, pilaTorre3: TPilaTorre;
-  origX, origY: integer; // Variables para guardar la posición original (X, Y)
+  (*Variables para guardar la posición original (X, Y)*)
+  origX, origY: integer;
   posX, posY: integer;
   numeroPila: integer;
-  rutaImg: string;//para obtener la ruta de las imagenes a cargar
+  (*para obtener la ruta de las imagenes a cargar*)
+  rutaImg: string;
   Pausado: string;
   fname: string;
   isPaused: boolean;
-  Bstream: dword; // Canal del audio
-  //Cursor
+  Bstream: dword;
   CursorImage: TCursorImage;
   CursorImage2: TCursorImage;
   time: integer;
-
-
-
-  {**************************agregado de la variable, despues se cambiará a privado**********************}
-
-  idUsuario:integer;
+  (*almacena el id del usuario logueado*)
+  idUsuario: integer;
 
 implementation
 
 {$R *.lfm}
 uses
-    niveles, menuInicio;
+  niveles, menuInicio;
 
 { TForm1 }
-
-constructor TForm1.Create(nuevo: boolean;UserID: Integer);
+(*Inicializamos el id del usuario y una variable booleana
+ para saber si es un juego nuevo o uno para continuar la partida*)
+constructor TForm1.Create(nuevo: boolean; UserID: integer);
 begin
   inherited Create(nil);
   JuegoNuevo := nuevo;
-  IdUsuario:= UserID;
+  IdUsuario := UserID;
 end;
 
-
+(*Al cerrar esta ventana del form, finalizamos la aplicación para liberar los
+ recursos*)
 procedure TForm1.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   Application.Terminate;
 end;
 
+(*Al crear el formulario inicamos el reproductor de audio*)
 procedure TForm1.FormCreate(Sender: TObject);
 begin
   BASS_Free;
-  // Inicializa el sistema de audio BASS con la configuración predeterminada
   BASS_Init(-1, 44100, 0, nil, nil);
 end;
 
+(*Al mostrar el form al usuario, se hace la carga del juego, pilas, discos,
+ imágenes, y el tiemer*)
 procedure TForm1.FormShow(Sender: TObject);
 begin
-
-  //********************************************************************************************************************
   if JuegoNuevo then
   begin
-    //********************************************************************************************************************
     rutaImg := obtenerRutaImagen(Application.ExeName);
-    // Cargamos la imagen con la ruta
+    (*Cargamos la imagen con la ruta*)
     Image1.Picture.LoadFromFile(rutaImg + 'fondos/fondo' + IntToStr(FNumero) + '.png');
     crearPilas(FNumero);
     cargarPartida(pilaTorre1, pilaTorre2, pilaTorre3);
@@ -145,11 +147,11 @@ begin
 
     TimerCronometro := TTiempoCronometro.Create;
     TimerCronometro.Interval := 1000;
-    // Intervalo del temporizador en milisegundos (1 segundo)
+    (*Intervalo del temporizador en milisegundos (1 segundo)*)
     TimerCronometro.OnTimer := @TimerCronometroTimer;
     TimerCronometro.IniciarTimer(LabelTiempo);
     TimerCronometro.Pausar;
-     time:= obtenerTiempoBD(idUsuario);
+    time := obtenerTiempoBD(idUsuario);
     TimerCronometro.setTiempo(time);
     TimerCronometro.Continuar;
 
@@ -157,14 +159,12 @@ begin
       IntToStr(FNumero - 2) + '.mp3';
 
     PlayMP3(fname);
-    // Cargar cursor
+    (*Cargar cursor*)
     cargarCursor(rutaImg + 'cursor/');
   end
   else
   begin
-    //********************************************************************************************************************
     rutaImg := obtenerRutaImagen(Application.ExeName);
-    // Cargamos la imagen con la ruta
     Image1.Picture.LoadFromFile(rutaImg + 'fondos/fondo' + IntToStr(FNumero) + '.png');
     crearPilas(FNumero);
     cargarTorre(pilaTorre1.Getid, FNumero, pilaTorre1);
@@ -175,7 +175,6 @@ begin
 
     TimerCronometro := TTiempoCronometro.Create;
     TimerCronometro.Interval := 1000;
-    // Intervalo del temporizador en milisegundos (1 segundo)
     TimerCronometro.OnTimer := @TimerCronometroTimer;
     TimerCronometro.IniciarTimer(LabelTiempo);
 
@@ -183,43 +182,38 @@ begin
       IntToStr(FNumero - 2) + '.mp3';
 
     PlayMP3(fname);
-
-    // Cargar cursor
     cargarCursor(rutaImg + 'cursor/');
   end;
-  Caption:='Nivel '+ inttostr(FNumero-2)+' manual';
-
+  Caption := 'Nivel ' + IntToStr(FNumero - 2) + ' manual';
 end;
 
+(*Al darle click al botón de regresar a una ventana anterior, se le muestra al
+  usuario un mensaje, para guardar o no su partida y continuarla después*)
 procedure TForm1.Image2Click(Sender: TObject);
 var
   opcion: boolean;
-
 begin
   BASS_Free;
-  // Mostrar el mensaje de acuerdo a la opción seleccionada
-  rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
+  rutaImg := obtenerRutaImagen(Application.ExeName);
   opcion := fMostrarImagenEmergente(rutaImg + '/mensajes/guardar.png', Form1);
   if opcion then
   begin
     borrarJuego(idUsuario);
     TimerCronometro.Pausar;
-    time:=TimerCronometro.ObtenerTiempo;
-    guardarPartida(idUsuario, time, FNumero-2, pilaTorre1, pilaTorre2, pilaTorre3,form1,rutaImg);
-
+    time := TimerCronometro.ObtenerTiempo;
+    guardarPartida(idUsuario, time, FNumero - 2, pilaTorre1, pilaTorre2,
+      pilaTorre3, form1, rutaImg);
   end;
-  Form3:=TForm3.Create(IdUsuario);
+  Form3 := TForm3.Create(IdUsuario);
   Hide;
   Form3.Show;
 end;
 
-
-
+(*Procedimiento para cambiar a pausa o play cuando se presiona el botón, además
+  llama a otro procedimiento para pausar el juego*)
 procedure TForm1.PausaPlayClick(Sender: TObject);
 begin
-
   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
-
   PlayBoton(fname);
   if Pausado = 'Pausa' then
   begin
@@ -236,46 +230,35 @@ begin
   pausarReanudar();
 end;
 
+(*Cambia la imagen de reproducción a silencio para pausar el audio de fondo*)
 procedure TForm1.SonidoClick(Sender: TObject);
 begin
   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
-
   PlayBoton(fname);
   if isPaused then
   begin
     Pause(isPaused);
     rutaImg := obtenerRutaImagen(Application.ExeName);
     Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sinsonido.png');
-    //BtnPausePlay.Caption := 'Pause';
     isPaused := False;
   end
   else
   begin
-    // Si la reproducción está en curso, se pausa la reproducción
-
     Pause(isPaused);
     rutaImg := obtenerRutaImagen(Application.ExeName);
-
     Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sonido.png');
-    //BtnPausePlay.Caption := 'Reanudar';
     isPaused := True;
   end;
 end;
 
-
+(*Inicializa el timer y va imprimiendo en el label el tiempo transcurrido*)
 procedure TForm1.TimerCronometroTimer(Sender: TObject);
 begin
   TimerCronometro.ElapsedTime := Now - TimerCronometro.StartTime;
   LabelTiempo.Caption := FormatDateTime('hh:nn:ss', TimerCronometro.ElapsedTime);
 end;
 
-
-
-procedure TForm1.torre1Click(Sender: TObject);
-begin
-
-end;
-
+(*Carga los discos en la torre principal si es un nuevo juego*)
 procedure TForm1.cargarTorre(numPila, numDisco: integer; pila: TPilaTorre);
 var
   ancho, i: integer;
@@ -287,58 +270,43 @@ begin
   imgDisco := 8 - (numDisco - 1);
   for i := 0 to numDisco - 1 do
   begin
-    // Verificamos si la pila está vacía, de lo contrario le quitamos las
-    // propiedades de movimiento al disco que está en el tope de la pila
+    (*Removemos las propiedades de movimiento a cada disco que esté debajo
+      del último a insertar*)
     if not pila.EsVacia then
       RemoveDragPropertiesFromImage(pila.GetTope);
-    // Crea y configura los discos
-    discoAux := crearDisco((rutaImg + 'discos/i' + IntToStr(imgDisco) + '.png'), ancho, imgDisco, pila.GetId, imgDisco);
-
-    // Guardamos el disco en la pila
+    (*Creamos el disco*)
+    discoAux := crearDisco((rutaImg + 'discos/i' + IntToStr(imgDisco) + '.png'),
+      ancho, imgDisco, pila.GetId, imgDisco);
     pila.Push(discoAux);
     ancho := ancho - 30;
     imgDisco := imgDisco + 1;
-
   end;
 end;
-
+(*Crea un objeto de disco con propiedades específicas*)
 function TForm1.crearDisco(rutaImg: string;
   ancho, imgDisco, numPila, numDisco: integer): TImgDisco;
 var
   discoAux: TImgDisco;
 begin
-
-  // Crea y configura los discos
   discoAux := TImgDisco.Create(Self, ancho);
-
-  // Asignamos la pila de origen al disco
   discoAux.numPila := numPila;
-
-  //asignamos el numero de disco
   discoAux.numDisco := (numDisco);
-
-  // Cargamos la imagen con la ruta
   discoAux.Picture.LoadFromFile(rutaImg);
-
-  // Asignamos propiedades de movimiento al disco creado
+  (*Asignamos propiedades de movimiento al disco creado*)
   AssignDragPropertiesToImage(discoAux);
-
   Result := discoAux;
 end;
-
-
-
-
+(*Asigna las propiedades de arrastre a una imagen específica. Además cambia la
+  forma del cursor*)
 procedure TForm1.AssignDragPropertiesToImage(image: TImage);
 begin
   image.OnMouseDown := @ImageMouseDown;
   image.OnMouseMove := @ImageMouseMove;
   image.OnMouseUp := @ImageMouseUp;
   image.DragMode := dmAutomatic;
-  //cursor
   image.Cursor := crMyCursor;
 end;
-
+(*Elimina las propiedades de arrastre de una imagen específica*)
 procedure TForm1.RemoveDragPropertiesFromImage(image: TImage);
 begin
   image.OnMouseDown := nil;
@@ -346,37 +314,34 @@ begin
   image.OnMouseUp := nil;
   image.DragMode := dmManual;
 end;
-
+(*Se ejecuta cuando se presiona el botón del mouse en una imagen. Guarda la
+  posición de la imagen por si no se inserta regresa a la torre de origen*)
 procedure TForm1.ImageMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: integer);
 begin
   arrastrar := True;
   DragOffset := Point(X, Y);
   TImage(Sender).BringToFront;
-  // Guarda la posición original (X, Y) de la imagen
   origX := TImage(Sender).Left;
   origY := TImage(Sender).Top;
-  //cursor
   Cursor := crMyCursor2;
 end;
-
+(*Se ejecuta cuando se mueve el mouse sobre una imagen*)
 procedure TForm1.ImageMouseMove(Sender: TObject; Shift: TShiftState; X, Y: integer);
 begin
   if arrastrar then
   begin
     TImage(Sender).Left := TImage(Sender).Left + X - DragOffset.X;
     TImage(Sender).Top := TImage(Sender).Top + Y - DragOffset.Y;
-    //cursor
     Cursor := crMyCursor2;
   end;
 end;
-
+(*Se ejecuta cuando se suelta el botón del mouse sobre una imagen*)
 procedure TForm1.ImageMouseUp(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: integer);
 begin
   arrastrar := False;
   CheckIfImageCenterInsideTower1(TImage(Sender));
-  //cursor
   Cursor := crMyCursor;
 end;
 
@@ -402,7 +367,7 @@ begin
   pilaTorre3 := TPilaTorre.Create(3, tamanio, (torre3.Left + 30),
     (torre1.Top + torre3.Height), torre3);
 end;
-
+(*Verifica si el centro de una imagen se encuentra dentro de alguna Torre*)
 procedure TForm1.CheckIfImageCenterInsideTower1(image: TImage);
 var
   bandera: boolean;
@@ -415,7 +380,7 @@ begin
   SetTowerPosition(bandera, image, torre1);
   if bandera then
   begin
-    // El centro de la imagen está dentro de la torre1
+    (*El centro de la imagen está dentro de la torre1*)
     nuevoNumeroPila := 1;
     hacerPop(pilaTorre1, obtenerPila(numeroPila), nuevoNumeroPila);
   end
@@ -424,7 +389,7 @@ begin
     SetTowerPosition(bandera, image, torre2);
     if bandera then
     begin
-      // El centro de la imagen está dentro de la torre1
+      (*El centro de la imagen está dentro de la torre2*)
       nuevoNumeroPila := 2;
       hacerPop(pilaTorre2, obtenerPila(numeroPila), nuevoNumeroPila);
 
@@ -434,8 +399,7 @@ begin
       SetTowerPosition(bandera, image, torre3);
       if bandera then
       begin
-        // El centro de la imagen está dentro de la torre1
-
+        (*El centro de la imagen está dentro de la torre3*)
         nuevoNumeroPila := 3;
         hacerPop(pilaTorre3, obtenerPila(numeroPila), nuevoNumeroPila);
       end
@@ -448,23 +412,21 @@ begin
   end;
 
 end;
-
+(*Establece la posición de la torre de destino para un disco arrastrado.*)
 procedure TForm1.SetTowerPosition(var bandera: boolean; disco, towerImage: TImage);
 var
   imageCenterX, imageCenterY: integer;
   towerLeft, towerRight, towerTop, towerBottom: integer;
 begin
-  // Calcula las coordenadas del centro de la imagen
   imageCenterX := disco.Left + disco.Width div 2;
   imageCenterY := disco.Top + disco.Height div 2;
-
-  // Obtiene las coordenadas del área de la torre1
+  (*Obtiene las coordenadas del área de la torre1*)
   towerLeft := towerImage.Left;
   towerRight := towerImage.Left + towerImage.Width;
   towerTop := towerImage.Top;
   towerBottom := towerImage.Top + towerImage.Height;
 
-  // Verifica si el centro de la imagen está dentro del área de la torre1
+  (*Verifica si el centro de la imagen está dentro del área de la torre1*)
   if (imageCenterX >= towerLeft) and (imageCenterX <= towerRight) and
     (imageCenterY >= towerTop) and (imageCenterY <= towerBottom) then
   begin
@@ -475,11 +437,12 @@ begin
     bandera := False;
   end;
 end;
-
+(*Realiza la operación "pop" en una pila de origen y coloca el elemento en una
+  nueva pila.*)
 procedure TForm1.hacerPop(pila, pilaorigen: TPilaTorre; nuevoNumeroPila: integer);
 var
   disco: TImgDisco;
-  rutaImg :String;
+  rutaImg: string;
 begin
   if pila = pilaOrigen then
   begin
@@ -489,15 +452,15 @@ begin
   end
   else if pila.EsVacia then
   begin
-    // Si la pila está vacía, solo se agrega el disco
+    (*Si la pila está vacía, solo se agrega el disco*)
     disco := pilaOrigen.Pop;
     if pilaOrigen.EsVacia = False then
       AssignDragPropertiesToImage(pilaOrigen.GetTope);
     AssignDragPropertiesToImage(disco);
     disco.numPila := nuevoNumeroPila;
     pila.Push(disco);
-        fname:= ExtractFilePath(Application.ExeName)+'/Audios/Deslizar.mp3';
-         PlayBoton(fname);
+    fname := ExtractFilePath(Application.ExeName) + '/Audios/Deslizar.mp3';
+    PlayBoton(fname);
   end
   else if pila.EsLlena then
   begin
@@ -519,14 +482,14 @@ begin
       AssignDragPropertiesToImage(disco);
       disco.numPila := nuevoNumeroPila;
       pila.Push(disco);
-         fname:= ExtractFilePath(Application.ExeName)+'/Audios/Deslizar.mp3';
-         PlayBoton(fname);
+      fname := ExtractFilePath(Application.ExeName) + '/Audios/Deslizar.mp3';
+      PlayBoton(fname);
     end
     else
     begin
       disco.posicionDisco(origX, origY);
-          fname:= ExtractFilePath(Application.ExeName)+'/Audios/Error.mp3';
-         PlayBoton(fname);
+      fname := ExtractFilePath(Application.ExeName) + '/Audios/Error.mp3';
+      PlayBoton(fname);
       //mostramos una ventana emergente de error
       rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
       MostrarImagenEmergente(rutaImg + '/mensajes/movimientoIncorrecto.png', form1);
@@ -542,8 +505,8 @@ begin
     MostrarImagenEmergente(rutaImg + '/mensajes/felicidades.jpg', Form1);
     //guardamos el puntaje obtenido
     borrarJuego(idUsuario);
-    time:=TimerCronometro.ObtenerTiempo;
-    guardarPuntajeTiempo(idUsuario,time,FNumero-2);
+    time := TimerCronometro.ObtenerTiempo;
+    guardarPuntajeTiempo(idUsuario, time, FNumero - 2);
     if FNumero <> 8 then
     begin
       SetNumero(FNumero + 1);
@@ -585,25 +548,25 @@ var
 begin
   // Mostrar el mensaje de acuerdo a la opción seleccionada
   rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
-  opcion := fMostrarImagenEmergente(rutaImg + '/mensajes/deseaContinuar.jpg',Form1);
+  opcion := fMostrarImagenEmergente(rutaImg + '/mensajes/deseaContinuar.jpg', Form1);
   if opcion then
   begin
     // Continuar
     // Ocultar el formulario actual (Form1)
-  numDisc := FNumero;
-  Hide;
-  // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(False,IdUsuario);
-  // Pasar el número como parámetro al formulario Form2
-  Form1.SetNumero(numDisc);
-  // Mostrar el formulario Form2
-  Form1.Show;
+    numDisc := FNumero;
+    Hide;
+    // Crear una instancia del formulario controlado por el controlador central (Form2)
+    Form1 := TForm1.Create(False, IdUsuario);
+    // Pasar el número como parámetro al formulario Form2
+    Form1.SetNumero(numDisc);
+    // Mostrar el formulario Form2
+    Form1.Show;
   end
   else if not opcion then
   begin
-  Hide;
-  Form3 := TForm3.Create(IdUsuario);
-  Form3.Show;
+    Hide;
+    Form3 := TForm3.Create(IdUsuario);
+    Form3.Show;
   end
   else
   begin
@@ -654,6 +617,7 @@ begin
 
   end;
 end;
+
 procedure TForm1.cargarCursor(ruta: string);
 begin
   CursorImage := TCursorImage.Create;
@@ -691,7 +655,7 @@ begin
       if not pila.EsVacia then
         RemoveDragPropertiesFromImage(pila.GetTope);
     end;
-    LabelTiempo.Caption:='PAUSADO';
+    LabelTiempo.Caption := 'PAUSADO';
   end
   else
   begin

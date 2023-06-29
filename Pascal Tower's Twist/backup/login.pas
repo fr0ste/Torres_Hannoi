@@ -1,7 +1,8 @@
 (*
-  fecha de creacion:
-  fecha de actualización:
-  descripción:
+  fecha de creacion: 26/05/2023
+  fecha de actualización:29/06/2023
+  descripción: vista de logueo para que el usuario acceda al juego, si no existe
+               le indicará al usuario
 *)
 
 unit login;
