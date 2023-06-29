@@ -1,5 +1,5 @@
 object Form10: TForm10
-  Left = 2395
+  Left = 640
   Height = 720
   Top = 251
   Width = 1280

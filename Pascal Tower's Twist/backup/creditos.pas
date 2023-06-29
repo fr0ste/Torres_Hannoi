@@ -1,6 +1,6 @@
 (*
-  fecha de creacion:
-  fecha de actualización:
+  fecha de creacion: 26/05/2023
+  fecha de actualización:29/06/2023
   descripción:
 *)
 unit creditos;

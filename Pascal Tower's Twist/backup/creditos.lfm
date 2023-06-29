@@ -1,13 +1,15 @@
 object Form10: TForm10
-  Left = 2124
+  Left = 2395
   Height = 720
-  Top = 124
+  Top = 251
   Width = 1280
+  BorderStyle = bsSingle
   Caption = 'Créditos'
   ClientHeight = 720
   ClientWidth = 1280
   OnClose = FormClose
   OnShow = FormShow
+  Position = poScreenCenter
   LCLVersion = '2.2.0.4'
   object Image1: TImage
     Left = 0
