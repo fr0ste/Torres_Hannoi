@@ -1,7 +1,7 @@
 object Form3: TForm3
-  Left = 2349
+  Left = 2068
   Height = 677
-  Top = 272
+  Top = 156
   Width = 1280
   BorderStyle = bsSingle
   Caption = 'Menú'

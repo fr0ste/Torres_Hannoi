@@ -1,14 +1,16 @@
 object Form11: TForm11
-  Left = 2132
+  Left = 2270
   Height = 720
-  Top = 153
+  Top = 173
   Width = 1280
+  BorderStyle = bsSingle
   Caption = 'Modo de Juego'
   ClientHeight = 720
   ClientWidth = 1280
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
+  Position = poScreenCenter
   LCLVersion = '2.2.0.4'
   object Image1: TImage
     Left = 0

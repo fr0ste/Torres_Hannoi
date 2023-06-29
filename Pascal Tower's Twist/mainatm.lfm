@@ -1,7 +1,7 @@
 object Form9: TForm9
-  Left = 125
+  Left = 258
   Height = 720
-  Top = 158
+  Top = 406
   Width = 1280
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
@@ -16590,7 +16590,7 @@ object Form9: TForm9
   OnClose = FormClose
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '2.2.6.0'
+  LCLVersion = '2.2.0.4'
   object Image1: TImage
     Left = 0
     Height = 720

@@ -1,7 +1,8 @@
 (*
-  fecha de creacion:
-  fecha de actualización:
-  descripción:
+  fecha de creacion: 26/05/2023
+  fecha de actualización:29/06/2023
+  descripción: Esta unidad se utiliza para la seleccion de nivel y mandarlo a la
+  vita de juego automatico.
 *)
 unit nivelesAutomatico;
 

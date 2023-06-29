@@ -1,7 +1,8 @@
 (*
   fecha de creacion: 26/05/2023
   fecha de actualización:29/06/2023
-  descripción:
+  descripción: Unidad que funciona como menú principal para trasladarse a todas
+  las vista.
 *)
 unit menuInicio;
 
@@ -44,18 +45,19 @@ type
     procedure Image8Click(Sender: TObject);
     procedure Image9Click(Sender: TObject);
     procedure SonidoClick(Sender: TObject);
-    constructor Create(UserID: Integer); // Constructor personalizado
+    constructor Create(UserID: integer); (*Constructor personalizado*)
 
   private
     procedure Partida(idUsuario: integer);
 
-     // Declaración de la propiedad UserID
+
+    (*Declaración de la propiedad UserID*)
   public
 
-    rutaImg: string;//para obtener la ruta de las imagenes a cargar
+    rutaImg: string;(*Para obtener la ruta de las imagenes a cargar*)
     isPaused: boolean;
     fname: string;
-    IdUsuario: Integer;
+    IdUsuario: integer;
 
 
 
@@ -63,7 +65,8 @@ type
 
 var
   Form3: TForm3;
-  {agregado de la variable, despues se cambiará a privado**********************}
+
+  (*Agregado de la variable, despues se cambiará a privado*)
   idUsuario: integer = 1;
 
 implementation
@@ -81,7 +84,6 @@ var
   Form11: TForm11;
 begin
   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
-  //ShowMessage(fname);
   PlayBoton(fname);
   Hide;
   Form11 := TForm11.Create(IdUsuario);
@@ -89,6 +91,7 @@ begin
 
 end;
 
+(*instanciar continuar partida*)
 procedure TForm3.Image9Click(Sender: TObject);
 var
   Form1: TForm1;
@@ -96,69 +99,64 @@ var
   idPartida: integer;
 begin
   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
-  //ShowMessage(fname);
   PlayBoton(fname);
 
 
-  {actualizar esto solo se puso un id de usuario para probar}
+  (*actualizar esto solo se puso un id de usuario para probar*)
   idPartida := obtenerIdPartida(idUsuario);
   numDisc := obtenerNumeroDiscos(idPartida);
   Hide;
 
-  // Crear una instancia del formulario controlado por el controlador central (Form2)
-  Form1 := TForm1.Create(True,IdUsuario);
+  (*Crear una instancia del formulario controlado por el controlador central (Form2)*)
+  Form1 := TForm1.Create(True, IdUsuario);
 
-  // Pasar el número como parámetro al formulario Form2
+  (*Pasar el número como parámetro al formulario Form2*)
   Form1.SetNumero(numDisc);
 
-  // Mostrar el formulario Form2
+  (*Mostrar el formulario Form2*)
   Form1.Show;
 end;
 
 procedure TForm3.SonidoClick(Sender: TObject);
 begin
-   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
-  //ShowMessage(fname);
+  fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
   PlayBoton(fname);
-  // Si la reproducción está pausada, se reanuda la reproducción
+  (*Si la reproducción está pausada, se reanuda la reproducción*)
   if isPaused then
   begin
     Pause(isPaused);
     rutaImg := obtenerRutaImagen(Application.ExeName);
     Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sinsonido.png');
-    //BtnPausePlay.Caption := 'Pause';
     isPaused := False;
   end
   else
   begin
-    // Si la reproducción está en curso, se pausa la reproducción
-
+    (*Si la reproducción está en curso, se pausa la reproducción*)
     Pause(isPaused);
     rutaImg := obtenerRutaImagen(Application.ExeName);
     Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sonido.png');
-    //BtnPausePlay.Caption := 'Reanudar';
     isPaused := True;
   end;
 end;
 
+(*instanciar vista de login*)
 procedure TForm3.Image13Click(Sender: TObject);
 var
   Form4: TForm4;
 begin
   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
-  //ShowMessage(fname);
   PlayBoton(fname);
   Hide;
   Form4 := TForm4.Create(IdUsuario);
   Form4.Show;
 end;
 
+(*instanciar vista de historia*)
 procedure TForm3.Image10Click(Sender: TObject);
 var
   Form5: TForm5;
 begin
   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
-  //ShowMessage(fname);
   PlayBoton(fname);
   Hide;
   Form5 := TForm5.Create(IdUsuario);
@@ -166,6 +164,7 @@ begin
 
 end;
 
+(*Cerrar programa*)
 procedure TForm3.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   Application.Terminate;
@@ -174,15 +173,13 @@ end;
 procedure TForm3.Button1Click(Sender: TObject);
 begin
   ShowMessage('el id del usuario es:' + IntToStr(IdUsuario));
-
 end;
 
+(*cargar sonido*)
 procedure TForm3.FormCreate(Sender: TObject);
 begin
   BASS_Free;
-
   BASS_Init(-1, 44100, 0, nil, nil);
-
 end;
 
 
@@ -195,32 +192,29 @@ begin
   BASS_Init(-1, 44100, 0, nil, nil);
   fname := ExtractFilePath(Application.ExeName) + '/Audios/AudioMenu.mp3';
   PlayMP3(fname);
-  //habilitar el botón de continuar si existe la partida
+  (*habilitar el botón de continuar si existe la partida*)
   Partida(idUsuario);
 
 end;
 
-
-
+(*instanciar vista de puntajes*)
 procedure TForm3.Image11Click(Sender: TObject);
 var
   Form6: TForm6;
 begin
   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
-  //ShowMessage(fname);
   PlayBoton(fname);
   Hide;
   Form6 := TForm6.Create(IdUsuario);
   Form6.Show;
-
 end;
 
+(*instanciar vista de creditos*)
 procedure TForm3.Image12Click(Sender: TObject);
 var
   Form10: TForm10;
 begin
   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
-  //ShowMessage(fname);
   PlayBoton(fname);
   Hide;
   Form10 := TForm10.Create(IdUsuario);
@@ -234,7 +228,7 @@ var
 begin
   existe := existePartida(idUsuario);
   if existe = 0 then
-    //deshabilitar el boton de continuar
+    (*Deshabilitar el boton de continuar*)
   begin
     Image9.Hide;
     rutaImg := obtenerRutaImagen(Application.ExeName);
@@ -245,11 +239,11 @@ begin
   end;
 end;
 
-constructor TForm3.Create(UserID: Integer);
+constructor TForm3.Create(UserID: integer);
 begin
   inherited Create(nil);
-  IdUsuario:= UserID;
-  // Resto del código de inicialización del formulario...
+  IdUsuario := UserID;
+  (*Esto del código de inicialización del formulario*)
 end;
 
 

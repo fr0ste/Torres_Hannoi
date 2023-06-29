@@ -1,7 +1,8 @@
 (*
   fecha de creacion: 26/05/2023
   fecha de actualización:29/06/2023
-  descripción:
+  descripción: Esta unidad se utiliza para la seleccion de nivel y mandarlo a la
+  vita de juego automatico.
 *)
 unit nivelesAutomatico;
 
@@ -78,9 +79,6 @@ end;
 
 procedure TForm12.FormCreate(Sender: TObject);
 begin
-  //BASS_Free;
-  // Inicializa el sistema de audio BASS con la configuración predeterminada
-  //BASS_Init(-1, 44100, 0, nil, nil);
 end;
 
 procedure TForm12.FormShow(Sender: TObject);
@@ -88,9 +86,6 @@ begin
   rutaImg := obtenerRutaImagen(Application.ExeName);
   Sonido.Picture.LoadFromFile(rutaImg + '/fondos/sinsonido.png');
   isPaused := False;
-  //fname:=ExtractFilePath(Application.ExeName)+'BandaMisteriosaRango.mp3';
-  //ShowMessage(fname);
-  //PlayMP3(fname);
 end;
 
 procedure TForm12.Image1Click(Sender: TObject);
