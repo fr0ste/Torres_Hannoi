@@ -15,6 +15,7 @@ type
   TForm8 = class(TForm)
     Edit1: TEdit;
     Edit2: TEdit;
+    Edit3: TEdit;
     Image1: TImage;
     Image3: TImage;
     Image2: TImage;
@@ -78,7 +79,7 @@ end;
 
 procedure TForm8.Image2Click(Sender: TObject);
 var
-  user, pwd, rutaImg: string;
+  user, pwd, pwd2, rutaImg: string;
   creado: integer;
 begin
   fname := ExtractFilePath(Application.ExeName) + '/Audios/SonidoBoton.mp3';
@@ -86,27 +87,39 @@ begin
   PlayBoton(fname);
   user := Edit1.Text;
   pwd := Edit2.Text;
+  pwd2 := Edit3.Text;
 
-  if (user <> '') and (pwd <> '') then
+  if (user <> '') and (pwd <> '') and (pwd2 <> '') then
   begin
-    creado := crearUsuario(user, pwd);
-    if creado = 1 then
-    begin
-      rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
-      MostrarImagenEmergente(rutaImg + '/mensajes/usuarioExiste.png',Form8);
 
+    if (pwd2 = pwd) then
+    begin
+      creado := crearUsuario(user, pwd);
+      if creado = 1 then
+      begin
+        rutaImg := obtenerRutaImagen(Application.ExeName);
+        //obtenemos la ruta de la imagen
+        MostrarImagenEmergente(rutaImg + '/mensajes/usuarioExiste.png', Form8);
+
+      end
+      else
+      begin
+        rutaImg := obtenerRutaImagen(Application.ExeName);
+        //obtenemos la ruta de la imagen
+        MostrarImagenEmergente(rutaImg + '/mensajes/registroCreado.png', Form8);
+        regresar();
+      end;
     end
     else
     begin
-      rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
-      MostrarImagenEmergente(rutaImg + '/mensajes/registroCreado.png',Form8);
-      regresar();
+       rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
+    MostrarImagenEmergente(rutaImg + '/mensajes/noCoinciden.png', Form8);
     end;
   end
   else
   begin
     rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
-    MostrarImagenEmergente(rutaImg + '/mensajes/validacionCampos.png',Form8);
+    MostrarImagenEmergente(rutaImg + '/mensajes/validacionCampos.png', Form8);
   end;
 end;
 

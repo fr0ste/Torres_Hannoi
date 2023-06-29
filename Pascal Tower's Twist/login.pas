@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, BASS, funciones, TransaccionesMySQL, mensajes;
+  StdCtrls, MaskEdit, BASS, funciones, TransaccionesMySQL, mensajes;
 
 type
 

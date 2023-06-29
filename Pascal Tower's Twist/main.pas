@@ -182,6 +182,7 @@ begin
     // Cargar cursor
     cargarCursor(rutaImg + 'cursor/');
   end;
+  Caption:='Nivel '+ inttostr(FNumero-2)+' manual';
 
 end;
 

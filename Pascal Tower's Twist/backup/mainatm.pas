@@ -50,6 +50,7 @@ type
     Image1: TImage;
     Image2: TImage;
     Image3: TImage;
+    Image4: TImage;
     torre1: TImage;
     torre2: TImage;
     torre3: TImage;
@@ -61,6 +62,7 @@ type
     procedure FormShow(Sender: TObject);
     procedure Image2Click(Sender: TObject);
     procedure Image3Click(Sender: TObject);
+    procedure Image4Click(Sender: TObject);
 
   private
 
@@ -140,7 +142,8 @@ begin
   cargarDatosJuego;
   cargarTorre(1, FNumero, pilaTorre1);
   // cargarTorre(1,FNumero,pilaTorre1);
-
+  Image4.Enabled := False;
+  Image4.Visible := False;
 
 
   velocidad := 16;
@@ -151,6 +154,7 @@ begin
     Rewrite(F);
     CloseFile(F);
   end;
+  Caption:='Nivel '+ inttostr(FNumero-2)+' Automático';
 end;
 
 procedure TForm9.Image2Click(Sender: TObject);
@@ -165,12 +169,29 @@ end;
 
 procedure TForm9.Image3Click(Sender: TObject);
 begin
-  //LeerMovimientos(archivoMovimientos);
+
   hiloLeerMovs := TReadThread.Create(pilaTorre1, pilaTorre3, pilaTorre2,
     archivoMovimientos);
   hiloLeerMovs.Start;
   hiloLeerMovs.WaitFor;
-  Image3.Enabled:=False;
+  rutaImg := obtenerRutaImagen(Application.ExeName);
+  //Image3.Picture.LoadFromFile(rutaImg + '/fondos/reload.png');
+  //ShowMessage(rutaImg + '/fondos/reload.png');
+  Image3.Enabled := False;
+  //  Image3.Visible:=false;
+  Image3.Hide;
+  Image4.Enabled := True;
+  Image4.Visible := True;
+end;
+
+procedure TForm9.Image4Click(Sender: TObject);
+var
+  nuevo: TForm9;
+begin
+  Hide;
+  nuevo := TForm9.Create(nil);
+  nuevo.Show;
+
 end;
 
 procedure TReadThread.Execute;

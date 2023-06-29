@@ -182,6 +182,7 @@ begin
     // Cargar cursor
     cargarCursor(rutaImg + 'cursor/');
   end;
+  Caption:='Nivel '+ inttostr(FNumero-2)+' automático';
 
 end;
 
@@ -532,7 +533,7 @@ begin
   if pilaTorre3.EsLlena then
   begin
     rutaImg := obtenerRutaImagen(Application.ExeName); //obtenemos la ruta de la imagen
-
+    TimerCronometro.Pausar;
     MostrarImagenEmergente(rutaImg + '/mensajes/felicidades.jpg', Form1);
     //guardamos el puntaje obtenido
     borrarJuego(idUsuario);

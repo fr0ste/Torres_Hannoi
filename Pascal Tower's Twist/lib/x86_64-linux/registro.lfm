@@ -1,7 +1,7 @@
 object Form8: TForm8
   Left = 2259
   Height = 720
-  Top = 132
+  Top = 280
   Width = 1280
   Align = alClient
   BorderStyle = bsSingle
@@ -37426,13 +37426,15 @@ object Form8: TForm8
     Height = 34
     Top = 400
     Width = 224
+    EchoMode = emPassword
     OnKeyPress = Edit2KeyPress
+    PasswordChar = '*'
     TabOrder = 1
   end
   object Image2: TImage
-    Left = 640
+    Left = 656
     Height = 56
-    Top = 464
+    Top = 536
     Width = 146
     OnClick = Image2Click
     Picture.Data = {
@@ -37996,5 +37998,14 @@ object Form8: TForm8
       958DC0607FDFDB0E4E8CFDF62BBB7AF7AADD11D81D81DD11D81D81BB6F04FE3F
       72DB09761C8666070000000049454E44AE426082
     }
+  end
+  object Edit3: TEdit
+    Left = 568
+    Height = 34
+    Top = 461
+    Width = 224
+    EchoMode = emPassword
+    PasswordChar = '*'
+    TabOrder = 2
   end
 end

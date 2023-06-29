@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, BASS, funciones, TransaccionesMySQL, mensajes;
+  StdCtrls, MaskEdit, BASS, funciones, TransaccionesMySQL, mensajes;
 
 type
 
@@ -128,6 +128,7 @@ begin
   //fn0ame:=ExtractFilePath(Application.ExeName)+'/Audios/AudioMenu.mp3';
   //ShowMessage(fname);
   //PlayMP3(fname);
+  bass_free;
 end;
 
 procedure TForm4.Image1Click(Sender: TObject);

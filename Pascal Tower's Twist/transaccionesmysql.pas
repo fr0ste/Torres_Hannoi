@@ -41,8 +41,8 @@ begin
   try
     Connection.HostName := 'localhost'; // Configura la conexión a la base de datos
     Connection.DatabaseName := 'Hanoi';
-    Connection.UserName := 'root';
-    Connection.Password := 'Oscar12';
+    Connection.UserName := 'hanoi';
+    Connection.Password := 'hanoi';
     Connection.Open;
     Result := Connection;
   except

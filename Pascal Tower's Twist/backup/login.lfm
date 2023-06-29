@@ -1,7 +1,7 @@
 object Form4: TForm4
-  Left = 2363
+  Left = 2315
   Height = 720
-  Top = 350
+  Top = 254
   Width = 1280
   Align = alClient
   AutoSize = True
