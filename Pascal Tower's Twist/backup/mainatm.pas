@@ -1,3 +1,8 @@
+(*
+  fecha de creacion:
+  fecha de actualización:
+  descripción:
+*)
 unit mainAtm;
 
     {$mode objfpc}{$H+}
@@ -154,7 +159,7 @@ begin
     Rewrite(F);
     CloseFile(F);
   end;
-  Caption:='Nivel '+ inttostr(FNumero-2)+' Automático';
+  Caption:='Nivel '+ inttostr(FNumero-2)+' automático';
 end;
 
 procedure TForm9.Image2Click(Sender: TObject);

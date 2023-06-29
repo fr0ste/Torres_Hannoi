@@ -1,3 +1,8 @@
+(*
+  fecha de creacion:
+  fecha de actualización:
+  descripción:
+*)
 unit PilaTorre;
 
 {$mode ObjFPC}{$H+}
@@ -11,34 +16,34 @@ type
   TPilaTorre = class
   private
     elementos: array of TImgDisco;
-    tope: Integer;
-    coordenadaX, coordenadaY: Integer;
+    tope: integer;
+    coordenadaX, coordenadaY: integer;
     contenedor: TImage;
-    idPila: Integer;
+    idPila: integer;
   public
-    constructor Create(id, tamanio, posX, posY: Integer ; contenedorImg: TImage);
+    constructor Create(id, tamanio, posX, posY: integer; contenedorImg: TImage);
     procedure Push(disco: TImgDisco);
     function Pop: TImgDisco;
-    function EsVacia: Boolean;
-    function EsLlena: Boolean;
-    function GetCoordenadaX: Integer;
-    function GetCoordenadaY: Integer;
+    function EsVacia: boolean;
+    function EsLlena: boolean;
+    function GetCoordenadaX: integer;
+    function GetCoordenadaY: integer;
     function GetTope: TImgDisco;
     function GetContenedor: TImage;
-    function GetId: Integer;
+    function GetId: integer;
 
   end;
 
 implementation
 
-constructor TPilaTorre.Create(id, tamanio, posX, posY: Integer ; contenedorImg: TImage);
+constructor TPilaTorre.Create(id, tamanio, posX, posY: integer; contenedorImg: TImage);
 begin
   SetLength(elementos, tamanio);
   tope := -1;
   coordenadaX := posX;
-  coordenadaY := posY-60;
-  contenedor:= contenedorImg;
-  idPila:= id;
+  coordenadaY := posY - 60;
+  contenedor := contenedorImg;
+  idPila := id;
 end;
 
 procedure TPilaTorre.Push(disco: TImgDisco);
@@ -48,7 +53,7 @@ begin
 
     //coordenadaX := coordenadaX + 15;
 
-    disco.posicionDisco((coordenadaX - (disco.getWidth() div 2)),coordenadaY);
+    disco.posicionDisco((coordenadaX - (disco.getWidth() div 2)), coordenadaY);
     coordenadaY := coordenadaY - 40;
     Inc(tope);
     elementos[tope] := disco;
@@ -70,22 +75,22 @@ begin
     Writeln('La pila está vacía. No se puede extraer ningún elemento.');
 end;
 
-function TPilaTorre.EsVacia: Boolean;
+function TPilaTorre.EsVacia: boolean;
 begin
   Result := tope = -1;
 end;
 
-function TPilaTorre.EsLlena: Boolean;
+function TPilaTorre.EsLlena: boolean;
 begin
   Result := tope = High(elementos);
 end;
 
-function TPilaTorre.GetCoordenadaX: Integer;
+function TPilaTorre.GetCoordenadaX: integer;
 begin
   Result := coordenadaX;
 end;
 
-function TPilaTorre.GetCoordenadaY: Integer;
+function TPilaTorre.GetCoordenadaY: integer;
 begin
   Result := coordenadaY;
 end;
@@ -97,13 +102,12 @@ end;
 
 function TPilaTorre.GetContenedor: TImage;
 begin
-  Result:= contenedor;
+  Result := contenedor;
 end;
 
-function TPilaTorre.GetId: Integer;
+function TPilaTorre.GetId: integer;
 begin
-  Result:= idPila;
+  Result := idPila;
 end;
 
 end.
-

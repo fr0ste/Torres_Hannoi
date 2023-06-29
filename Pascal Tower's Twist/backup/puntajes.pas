@@ -1,3 +1,9 @@
+(*
+  fecha de creacion:
+  fecha de actualización:
+  descripción:
+*)
+
 unit puntajes;
 
 {$mode ObjFPC}{$H+}
@@ -105,6 +111,7 @@ begin
     StringGrid1.Cells[1, 0] := 'Nombre';
     StringGrid1.Cells[0, 0] := 'No.';
     StringGrid1.Cells[2, 0] := 'Puntaje';
+    StringGrid1.Cells[0, i + 1] := IntToStr(i+1); // Columna 0: nombre
     StringGrid1.Cells[1, i + 1] := puntajes[i][0]; // Columna 0: nombre
     StringGrid1.Cells[2, i + 1] := puntajes[i][1]; // Columna 1: puntaje
 
@@ -134,6 +141,7 @@ begin
     StringGrid1.Cells[1, 0] := 'Nombre';
     StringGrid1.Cells[0, 0] := 'No.';
     StringGrid1.Cells[2, 0] := 'Puntaje';
+    StringGrid1.Cells[0, i + 1] := IntToStr(i+1); // Columna 0: nombre
     StringGrid1.Cells[1, i + 1] := puntajes[i][0]; // Columna 0: nombre
     StringGrid1.Cells[2, i + 1] := puntajes[i][1]; // Columna 1: puntaje
 
@@ -163,6 +171,7 @@ begin
     StringGrid1.Cells[1, 0] := 'Nombre';
     StringGrid1.Cells[0, 0] := 'No.';
     StringGrid1.Cells[2, 0] := 'Puntaje';
+    StringGrid1.Cells[0, i + 1] := IntToStr(i+1); // Columna 0: nombre
     StringGrid1.Cells[1, i + 1] := puntajes[i][0]; // Columna 0: nombre
     StringGrid1.Cells[2, i + 1] := puntajes[i][1]; // Columna 1: puntaje
 
@@ -192,6 +201,7 @@ begin
     StringGrid1.Cells[1, 0] := 'Nombre';
     StringGrid1.Cells[0, 0] := 'No.';
     StringGrid1.Cells[2, 0] := 'Puntaje';
+    StringGrid1.Cells[0, i + 1] := IntToStr(i+1); // Columna 0: nombre
     StringGrid1.Cells[1, i + 1] := puntajes[i][0]; // Columna 0: nombre
     StringGrid1.Cells[2, i + 1] := puntajes[i][1]; // Columna 1: puntaje
 
@@ -221,6 +231,7 @@ begin
     StringGrid1.Cells[1, 0] := 'Nombre';
     StringGrid1.Cells[0, 0] := 'No.';
     StringGrid1.Cells[2, 0] := 'Puntaje';
+    StringGrid1.Cells[0, i + 1] := IntToStr(i+1); // Columna 0: nombre
     StringGrid1.Cells[1, i + 1] := puntajes[i][0]; // Columna 0: nombre
     StringGrid1.Cells[2, i + 1] := puntajes[i][1]; // Columna 1: puntaje
 
@@ -282,6 +293,7 @@ begin
     StringGrid1.Cells[1, 0] := 'Nombre';
     StringGrid1.Cells[0, 0] := 'No.';
     StringGrid1.Cells[2, 0] := 'Puntaje';
+    StringGrid1.Cells[0, i + 1] := IntToStr(i+1); // Columna 0: nombre
     StringGrid1.Cells[1, i + 1] := puntajes[i][0]; // Columna 0: nombre
     StringGrid1.Cells[2, i + 1] := puntajes[i][1]; // Columna 1: puntaje
 

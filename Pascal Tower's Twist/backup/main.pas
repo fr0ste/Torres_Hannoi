@@ -1,3 +1,8 @@
+(*
+  fecha de creacion:
+  fecha de actualización:
+  descripción:
+*)
 unit main;
 
 {$mode objfpc}{$H+}
@@ -182,7 +187,7 @@ begin
     // Cargar cursor
     cargarCursor(rutaImg + 'cursor/');
   end;
-  Caption:='Nivel '+ inttostr(FNumero-2)+' automático';
+  Caption:='Nivel '+ inttostr(FNumero-2)+' manual';
 
 end;
 

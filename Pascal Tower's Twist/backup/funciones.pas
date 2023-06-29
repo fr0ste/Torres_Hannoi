@@ -1,3 +1,9 @@
+(*
+  fecha de creacion:
+  fecha de actualización:
+  descripción:
+*)
+
 unit Funciones;
 
 {$mode objfpc}{$H+}
@@ -94,7 +100,7 @@ begin
 
 
   // Establece el volumen del canal de audio
-  BASS_ChannelSetAttribute(BstreamBoton, BASS_ATTRIB_VOL, 0.3);
+  BASS_ChannelSetAttribute(BstreamBoton, BASS_ATTRIB_VOL, 0.5);
 
   // Obtiene el código de error actual (si lo hay)
   err := BASS_ErrorGetCode;

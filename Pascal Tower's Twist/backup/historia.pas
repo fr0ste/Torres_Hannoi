@@ -1,3 +1,8 @@
+(*
+  fecha de creacion:
+  fecha de actualización:
+  descripción:
+*)
 unit historia;
 
 {$mode ObjFPC}{$H+}
@@ -12,7 +17,6 @@ type
   { TForm5 }
 
   TForm5 = class(TForm)
-    Button1: TButton;
     Image1: TImage;
     Image2: TImage;
     Sonido: TImage;

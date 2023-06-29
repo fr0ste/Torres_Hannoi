@@ -10,7 +10,7 @@ object Form8: TForm8
   ClientWidth = 1280
   OnClose = FormClose
   Position = poScreenCenter
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.6.0'
   object Image1: TImage
     Left = 0
     Height = 720
@@ -37415,7 +37415,7 @@ object Form8: TForm8
   end
   object Edit1: TEdit
     Left = 568
-    Height = 34
+    Height = 36
     Top = 336
     Width = 224
     OnKeyPress = Edit1KeyPress
@@ -37423,7 +37423,7 @@ object Form8: TForm8
   end
   object Edit2: TEdit
     Left = 568
-    Height = 34
+    Height = 36
     Top = 400
     Width = 224
     EchoMode = emPassword
@@ -38001,7 +38001,7 @@ object Form8: TForm8
   end
   object Edit3: TEdit
     Left = 568
-    Height = 34
+    Height = 36
     Top = 461
     Width = 224
     EchoMode = emPassword

@@ -1,3 +1,8 @@
+(*
+  fecha de creacion:
+  fecha de actualización:
+  descripción:
+*)
 unit creditos;
 
 {$mode ObjFPC}{$H+}

@@ -1,3 +1,8 @@
+(*
+  fecha de creacion:
+  fecha de actualización:
+  descripción:
+*)
 unit Tiempo;
 
 {$mode objfpc}{$H+}
@@ -67,7 +72,7 @@ procedure TTiempoCronometro.Pausar;
 begin
   Paused := True;
   Enabled := False;
-  ShowMessage(IntToStr(ObtenerTiempo));
+
 end;
 
 procedure TTiempoCronometro.Reiniciar;
