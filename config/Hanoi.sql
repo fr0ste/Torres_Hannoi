@@ -1,6 +1,8 @@
 -- Base de datos
 Drop database if exists Hanoi;
 CREATE DATABASE Hanoi;
+CREATE USER 'hanoi'@'localhost' IDENTIFIED BY 'hanoi';
+GRANT ALL PRIVILEGES ON Hanoi.* TO 'hanoi'@'localhost';
 FLUSH PRIVILEGES;
 USE Hanoi;
 
